@@ -27,6 +27,7 @@ class Window < Gosu::Window
     @mouse = Mouse.new(0, 0)
 
     @title = Text.new(NAME, true, size: 36, y: 20)
+    @current_team = Text.new("Team: 0000 | TEAMNAME", true, size: 20, x: 420, y: 70, color: Gosu::Color::YELLOW)
     Button.new("Home", 10, 60) { @header_color = HOME_HEADER_COLOR; @active_container = MainContainer.new }
     Button.new("Scouting", 90, 60) { @header_color = SCOUTING_HEADER_COLOR; @active_container = ScoutingContainer.new }
     Button.new("Autonomous", 195, 60) { @header_color = AUTONOMOUS_HEADER_COLOR }
@@ -47,6 +48,14 @@ class Window < Gosu::Window
   def update
     @mouse.x, @mouse.y = self.mouse_x, self.mouse_y
     @title.x = (Gosu.screen_width/4)*1.5-(@title.textobject.text_width(NAME)/2)
+
+    if AppSync.team_number
+      @current_team.text = "Team: #{AppSync.team_number} | #{AppSync.team_name}"
+      @current_team.color= Gosu::Color::WHITE
+    else
+      @current_team.text = "Team: no team selected."
+      @current_team.color= Gosu::Color::YELLOW
+    end
 
     @elements.each(&:update)
     if @active_container.is_a?(Container)

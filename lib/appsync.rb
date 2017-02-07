@@ -18,4 +18,14 @@ class AppSync
 
   def self.team_scouting_data(period)
   end
+
+  def self.teams_list=(filename)
+    File.open(filename) do |f|
+      
+    end
+  end
+
+  def teams_list
+    @teams_list
+  end
 end
