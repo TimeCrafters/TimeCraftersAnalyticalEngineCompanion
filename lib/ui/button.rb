@@ -1,7 +1,8 @@
 BUTTON_TEXT_COLOR        = Gosu::Color::WHITE
 BUTTON_TEXT_ACTIVE_COLOR = Gosu::Color::BLACK
 BUTTON_COLOR             = Gosu::Color.rgb(12,12,12)
-BUTTON_HOVER_COLOR       = Gosu::Color::WHITE
+BUTTON_HOVER_COLOR       = Gosu::Color.rgb(100, 100, 100)
+BUTTON_ACTIVE_COLOR      = Gosu::Color.rgb(50, 50, 50)
 BUTTON_TEXT_SIZE         = 20
 BUTTON_PADDING           = 10
 
@@ -12,14 +13,26 @@ class Button
     @text = Text.new(text, false, x: x, y: y, size: BUTTON_TEXT_SIZE, color: BUTTON_TEXT_COLOR)
     @x = x
     @y = y
-    @block = Proc.new{yield(self)}
+    if block
+      @block = Proc.new{yield(self)}
+    else
+      @block = Proc.new {}
+    end
 
     Window.instance.elements.push(self) if auto_manage
+
+    return self
   end
 
   def draw
     @text.draw
-    $window.fill_rect(@x, @y, width, height, BUTTON_COLOR)
+    if mouse_clicked_on_check
+      $window.fill_rect(@x, @y, width, height, BUTTON_ACTIVE_COLOR)
+    elsif mouse_hover_check
+      $window.fill_rect(@x, @y, width, height, BUTTON_HOVER_COLOR)
+    else
+      $window.fill_rect(@x, @y, width, height, BUTTON_COLOR)
+    end
   end
 
   def update
@@ -39,6 +52,24 @@ class Button
       if $window.mouse.y.between?(@y, @y+height)
         puts "Clicked: #{@text.text}"
         @block.call if @block.is_a?(Proc)
+      end
+    end
+  end
+
+  def mouse_hover_check
+    if $window.mouse.x.between?(@x, @x+width)
+      if $window.mouse.y.between?(@y, @y+height)
+        true
+      end
+    end
+  end
+
+  def mouse_clicked_on_check
+    if $window.mouse.x.between?(@x, @x+width)
+      if $window.mouse.y.between?(@y, @y+height)
+        if Gosu.button_down?(Gosu::MsLeft)
+          true
+        end
       end
     end
   end

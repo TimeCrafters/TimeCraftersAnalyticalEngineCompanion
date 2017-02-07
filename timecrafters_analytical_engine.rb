@@ -10,10 +10,17 @@ end
 Mouse = Struct.new(:x, :y)
 
 require_relative "lib/json_middleware"
+require_relative "lib/appsync"
 require_relative "lib/match"
 require_relative "lib/scouting"
-require_relative "lib/text"
-require_relative "lib/button"
-require_relative "lib/window"
+
+require_relative "lib/ui/text"
+require_relative "lib/ui/button"
+require_relative "lib/ui/container"
+
+require_relative "lib/containers/main_container"
+require_relative "lib/containers/scouting_container"
+
+require_relative "lib/ui/window"
 
 Window.new.show
