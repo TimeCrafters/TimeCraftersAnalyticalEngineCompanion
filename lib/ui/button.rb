@@ -7,12 +7,13 @@ BUTTON_TEXT_SIZE         = 20
 BUTTON_PADDING           = 10
 
 class Button
-  attr_reader :text, :x, :y
+  attr_reader :text, :x, :y, :offset_x, :offset_y
 
   def initialize(text, x, y, auto_manage = true, &block)
     @text = Text.new(text, false, x: x, y: y, size: BUTTON_TEXT_SIZE, color: BUTTON_TEXT_COLOR)
     @x = x
     @y = y
+    @offset_x, @offset_y = 0, 0
     if block
       @block = Proc.new{yield(self)}
     else
@@ -26,13 +27,16 @@ class Button
 
   def draw
     @text.draw
+
     if mouse_clicked_on_check
       $window.fill_rect(@x, @y, width, height, BUTTON_ACTIVE_COLOR)
-    elsif mouse_hover_check
+    elsif mouse_over?
       $window.fill_rect(@x, @y, width, height, BUTTON_HOVER_COLOR)
     else
       $window.fill_rect(@x, @y, width, height, BUTTON_COLOR)
     end
+
+    $window.fill_rect(@x+1, @y+1, width-2, height-2, BUTTON_COLOR)
   end
 
   def update
@@ -48,28 +52,22 @@ class Button
   end
 
   def click_check
-    if $window.mouse.x.between?(@x, @x+width)
-      if $window.mouse.y.between?(@y, @y+height)
-        puts "Clicked: #{@text.text}"
-        @block.call if @block.is_a?(Proc)
-      end
-    end
-  end
-
-  def mouse_hover_check
-    if $window.mouse.x.between?(@x, @x+width)
-      if $window.mouse.y.between?(@y, @y+height)
-        true
-      end
+    if mouse_over?
+      puts "Clicked: #{@text.text}"
+      @block.call if @block.is_a?(Proc)
     end
   end
 
   def mouse_clicked_on_check
-    if $window.mouse.x.between?(@x, @x+width)
-      if $window.mouse.y.between?(@y, @y+height)
-        if Gosu.button_down?(Gosu::MsLeft)
-          true
-        end
+    if mouse_over? && Gosu.button_down?(Gosu::MsLeft)
+      true
+    end
+  end
+
+  def mouse_over?
+    if $window.mouse.x.between?(@x+@offset_x, @x+@offset_x+width)
+      if $window.mouse.y.between?(@y+@offset_y, @y+@offset_y+height)
+        true
       end
     end
   end
@@ -80,6 +78,10 @@ class Button
 
   def height
     @text.textobject.height+BUTTON_PADDING*2
+  end
+
+  def set_offset(x, y)
+    @offset_x, @offset_y = x, y
   end
 
   def update_text(string)

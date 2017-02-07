@@ -21,11 +21,12 @@ class Window < Gosu::Window
     super(1000, 700, false)
     $window = self
     self.caption = NAME
+    AppSync.teams_list="./data/galaxy_teams_list.txt"
+
     @elements = []
-    @active_container = MainContainer.new
     @header_color = HOME_HEADER_COLOR
     @mouse = Mouse.new(0, 0)
-    AppSync.teams_list="./data/galaxy_teams_list.txt"
+    @active_container = MainContainer.new
 
     @title = Text.new(NAME, true, size: 36, y: 20)
     @current_team = Text.new("Team: 0000 | TEAMNAME", true, size: 20, x: 420, y: 70, color: Gosu::Color::YELLOW)
@@ -48,7 +49,7 @@ class Window < Gosu::Window
 
   def update
     @mouse.x, @mouse.y = self.mouse_x, self.mouse_y
-    @title.x = (Gosu.screen_width/4)*1.5-(@title.textobject.text_width(NAME)/2)
+    @title.x = (Gosu.screen_width/4)-(@title.textobject.text_width(NAME)/2)
 
     if AppSync.team_number
       @current_team.text = "Team: #{AppSync.team_number} | #{AppSync.team_name}"
