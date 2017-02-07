@@ -27,12 +27,17 @@ class AppSync
         i = list.first.to_i
         if i == 0; next; end
 
-        @teams_list[i] = list[1..list.count-1]
+        @teams_list[i] = list[1..list.count-1].join(" ").strip
       end
     end
   end
 
-  def teams_list
+  def self.teams_list
     @teams_list
+  end
+
+  def self.active_team(team_number)
+    @team_number = team_number
+    @team_name   = @teams_list[team_number]
   end
 end
