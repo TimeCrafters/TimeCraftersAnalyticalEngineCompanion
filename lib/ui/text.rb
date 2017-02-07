@@ -1,5 +1,5 @@
 class Text
-  SIZE = 14
+  SIZE = 20
   FONT = Gosu.default_font_name
   COLOR= Gosu::Color::WHITE
 
