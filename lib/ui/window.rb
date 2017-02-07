@@ -32,8 +32,8 @@ class Window < Gosu::Window
     @current_team = Text.new("Team: 0000 | TEAMNAME", true, size: 20, x: 420, y: 70, color: Gosu::Color::YELLOW)
     Button.new("Home", 10, 60) { @header_color = HOME_HEADER_COLOR; @active_container = MainContainer.new }
     Button.new("Scouting", 90, 60) { @header_color = SCOUTING_HEADER_COLOR; @active_container = ScoutingContainer.new }
-    Button.new("Autonomous", 195, 60) { @header_color = AUTONOMOUS_HEADER_COLOR }
-    Button.new("TeleOp", 330, 60) { @header_color = TELEOP_HEADER_COLOR }
+    Button.new("Autonomous", 195, 60) { @header_color = AUTONOMOUS_HEADER_COLOR; @active_container = AutonomousContainer.new }
+    Button.new("TeleOp", 330, 60) { @header_color = TELEOP_HEADER_COLOR; @active_container = TeleOpContainer.new }
 
     Button.new("Refresh", 905, 60)
   end

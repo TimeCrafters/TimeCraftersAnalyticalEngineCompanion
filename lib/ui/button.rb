@@ -28,15 +28,16 @@ class Button
   def draw
     @text.draw
 
+    $window.fill_rect(@x, @y, width, height, BUTTON_COLOR)
+
     if mouse_clicked_on_check
-      $window.fill_rect(@x, @y, width, height, BUTTON_ACTIVE_COLOR)
+      $window.fill_rect(@x+1, @y+1, width-2, height-2, BUTTON_ACTIVE_COLOR)
     elsif mouse_over?
-      $window.fill_rect(@x, @y, width, height, BUTTON_HOVER_COLOR)
+      $window.fill_rect(@x+1, @y+1, width-2, height-2, BUTTON_HOVER_COLOR)
     else
-      $window.fill_rect(@x, @y, width, height, BUTTON_COLOR)
+      $window.fill_rect(@x+1, @y+1, width-2, height-2, BUTTON_COLOR)
     end
 
-    $window.fill_rect(@x+1, @y+1, width-2, height-2, BUTTON_COLOR)
   end
 
   def update

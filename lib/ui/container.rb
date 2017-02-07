@@ -64,7 +64,7 @@ class Container
   def button(text, x, y, &block)
     relative_x = @x+x
     relative_y = @y+y
-    _button    = Button.new(text, relative_x, relative_y, false) { block.call }
+    _button    = Button.new(text, relative_x, relative_y, false) { if block.is_a?(Proc); block.call; end }
     @elements.push(_button)
 
     return _button

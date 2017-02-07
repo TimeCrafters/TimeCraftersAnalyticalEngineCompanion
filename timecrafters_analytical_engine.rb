@@ -20,6 +20,8 @@ require_relative "lib/ui/container"
 
 require_relative "lib/containers/main_container"
 require_relative "lib/containers/scouting_container"
+require_relative "lib/containers/autonomous_container"
+require_relative "lib/containers/teleop_container"
 
 require_relative "lib/ui/window"
 
