@@ -28,7 +28,7 @@ class Window < Gosu::Window
     Button.new("Autonomous", 120, 60)
     Button.new("TeleOp", 260, 60)
 
-    Button.new("Sync", 925, 60)
+    Button.new("Refresh", 905, 60)
     title.x = (Gosu.screen_width/4)-(title.textobject.text_width(NAME)/2)
   end
 
