@@ -25,6 +25,7 @@ class Window < Gosu::Window
     @active_container = MainContainer.new
     @header_color = HOME_HEADER_COLOR
     @mouse = Mouse.new(0, 0)
+    AppSync.teams_list="./data/galaxy_teams_list.txt"
 
     @title = Text.new(NAME, true, size: 36, y: 20)
     @current_team = Text.new("Team: 0000 | TEAMNAME", true, size: 20, x: 420, y: 70, color: Gosu::Color::YELLOW)
