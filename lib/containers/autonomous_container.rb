@@ -142,6 +142,7 @@ class AutonomousContainer < Container
         capball_success_percentage.text = calc_percentage(tally_match.capball_on_floor, tally_match.capball_on_floor+tally_match.capball_missed)
 
         dead_robot.text = tally_match.dead_robot.to_s
+        dead_robot.color=self.text_color
       end
     else
       if AppSync.team_name
