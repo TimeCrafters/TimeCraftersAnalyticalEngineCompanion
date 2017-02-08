@@ -13,7 +13,7 @@ class MatchLoader
   end
   Match = Struct.new(:beacons_claimed, :beacons_missed, :beacons_stolen,
                     :scored_in_vortex, :scored_in_corner, :missed_vortex, :missed_corner,
-                    :completely_on_platform, :completely_on_ramp, :on_platform, :on_ramp,
+                    :completely_on_platform, :completely_on_ramp, :on_platform, :on_ramp, :missed_parking,
                     :capball_on_floor, :capball_missed, :capball_off_floor, :capball_above_crossbar, :capball_capped,
                     :dead_robot,
                     :is_capball_off_floor, :is_capball_on_floor, :is_capball_above_crossbar, :is_capball_capped,
@@ -33,6 +33,7 @@ class MatchLoader
       self.completely_on_ramp     ||= 0
       self.on_platform            ||= 0
       self.on_ramp                ||= 0
+      self.missed_parking         ||= 0
 
       self.capball_missed         ||= 0
       self.capball_on_floor       ||= 0
