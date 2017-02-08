@@ -1,7 +1,8 @@
 HOME_HEADER_COLOR       = 0xff_008800#Gosu::Color.rgb(0, 200, 0)
 SCOUTING_HEADER_COLOR   = Gosu::Color.rgb(40, 40, 40)
 AUTONOMOUS_HEADER_COLOR = Gosu::Color.rgb(100, 0, 0)
-TELEOP_HEADER_COLOR     = Gosu::Color.rgb(0, 0, 50)
+TELEOP_HEADER_COLOR     = Gosu::Color.rgb(0, 0, 70)
+ABOUT_HEADER_COLOR      = Gosu::Color.rgb(200, 80, 0)
 BODY_COLOR   = Gosu::Color.rgb(200, 200, 200)#Gosu::Color.rgb(12,12,12)
 
 class Window < Gosu::Window
@@ -35,7 +36,7 @@ class Window < Gosu::Window
     Button.new("Autonomous", 195, 60) { @header_color = AUTONOMOUS_HEADER_COLOR; @active_container = AutonomousContainer.new }
     Button.new("TeleOp", 330, 60) { @header_color = TELEOP_HEADER_COLOR; @active_container = TeleOpContainer.new }
 
-    Button.new("Refresh", 905, 60)
+    Button.new("About", 920, 60) { @header_color = ABOUT_HEADER_COLOR; @active_container = AboutContainer.new }
   end
 
   def draw

@@ -152,8 +152,17 @@ class MatchLoader
           end
 
           if event_struct.subtype == "capball"
-            if event_struct.location == "floor"
-              teleop_period.capball_on_floor+=1
+            if event_struct.location == "off_floor"
+              teleop_period.capball_off_floor+=1
+              teleop_period.is_capball_off_floor = true
+            end
+            if event_struct.location == "above_crossbar"
+              teleop_period.capball_above_crossbar+=1
+              teleop_period.is_capball_above_crossbar = true
+            end
+            if event_struct.location == "capped"
+              teleop_period.capball_capped+=1
+              teleop_period.is_capball_capped = true
             end
           end
 
@@ -170,12 +179,8 @@ class MatchLoader
             end
           end
 
-          if event_struct.subtype == "parking"
-            # Nothing to see here, yet.
-          end
-
           if event_struct.subtype == "capball"
-            # Nothing to see here, yet.
+            event_struct.capball_missed+=1
           end
         elsif event_struct.type == "lost"
           if event_struct.type == "beacon"

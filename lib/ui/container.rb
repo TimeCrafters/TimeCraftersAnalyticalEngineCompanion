@@ -1,4 +1,6 @@
 class Container
+  GOOD_COLOR = Gosu::Color.rgb(0, 100, 0)
+  BAD_COLOR  = Gosu::Color.rgb(100, 0, 0)
 
   attr_accessor :text_color
   attr_reader :elements, :x, :y, :width, :height, :options
@@ -88,5 +90,19 @@ class Container
     i = @layout_y_start+(@layout_y_spacing*@layout_y_count)
     @layout_y_count+=1 unless stay
     return i
+  end
+
+  def calc_percentage(positive, total)
+    begin
+      i = "#{((positive.to_f/total.to_f)*100.0).round(2)}"
+      if i.to_i != 0
+        return "#{i}%"
+      else
+        "N/A"
+      end
+    rescue ZeroDivisionError => e
+      puts e
+      return "N/A" # 0 / 0, safe to assume no actionable data
+    end
   end
 end

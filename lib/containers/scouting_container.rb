@@ -1,7 +1,4 @@
 class ScoutingContainer < Container
-  GOOD_COLOR = Gosu::Color.rgb(0, 100, 0)
-  BAD_COLOR  = Gosu::Color.rgb(100, 0, 0)
-
   def setup
     self.text_color = Gosu::Color::BLACK
 

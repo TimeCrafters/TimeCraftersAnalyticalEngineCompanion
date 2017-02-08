@@ -50,6 +50,10 @@ class AutonomousContainer < Container
       capball_missed = text "N/A", 650, layout_y
       text "Capball Success Percentage", 250, layout_y(true)
       capball_success_percentage = text "N/A", 650, layout_y
+      layout_y
+
+      text "Dead Robot", 250, layout_y(true)
+      dead_robot = text "N/A", 650, layout_y
 
       @matches = AppSync.team_match_data
 
@@ -86,20 +90,6 @@ class AutonomousContainer < Container
       else
         text "No team selected.", 350, 50, 32
       end
-    end
-  end
-
-  def calc_percentage(positive, total)
-    begin
-      i = "#{((positive.to_f/total.to_f)*100.0).round(2)}"
-      if i.to_i != 0
-        return "#{i}%"
-      else
-        "N/A"
-      end
-    rescue ZeroDivisionError => e
-      puts e
-      return "N/A" # 0 / 0, safe to assume no actionable data
     end
   end
 end

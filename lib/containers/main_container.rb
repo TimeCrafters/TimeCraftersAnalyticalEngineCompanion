@@ -21,7 +21,5 @@ class MainContainer < Container
         _y+= 45
       end
     end
-
-    text "© 2017 Cyberarm. Licensed under the MIT open source License.", 130, 550, 24
   end
 end
