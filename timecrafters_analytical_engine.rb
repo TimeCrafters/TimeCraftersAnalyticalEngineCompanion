@@ -11,7 +11,7 @@ Mouse = Struct.new(:x, :y)
 
 require_relative "lib/json_middleware"
 require_relative "lib/appsync"
-require_relative "lib/match"
+require_relative "lib/match_loader"
 require_relative "lib/scouting"
 
 require_relative "lib/ui/text"
