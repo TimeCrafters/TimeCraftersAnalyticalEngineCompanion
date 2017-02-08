@@ -15,6 +15,7 @@ class MatchLoader
                     :scored_in_vortex, :scored_in_corner, :missed_vortex, :missed_corner,
                     :completely_on_platform, :completely_on_ramp, :on_platform, :on_ramp,
                     :capball_on_floor, :capball_missed, :capball_off_floor, :capball_above_crossbar, :capball_capped,
+                    :dead_robot,
                     :is_capball_off_floor, :is_capball_on_floor, :is_capball_above_crossbar, :is_capball_capped,
                     :is_dead_robot) do
     def initialize(*)
@@ -38,6 +39,8 @@ class MatchLoader
       self.capball_off_floor      ||= 0
       self.capball_above_crossbar ||= 0
       self.capball_capped         ||= 0
+
+      self.dead_robot ||= 0
 
       self.is_capball_on_floor       ||= false
       self.is_capball_off_floor      ||= false
@@ -70,6 +73,7 @@ class MatchLoader
     end
 
 
+    autonomous_period = Match.new
     autonomous_period = Match.new
     teleop_period = Match.new
 
