@@ -6,10 +6,11 @@ class Container
   attr_reader :elements, :x, :y, :width, :height, :options
   attr_reader :scroll_x, :scroll_y
 
-  def initialize(x = 0, y = 100, width = Gosu.screen_width, height = Gosu.screen_height-100, options = {})
-    @x, @y, @width, @height = x, y, width, height
+  def initialize(x = 0, y = 100, width = $window.width, height = $window.height, options = {})
+    @x, @y, @width, @height = x, y, width, height-y
     @scroll_x, @scroll_y = 0, 0
     @scroll_speed = 10
+    puts "#{self.class}: with #{width}, height #{@height}"
 
     @options = {}
     @text_color = Text::COLOR
@@ -32,16 +33,16 @@ class Container
 
   def button_up(id)
     case id
-    when Gosu::MsWheelDown
+    when Gosu::MsWheelUp
       @scroll_y+=@scroll_speed
       @scroll_y = 0 if @scroll_y > 0
       @elements.each {|e| e.set_offset(@scroll_x, @scroll_y) if e.is_a?(Button) }
-    when Gosu::MsWheelUp
+    when Gosu::MsWheelDown
       @scroll_y-=@scroll_speed
-      if height-$window.height > 0
+      if $window.height-height-y > 0
         @scroll_y = 0
       else
-        @scroll_y = height-$window.height if @scroll_y <= height-$window.height
+        @scroll_y = $window.height-height-y if @scroll_y <= $window.height-height-y
       end
 
       @elements.each {|e| e.set_offset(@scroll_x, @scroll_y) if e.is_a?(Button) }
