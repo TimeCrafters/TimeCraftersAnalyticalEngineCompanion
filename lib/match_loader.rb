@@ -48,16 +48,20 @@ class MatchLoader
       self.is_dead_robot ||= false
     end
   end
-  attr_reader :data, :events
+  attr_reader :data, :events, :autonomous, :teleop
 
   def initialize(filename)
     @events = []
+    @autonomous = nil
+    @teleop     = nil
 
     begin
       parse(filename)
     rescue => e
       puts "Error: #{e}"
     end
+
+    return self
   end
 
   def parse(filename)
@@ -112,14 +116,79 @@ class MatchLoader
               autonomous_period.capball_on_floor+=1
             end
           end
+
         elsif event_struct.type == "miss"
+          if event_struct.subtype == "beacon"
+            autonomous_period.beacons_missed+=1
+          end
+
+          if event_struct.subtype == "particle"
+            if event_struct.location == "vortex"
+              autonomous_period.missed_vortex+=1
+            elsif event_struct.location == "corner"
+              autonomous_period.missed_corner+=1
+            end
+          end
+
+          if event_struct.subtype == "parking"
+            # Nothing to see here, yet.
+          end
+
+          if event_struct.subtype == "capball"
+            # Nothing to see here, yet.
+          end
         end
       elsif event_struct.period == "teleop"
+        if event_struct.type == "score"
+          if event_struct.subtype == "beacon"
+            teleop_period.beacons_claimed+=1
+          end
+
+          if event_struct.subtype == "particle"
+            if event_struct.location == "vortex"
+              teleop_period.scored_in_vortex+=1
+            elsif event_struct.location == "corner"
+              teleop_period.scored_in_corner+=1
+            end
+          end
+
+          if event_struct.subtype == "capball"
+            if event_struct.location == "floor"
+              teleop_period.capball_on_floor+=1
+            end
+          end
+
+        elsif event_struct.type == "miss"
+          if event_struct.subtype == "beacon"
+            teleop_period.beacons_missed+=1
+          end
+
+          if event_struct.subtype == "particle"
+            if event_struct.location == "vortex"
+              teleop_period.missed_vortex+=1
+            elsif event_struct.location == "corner"
+              teleop_period.missed_corner+=1
+            end
+          end
+
+          if event_struct.subtype == "parking"
+            # Nothing to see here, yet.
+          end
+
+          if event_struct.subtype == "capball"
+            # Nothing to see here, yet.
+          end
+        elsif event_struct.type == "lost"
+          if event_struct.type == "beacon"
+            teleop_period.beacons_stolen+=1
+          end
+        end
       end
 
       @events.push(event_struct)
     end
 
-    p autonomous_period
+    @autonomous = autonomous_period
+    @teleop     = teleop_period
   end
 end

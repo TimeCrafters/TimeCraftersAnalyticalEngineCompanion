@@ -13,10 +13,42 @@ class AppSync
   end
 
   def self.team_has_scouting_data?
-    false
+    files = Dir.glob("./data/#{@team_number}/*.json")
+    if files.count > 0
+      true
+    else
+      false
+    end
   end
 
   def self.team_scouting_data(period)
+    begin
+      return JSONMiddleWare.load(File.open("./data/#{@team_number}/#{period}.json").read)
+    rescue Errno::ENOENT => e
+      puts "Error: #{e}"
+      return Hash.new(nil)
+    end
+  end
+
+  def self.team_has_match_data?
+    files = Dir.glob("./data/#{@team_number}/matches/*.json")
+    if files.count > 0
+      true
+    else
+      false
+    end
+  end
+
+  def self.team_match_data
+    matches = []
+    files = Dir.glob("./data/#{@team_number}/matches/*.json")
+    if files.count > 0
+      files.each do |file|
+        matches.push(MatchLoader.new(file))
+      end
+    end
+
+    return matches
   end
 
   def self.teams_list=(filename)

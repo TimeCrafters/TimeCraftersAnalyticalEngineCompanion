@@ -1,11 +1,9 @@
 class ScoutingContainer < Container
+  GOOD_COLOR = Gosu::Color.rgb(0, 100, 0)
+  BAD_COLOR  = Gosu::Color.rgb(100, 0, 0)
+
   def setup
     self.text_color = Gosu::Color::BLACK
-
-    if AppSync.team_has_scouting_data?
-      AppSync.team_scouting_data("autonomous")
-      AppSync.team_scouting_data("teleop")
-    end
 
     text "Autonomous", 400, 10, 32, AUTONOMOUS_HEADER_COLOR
     a_y = 45
@@ -13,7 +11,7 @@ class ScoutingContainer < Container
     auto_can_claim_beacons = text "N/A", 650, a_y
     text "Max Beacons Claimable", 250, a_y+22
     auto_max_beacons_claimable = text "N/A", 650, a_y+22
-    text "Can Score in Vortex", 250, a_y+44
+    text "Can Score in corner", 250, a_y+44
     auto_can_score_in_vortex = text "N/A", 650, a_y+44
     text "Max Particles Scored in Vortex", 250, a_y+66
     auto_particles_scored_in_vortex = text "N/A", 650, a_y+66
@@ -52,5 +50,140 @@ class ScoutingContainer < Container
     tele_capball_above_crossbar = text "N/A", 650, a_y+154
     text "Capball Capped", 250, a_y+176
     tele_capball_capped = text "N/A", 650, a_y+176
+
+    if AppSync.team_has_scouting_data?
+      autonomous = AppSync.team_scouting_data("autonomous")
+      teleop     = AppSync.team_scouting_data("teleop")
+
+      # AUTONOMOUS
+      if autonomous["has_autonomous"]
+        if autonomous["can_claim_beacons"]
+          auto_can_claim_beacons.text = "Yes"
+          auto_can_claim_beacons.color = GOOD_COLOR
+          auto_max_beacons_claimable.color = GOOD_COLOR
+        else
+          auto_can_claim_beacons.text = "No"
+          auto_can_claim_beacons.color = BAD_COLOR
+        end
+        auto_max_beacons_claimable.text = autonomous["max_beacons_claimable"].to_s
+
+        if autonomous["can_score_in_vortex"]
+          auto_can_score_in_vortex.text = "Yes"
+          auto_can_score_in_vortex.color= GOOD_COLOR
+          auto_particles_scored_in_vortex.color = GOOD_COLOR
+        else
+          auto_can_score_in_vortex.text = "No"
+          auto_can_score_in_vortex.color= BAD_COLOR
+        end
+        auto_particles_scored_in_vortex.text = autonomous["max_particles_scored_in_vortex"].to_s
+
+        if autonomous["can_score_in_corner"]
+          auto_can_score_in_corner.text = "Yes"
+          auto_can_score_in_corner.color= GOOD_COLOR
+          auto_particles_scored_in_corner.color = GOOD_COLOR
+        else
+          auto_can_score_in_corner.text = "No"
+          auto_can_score_in_corner.color= BAD_COLOR
+        end
+        auto_particles_scored_in_corner.text = autonomous["max_particles_scored_in_corner"].to_s
+
+        if autonomous["capball_on_floor"]
+          auto_capball_on_floor.text = "Yes"
+          auto_capball_on_floor.color= GOOD_COLOR
+        else
+          auto_capball_on_floor.text = "No"
+          auto_capball_on_floor.color= BAD_COLOR
+        end
+
+        if autonomous["park_completely_on_platform"]
+          auto_park_completely_on_platform.text = "Yes"
+          auto_park_completely_on_platform.color= GOOD_COLOR
+        else
+          auto_park_completely_on_platform.text = "No"
+          auto_park_completely_on_platform.color= BAD_COLOR
+        end
+
+        if autonomous["park_completely_on_ramp"]
+          auto_park_completely_on_ramp.text = "Yes"
+          auto_park_completely_on_ramp.color= GOOD_COLOR
+        else
+          auto_park_completely_on_ramp.text = "No"
+          auto_park_completely_on_ramp.color= BAD_COLOR
+        end
+
+        if autonomous["park_on_platform"]
+          auto_park_on_platform.text = "Yes"
+          auto_park_on_platform.color= GOOD_COLOR
+        else
+          auto_park_on_platform.text = "No"
+          auto_park_on_platform.color= BAD_COLOR
+        end
+
+        if autonomous["park_on_ramp"]
+          auto_park_on_ramp.text = "Yes"
+          auto_park_on_ramp.color= GOOD_COLOR
+        else
+          auto_park_on_ramp.text = "No"
+          auto_park_on_ramp.color= BAD_COLOR
+        end
+      end
+
+      # TELEOP
+      if teleop.count > 1
+        if teleop["can_claim_beacons"]
+          tele_can_claim_beacons.text = "Yes"
+          tele_can_claim_beacons.color = GOOD_COLOR
+          tele_max_beacons_claimable.color = GOOD_COLOR
+        else
+          tele_can_claim_beacons.text = "No"
+          tele_can_claim_beacons.color = BAD_COLOR
+        end
+        tele_max_beacons_claimable.text = teleop["max_beacons_claimable"].to_s
+
+        if teleop["can_score_in_vortex"]
+          tele_can_score_in_vortex.text = "Yes"
+          tele_can_score_in_vortex.color = GOOD_COLOR
+          tele_particles_scored_in_vortex.color = GOOD_COLOR
+        else
+          tele_can_score_in_vortex.text = "No"
+          tele_can_score_in_vortex.color = BAD_COLOR
+        end
+        tele_particles_scored_in_vortex.text = teleop["max_particles_scored_in_vortex"].to_s
+
+        if teleop["can_score_in_corner"]
+          tele_can_score_in_corner.text = "Yes"
+          tele_can_score_in_corner.color = GOOD_COLOR
+          tele_particles_scored_in_corner.color = GOOD_COLOR
+        else
+          tele_can_score_in_corner.text = "No"
+          tele_can_score_in_corner.color = BAD_COLOR
+        end
+        tele_particles_scored_in_corner.text = teleop["max_particles_scored_in_corner"].to_s
+
+        if teleop["capball_off_floor"]
+          tele_capball_off_floor.text = "Yes"
+          tele_capball_off_floor.color = GOOD_COLOR
+        else
+          tele_capball_off_floor.text = "No"
+          tele_capball_off_floor.color = BAD_COLOR
+        end
+
+        if teleop["capball_above_crossbar"]
+          tele_capball_above_crossbar.text = "Yes"
+          tele_capball_above_crossbar.color = GOOD_COLOR
+        else
+          tele_capball_above_crossbar.text = "No"
+          tele_capball_above_crossbar.color = BAD_COLOR
+        end
+
+        if teleop["capball_capped"]
+          tele_capball_capped.text = "Yes"
+          tele_capball_capped.color = GOOD_COLOR
+        else
+          tele_capball_capped.text = "No"
+          tele_capball_capped.color = BAD_COLOR
+        end
+      end
+    end
   end
 end
