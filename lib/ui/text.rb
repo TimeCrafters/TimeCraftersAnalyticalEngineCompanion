@@ -3,6 +3,8 @@ class Text
   FONT = Gosu.default_font_name
   COLOR= Gosu::Color::WHITE
 
+  CACHE = {}
+
   attr_accessor :text, :x, :y, :z, :size, :factor_x, :factor_y, :color, :options
   attr_reader :textobject
 
@@ -17,11 +19,35 @@ class Text
     @factor_x = options[:factor_x] || 1
     @factor_y = options[:factor_y] || 1
     @color    = options[:color] || COLOR
-    @textobject = Gosu::Font.new(@size, name: @font)
+    @textobject = check_cache(@size, @font)
 
     Window.instance.elements.push(self) if auto_manage
 
     return self
+  end
+
+  def check_cache(size, font_name)
+    available = false
+    font      = nil
+
+    if CACHE[size]
+      if CACHE[size][font_name]
+        font = CACHE[size][font_name]
+        available = true
+      else
+        available = false
+      end
+    else
+      available = false
+    end
+
+    unless available
+      font = Gosu::Font.new(@size, name: @font)
+      CACHE[@size] = {}
+      CACHE[@size][@font] = font
+    end
+
+    return font
   end
 
   def width

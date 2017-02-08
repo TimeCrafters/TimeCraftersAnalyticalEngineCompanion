@@ -53,9 +53,4 @@ class ScoutingContainer < Container
     text "Capball Capped", 250, a_y+176
     tele_capball_capped = text "N/A", 650, a_y+176
   end
-
-  def draw
-    # fill(Gosu::Color.rgb(35, 16, 29))
-    super
-  end
 end
