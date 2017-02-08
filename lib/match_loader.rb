@@ -108,9 +108,9 @@ class MatchLoader
             elsif event_struct.location == "on_ramp"
               autonomous_period.completely_on_ramp+=1
             elsif event_struct.location == "platform"
-              autonomous_period.platform+=1
+              autonomous_period.on_platform+=1
             elsif event_struct.location == "ramp"
-              autonomous_period.ramp+=1
+              autonomous_period.on_ramp+=1
             end
           end
 
