@@ -27,7 +27,6 @@ class MatchLoader
       self.scored_in_corner ||= 0
       self.missed_vortex ||= 0
       self.missed_corner ||= 0
-      self.missed_corner ||= 0
 
       self.completely_on_platform ||= 0
       self.completely_on_ramp     ||= 0

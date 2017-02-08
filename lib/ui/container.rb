@@ -77,4 +77,16 @@ class Container
   def fill(color = BODY_COLOR, z = 0)
     fill_rect(@x, @y, @width, @height, color, z)
   end
+
+  def set_layout_y(start, spacing)
+    @layout_y_start = start
+    @layout_y_spacing = spacing
+    @layout_y_count = 0
+  end
+
+  def layout_y(stay = false)
+    i = @layout_y_start+(@layout_y_spacing*@layout_y_count)
+    @layout_y_count+=1 unless stay
+    return i
+  end
 end
