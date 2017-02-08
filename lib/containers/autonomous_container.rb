@@ -102,7 +102,7 @@ class AutonomousContainer < Container
           capball_missed.text = match.autonomous.capball_missed.to_s
           capball_success_percentage.text = calc_percentage(match.autonomous.capball_on_floor, match.autonomous.capball_on_floor+match.autonomous.capball_missed)
 
-          if match.teleop.is_dead_robot
+          if match.autonomous.is_dead_robot
             dead_robot.text = "Yes"
             dead_robot.color= BAD_COLOR
           else

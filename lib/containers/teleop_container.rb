@@ -65,7 +65,7 @@ class TeleOpContainer < Container
         tally_match.capball_capped+=match.teleop.capball_capped
         tally_match.capball_missed+=match.teleop.capball_missed
 
-        tally_match.dead_robot+=match.autonomous.dead_robot
+        tally_match.dead_robot+=match.teleop.dead_robot
 
         b = button "Match #{index+1}", _x, _y do
           beacons_claimed.text = match.teleop.beacons_claimed.to_s

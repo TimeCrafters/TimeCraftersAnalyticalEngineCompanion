@@ -138,7 +138,12 @@ class MatchLoader
           end
 
           if event_struct.subtype == "capball"
-            # Nothing to see here, yet.
+            event_struct.capball_missed+=1
+          end
+
+          if event_struct.subtype == "robot"
+            autonomous_period.dead_robot+=1
+            autonomous_period.is_dead_robot = true
           end
         end
       elsif event_struct.period == "teleop"
@@ -185,6 +190,11 @@ class MatchLoader
 
           if event_struct.subtype == "capball"
             event_struct.capball_missed+=1
+          end
+
+          if event_struct.subtype == "robot"
+            teleop_period.dead_robot+=1
+            teleop_period.is_dead_robot = true
           end
         elsif event_struct.type == "lost"
           if event_struct.type == "beacon"

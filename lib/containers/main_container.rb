@@ -2,8 +2,7 @@ class MainContainer < Container
   def setup
     self.text_color = Gosu::Color::BLACK
 
-    text "TimeCrafters Analytical Engine Companion", 250, 10, 32
-    text "Select team: ", 250, 42
+    text "Select a Team", 350, 10, 32
 
     _x = 10
     _y = 70
