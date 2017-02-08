@@ -1,7 +1,9 @@
 class TeleOpContainer < Container
   def setup
-    button "All Matches", 10, 10
-    button "Match 1",    140, 10
-    button "Match 2",    240, 10
+    text "TeleOp", 430, 10, 32, TELEOP_HEADER_COLOR
+
+    button "All Matches", 10, 50
+    button "Match 1",    140, 50
+    button "Match 2",    240, 50
   end
 end
