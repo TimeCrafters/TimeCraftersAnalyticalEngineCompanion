@@ -10,6 +10,7 @@ class MainContainer < Container
     AppSync.teams_list.each do |number, name|
       b = button("#{number}", _x, _y) do
         AppSync.active_team(number)
+        $window.active_container = ScoutingContainer.new
       end
 
       if number == 10432; b.text.color = Gosu::Color.rgb(40, 100, 40) ; end
