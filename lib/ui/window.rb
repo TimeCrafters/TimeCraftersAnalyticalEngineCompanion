@@ -53,7 +53,7 @@ class Window < Gosu::Window
     @mouse.x, @mouse.y = self.mouse_x, self.mouse_y
     @title.x = (Gosu.screen_width/4)-(@title.textobject.text_width(NAME)/2)
 
-    if AppSync.team_number
+    if AppSync.team_name.length > 0
       @current_team.text = "Team: #{AppSync.team_number} | #{AppSync.team_name}"
       @current_team.color= Gosu::Color::WHITE
     else

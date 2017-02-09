@@ -3,13 +3,13 @@ class AppSync
     @team_number = number
   end
   def self.team_number
-    @team_number
+    @team_number ||= 0
   end
   def self.team_name=(team)
     @team_name = team
   end
   def self.team_name
-    @team_name
+    @team_name ||= ""
   end
 
   def self.team_has_scouting_data?
