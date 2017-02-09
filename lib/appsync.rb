@@ -6,7 +6,7 @@ class AppSync
     @team_number
   end
   def self.team_name=(team)
-    @team_name = name
+    @team_name = team
   end
   def self.team_name
     @team_name

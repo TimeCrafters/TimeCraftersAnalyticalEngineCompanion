@@ -7,6 +7,7 @@ BODY_COLOR   = Gosu::Color.rgb(200, 200, 200)#Gosu::Color.rgb(12,12,12)
 
 class Window < Gosu::Window
   NAME = "TimeCrafters Analytical Engine"
+  attr_accessor :active_container
   attr_reader :elements, :mouse
 
   def self.instance=(this)
