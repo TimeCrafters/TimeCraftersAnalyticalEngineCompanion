@@ -101,7 +101,7 @@ class TeleOpContainer < Container
         end
       end
 
-      button "All Matches", 200, 50 do
+      all_matches = button "All Matches", 200, 50 do
         beacons_claimed.text = tally_match.beacons_claimed.to_s
         beacons_stolen.text = tally_match.beacons_missed.to_s
         beacons_success_percentage.text = calc_percentage(tally_match.beacons_claimed, tally_match.beacons_claimed+tally_match.beacons_missed)
@@ -122,11 +122,52 @@ class TeleOpContainer < Container
         dead_robot.text = tally_match.dead_robot.to_s
         dead_robot.color=self.text_color
       end
+
+      all_matches.block.call
     else
       if AppSync.team_name
         text "No match data for #{AppSync.team_name}", 50, 50, 32
       else
         text "No team selected.", 350, 50, 32
+      end
+    end
+  end
+
+  def button_up(id)
+    super
+    case id
+    when Gosu::KbRight
+      current_team = AppSync.team_number
+      AppSync.teams_list.detect do |number, name|
+        if number > current_team
+          AppSync.active_team(number)
+          $window.active_container = TeleOpContainer.new
+          true
+        end
+      end
+
+      if AppSync.team_number == current_team
+        AppSync.active_team(AppSync.teams_list.first.first)
+        $window.active_container = TeleOpContainer.new
+      end
+
+    when Gosu::KbLeft
+      current_team = AppSync.team_number
+      teams = []
+      AppSync.teams_list.each do |number, name|
+        if number < current_team
+          teams.push(number)
+        end
+      end
+
+      if teams.last
+        AppSync.active_team(teams.last)
+        $window.active_container = TeleOpContainer.new
+      end
+
+      if AppSync.team_number == current_team
+        AppSync.active_team(AppSync.teams_list.to_a.last.first)
+        $window.active_container = TeleOpContainer.new
       end
     end
   end

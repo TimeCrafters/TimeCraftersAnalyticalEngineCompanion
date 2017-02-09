@@ -7,7 +7,7 @@ BUTTON_TEXT_SIZE         = 20
 BUTTON_PADDING           = 10
 
 class Button
-  attr_reader :text, :x, :y, :offset_x, :offset_y
+  attr_reader :text, :x, :y, :offset_x, :offset_y, :block
 
   def initialize(text, x, y, auto_manage = true, &block)
     @text = Text.new(text, false, x: x, y: y, size: BUTTON_TEXT_SIZE, color: BUTTON_TEXT_COLOR)
