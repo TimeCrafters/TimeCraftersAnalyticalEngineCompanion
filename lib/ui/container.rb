@@ -32,20 +32,25 @@ class Container
   end
 
   def button_up(id)
-    case id
-    when Gosu::MsWheelUp
-      @scroll_y+=@scroll_speed
-      @scroll_y = 0 if @scroll_y > 0
-      @elements.each {|e| e.set_offset(@scroll_x, @scroll_y) if e.is_a?(Button) }
-    when Gosu::MsWheelDown
-      @scroll_y-=@scroll_speed
-      if $window.height-height-y > 0
-        @scroll_y = 0
-      else
-        @scroll_y = $window.height-height-y if @scroll_y <= $window.height-height-y
-      end
+    if $window.mouse.x.between?(@x, @x+@width)
+      if $window.mouse.y.between?(@y, @y+@height)
+        case id
+        when Gosu::MsWheelUp
+          @scroll_y+=@scroll_speed
+          @scroll_y = 0 if @scroll_y > 0
+          @elements.each {|e| e.set_offset(@scroll_x, @scroll_y) if e.is_a?(Button) }
+        when Gosu::MsWheelDown
+          @scroll_y-=@scroll_speed
+          if $window.height-@internal_height-y > 0
+            @scroll_y = 0
+            p "H: #{@height-@internal_height}", "Y: #{@scroll_y}"
+          else
+            @scroll_y = @height-@internal_height if @scroll_y <= @height-@internal_height
+          end
 
-      @elements.each {|e| e.set_offset(@scroll_x, @scroll_y) if e.is_a?(Button) }
+          @elements.each {|e| e.set_offset(@scroll_x, @scroll_y) if e.is_a?(Button) }
+        end
+      end
     end
 
     @elements.each {|e| if defined?(e.button_up); e.button_up(id); end}
@@ -60,7 +65,7 @@ class Container
     relative_y = @y+y
     _text      = Text.new(text, false, x: relative_x, y: relative_y, size: size, color: color)
     @elements.push(_text)
-    if _text.height+relative_y > @internal_height
+    if _text.y-(_text.height*2) > @internal_height
       @internal_height+=_text.height
     end
 
@@ -72,7 +77,7 @@ class Container
     relative_y = @y+y
     _button    = Button.new(text, relative_x, relative_y, false) { if block.is_a?(Proc); block.call; end }
     @elements.push(_button)
-    if _button.height+relative_y > @internal_height
+    if _button.y-(_button.height*2) > @internal_height
       @internal_height+=_button.height
     end
 
@@ -136,7 +141,7 @@ class Container
         end
       end
 
-      if AppSync.team_number == current_team && AppSync.send(appsync_method, AppSync.teams_list.first.first)
+      if AppSync.team_number == current_team # && AppSync.send(appsync_method, AppSync.teams_list.first.first)
         AppSync.active_team(AppSync.teams_list.first.first)
         $window.active_container = container.new
       end
@@ -156,7 +161,7 @@ class Container
         $window.active_container = container.new
       end
 
-      if AppSync.team_number == current_team && AppSync.send(appsync_method, AppSync.teams_list.to_a.last.first)
+      if AppSync.team_number == current_team # && AppSync.send(appsync_method, AppSync.teams_list.to_a.last.first)
         AppSync.active_team(AppSync.teams_list.to_a.last.first)
         $window.active_container = container.new
       end

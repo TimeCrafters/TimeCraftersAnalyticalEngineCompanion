@@ -94,8 +94,8 @@ class AutonomousContainer < Container
           parked_completely_on_ramp.text = match.autonomous.completely_on_ramp.to_s
           parked_on_platform.text = match.autonomous.on_platform.to_s
           parked_on_ramp.text = match.autonomous.on_ramp.to_s
-          missed_parking.text = "No Data"
-          parking_success_percentage.text = "No Data"
+          missed_parking.text = match.autonomous.missed_parking.to_s
+          parking_success_percentage.text = calc_percentage(match.autonomous.completely_on_platform+match.autonomous.completely_on_ramp+match.autonomous.on_platform+match.autonomous.on_ramp, match.autonomous.completely_on_platform+match.autonomous.completely_on_ramp+match.autonomous.on_platform+match.autonomous.on_ramp+match.autonomous.missed_parking)
 
           capball_on_floor.text = match.autonomous.capball_on_floor.to_s
           capball_missed.text = match.autonomous.capball_missed.to_s
@@ -133,8 +133,9 @@ class AutonomousContainer < Container
         parked_completely_on_ramp.text = tally_match.completely_on_ramp.to_s
         parked_on_platform.text = tally_match.on_platform.to_s
         parked_on_ramp.text = tally_match.on_ramp.to_s
-        missed_parking.text = "No Data"
-        parking_success_percentage.text = "No Data"
+        missed_parking.text = tally_match.missed_parking.to_s
+        parking_success_percentage.text = calc_percentage(tally_match.completely_on_platform+tally_match.completely_on_ramp+tally_match.on_platform+tally_match.on_ramp, tally_match.completely_on_platform+tally_match.completely_on_ramp+tally_match.on_platform+tally_match.on_ramp+tally_match.missed_parking)
+
 
         capball_on_floor.text = tally_match.capball_on_floor.to_s
         capball_missed.text = tally_match.capball_missed.to_s
