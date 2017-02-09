@@ -7,7 +7,7 @@ class ScoutingContainer < Container
       teleop     = AppSync.team_scouting_data("teleop")
     end
 
-    if AppSync.team_has_scouting_data? && (autonomous.count > 0 || teleop.count > 0) 
+    if AppSync.team_has_scouting_data? && (autonomous.count > 2 || teleop.count > 0)
       text "Autonomous", 400, 10, 32, AUTONOMOUS_HEADER_COLOR
       a_y = 45
       text "Can Claim Beacons", 250, a_y
@@ -55,6 +55,9 @@ class ScoutingContainer < Container
       tele_capball_capped = text "N/A", 650, a_y+176
     else
       text "No Scouting Data", 200, 10, 32
+      if AppSync.team_has_scouting_data? && autonomous.count < 5
+        text "Team has no Autonomous, and TeleOp data was not stored/collected.", 10, 40, 32
+      end
     end
 
     if AppSync.team_has_scouting_data?
