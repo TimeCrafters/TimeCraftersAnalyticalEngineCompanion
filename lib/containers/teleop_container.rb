@@ -135,40 +135,6 @@ class TeleOpContainer < Container
 
   def button_up(id)
     super
-    case id
-    when Gosu::KbRight
-      current_team = AppSync.team_number
-      AppSync.teams_list.detect do |number, name|
-        if number > current_team
-          AppSync.active_team(number)
-          $window.active_container = TeleOpContainer.new
-          true
-        end
-      end
-
-      if AppSync.team_number == current_team
-        AppSync.active_team(AppSync.teams_list.first.first)
-        $window.active_container = TeleOpContainer.new
-      end
-
-    when Gosu::KbLeft
-      current_team = AppSync.team_number
-      teams = []
-      AppSync.teams_list.each do |number, name|
-        if number < current_team
-          teams.push(number)
-        end
-      end
-
-      if teams.last
-        AppSync.active_team(teams.last)
-        $window.active_container = TeleOpContainer.new
-      end
-
-      if AppSync.team_number == current_team
-        AppSync.active_team(AppSync.teams_list.to_a.last.first)
-        $window.active_container = TeleOpContainer.new
-      end
-    end
+    switch_team(id, self.class, :match)
   end
 end

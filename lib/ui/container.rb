@@ -4,10 +4,10 @@ class Container
 
   attr_accessor :text_color
   attr_reader :elements, :x, :y, :width, :height, :options
-  attr_reader :scroll_x, :scroll_y
+  attr_reader :scroll_x, :scroll_y, :internal_width, :internal_height
 
   def initialize(x = 0, y = 100, width = $window.width, height = $window.height, options = {})
-    @x, @y, @width, @height = x, y, width, height-y
+    @x, @y, @width, @height, @internal_width, @internal_height = x, y, width, height-y, width, height-y
     @scroll_x, @scroll_y = 0, 0
     @scroll_speed = 10
     puts "#{self.class}: with #{width}, height #{@height}"
@@ -60,6 +60,9 @@ class Container
     relative_y = @y+y
     _text      = Text.new(text, false, x: relative_x, y: relative_y, size: size, color: color)
     @elements.push(_text)
+    if _text.height+relative_y > @internal_height
+      @internal_height+=_text.height
+    end
 
     return _text
   end
@@ -69,6 +72,9 @@ class Container
     relative_y = @y+y
     _button    = Button.new(text, relative_x, relative_y, false) { if block.is_a?(Proc); block.call; end }
     @elements.push(_button)
+    if _button.height+relative_y > @internal_height
+      @internal_height+=_button.height
+    end
 
     return _button
   end
@@ -95,8 +101,8 @@ class Container
 
   def calc_percentage(positive, total)
     begin
-      i = "#{((positive.to_f/total.to_f)*100.0).round(2)}"
-      if i.to_i != 0
+      i = ((positive.to_f/total.to_f)*100.0).round(2)
+      if !i.nan?
         return "#{i}%"
       else
         "N/A"
@@ -104,6 +110,56 @@ class Container
     rescue ZeroDivisionError => e
       puts e
       return "N/A" # 0 / 0, safe to assume no actionable data
+    end
+  end
+
+  def switch_team(button_id, container, mode= :scouting)
+    appsync_method = nil
+    case mode
+    when :scouting
+      appsync_method = :team_has_scouting_data?
+    when :match
+      appsync_method = :team_has_match_data?
+    else
+      raise
+    end
+
+    case button_id
+    when Gosu::KbRight
+      current_team = AppSync.team_number
+      AppSync.teams_list.detect do |number, name|
+        next unless AppSync.send(appsync_method, number)
+        if number > current_team
+          AppSync.active_team(number)
+          $window.active_container = container.new
+          true
+        end
+      end
+
+      if AppSync.team_number == current_team && AppSync.send(appsync_method, AppSync.teams_list.first.first)
+        AppSync.active_team(AppSync.teams_list.first.first)
+        $window.active_container = container.new
+      end
+
+    when Gosu::KbLeft
+      current_team = AppSync.team_number
+      teams = []
+      AppSync.teams_list.each do |number, name|
+        next unless AppSync.send(appsync_method, number)
+        if number < current_team
+          teams.push(number)
+        end
+      end
+
+      if teams.last
+        AppSync.active_team(teams.last)
+        $window.active_container = container.new
+      end
+
+      if AppSync.team_number == current_team && AppSync.send(appsync_method, AppSync.teams_list.to_a.last.first)
+        AppSync.active_team(AppSync.teams_list.to_a.last.first)
+        $window.active_container = container.new
+      end
     end
   end
 end

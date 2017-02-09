@@ -35,8 +35,8 @@ class MatchLoader
       self.on_ramp                ||= 0
       self.missed_parking         ||= 0
 
-      self.capball_missed         ||= 0
       self.capball_on_floor       ||= 0
+      self.capball_missed         ||= 0
       self.capball_off_floor      ||= 0
       self.capball_above_crossbar ||= 0
       self.capball_capped         ||= 0
@@ -75,11 +75,10 @@ class MatchLoader
 
 
     autonomous_period = Match.new
-    autonomous_period = Match.new
-    teleop_period = Match.new
+    teleop_period     = Match.new
+    event_struct = Event.new
 
     events.each do |event|
-      event_struct = Event.new
 
       event_struct.team = event["team"]
       event_struct.period = event["period"]
@@ -135,11 +134,11 @@ class MatchLoader
           end
 
           if event_struct.subtype == "parking"
-            # Nothing to see here, yet.
+            autonomous_period.missed_parking+=1
           end
 
           if event_struct.subtype == "capball"
-            event_struct.capball_missed+=1
+            autonomous_period.capball_missed+=1
           end
 
           if event_struct.subtype == "robot"
@@ -190,7 +189,7 @@ class MatchLoader
           end
 
           if event_struct.subtype == "capball"
-            event_struct.capball_missed+=1
+            teleop_period.capball_missed+=1
           end
 
           if event_struct.subtype == "robot"

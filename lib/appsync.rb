@@ -12,8 +12,8 @@ class AppSync
     @team_name ||= ""
   end
 
-  def self.team_has_scouting_data?
-    files = Dir.glob("./data/#{@team_number}/*.json")
+  def self.team_has_scouting_data?(number = @team_number)
+    files = Dir.glob("./data/#{number}/*.json")
     if files.count > 0
       true
     else
@@ -30,8 +30,8 @@ class AppSync
     end
   end
 
-  def self.team_has_match_data?
-    files = Dir.glob("./data/#{@team_number}/matches/*.json")
+  def self.team_has_match_data?(number = @team_number)
+    files = Dir.glob("./data/#{number}/matches/*.json")
     if files.count > 0
       true
     else

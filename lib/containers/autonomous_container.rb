@@ -4,6 +4,7 @@ class AutonomousContainer < Container
     @matches = []
 
     text "Autonomous", 400, 10, 32, AUTONOMOUS_HEADER_COLOR
+    @matches = AppSync.team_match_data
 
     if AppSync.team_has_match_data?
       set_layout_y(100, 22)
@@ -54,13 +55,11 @@ class AutonomousContainer < Container
 
       text "Dead Robot", 250, layout_y(true)
       dead_robot = text "N/A", 650, layout_y
-
-      @matches = AppSync.team_match_data
-
       _x = 10
       _y = 50
       tally_match = MatchLoader::Match.new
       @matches.each_with_index do |match, index|
+        p match.autonomous.beacons_claimed
         tally_match.beacons_claimed+=match.autonomous.beacons_claimed
         tally_match.beacons_missed+=match.autonomous.beacons_missed
 
@@ -157,40 +156,6 @@ class AutonomousContainer < Container
 
   def button_up(id)
     super
-    case id
-    when Gosu::KbRight
-      current_team = AppSync.team_number
-      AppSync.teams_list.detect do |number, name|
-        if number > current_team
-          AppSync.active_team(number)
-          $window.active_container = AutonomousContainer.new
-          true
-        end
-      end
-
-      if AppSync.team_number == current_team
-        AppSync.active_team(AppSync.teams_list.first.first)
-        $window.active_container = AutonomousContainer.new
-      end
-
-    when Gosu::KbLeft
-      current_team = AppSync.team_number
-      teams = []
-      AppSync.teams_list.each do |number, name|
-        if number < current_team
-          teams.push(number)
-        end
-      end
-
-      if teams.last
-        AppSync.active_team(teams.last)
-        $window.active_container = AutonomousContainer.new
-      end
-
-      if AppSync.team_number == current_team
-        AppSync.active_team(AppSync.teams_list.to_a.last.first)
-        $window.active_container = AutonomousContainer.new
-      end
-    end
+    switch_team(id, self.class, :match)
   end
 end
