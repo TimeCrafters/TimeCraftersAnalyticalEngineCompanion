@@ -125,7 +125,7 @@ class TeleOpContainer < Container
 
       all_matches.block.call
     else
-      if AppSync.team_name
+      if AppSync.team_name != ""
         text "No match data for #{AppSync.team_name}", 50, 50, 32
       else
         text "No team selected.", 350, 50, 32

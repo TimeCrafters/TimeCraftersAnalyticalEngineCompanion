@@ -7,10 +7,11 @@ BUTTON_TEXT_SIZE         = 20
 BUTTON_PADDING           = 10
 
 class Button
-  attr_reader :text, :x, :y, :offset_x, :offset_y, :block
+  attr_reader :text, :x, :y, :offset_x, :offset_y, :tooltip, :block
 
-  def initialize(text, x, y, auto_manage = true, &block)
+  def initialize(text, x, y, auto_manage = true, tooltip = "", &block)
     @text = Text.new(text, false, x: x, y: y, size: BUTTON_TEXT_SIZE, color: BUTTON_TEXT_COLOR)
+    @tooltip=Text.new(tooltip, false, x: x, y: y-(height/4*3), z: 10_000, size: BUTTON_TEXT_SIZE, color: BUTTON_TEXT_COLOR)
     @x = x
     @y = y
     @offset_x, @offset_y = 0, 0
@@ -34,6 +35,7 @@ class Button
       $window.fill_rect(@x+1, @y+1, width-2, height-2, BUTTON_ACTIVE_COLOR)
     elsif mouse_over?
       $window.fill_rect(@x+1, @y+1, width-2, height-2, BUTTON_HOVER_COLOR)
+      show_tooltip
     else
       $window.fill_rect(@x+1, @y+1, width-2, height-2, BUTTON_COLOR)
     end
@@ -73,12 +75,20 @@ class Button
     end
   end
 
-  def width
-    @text.textobject.text_width(@text.text)+BUTTON_PADDING*2
+  def show_tooltip
+    if @tooltip.text != ""
+      $window.fill_rect(@x-BUTTON_PADDING, @y-height, width(@tooltip), height(@tooltip), BUTTON_ACTIVE_COLOR, 9_999)
+      $window.fill_rect(@x-BUTTON_PADDING-1, @y-height-1, width(@tooltip)+2, height(@tooltip)+2, Gosu::Color::WHITE, 9_998)
+      @tooltip.draw
+    end
   end
 
-  def height
-    @text.textobject.height+BUTTON_PADDING*2
+  def width(text_object = @text)
+    text_object.textobject.text_width(text_object.text)+BUTTON_PADDING*2
+  end
+
+  def height(text_object = @text)
+    text_object.textobject.height+BUTTON_PADDING*2
   end
 
   def set_offset(x, y)

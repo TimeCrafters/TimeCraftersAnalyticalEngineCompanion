@@ -72,10 +72,10 @@ class Container
     return _text
   end
 
-  def button(text, x, y, &block)
+  def button(text, x, y, tooltip = "", &block)
     relative_x = @x+x
     relative_y = @y+y
-    _button    = Button.new(text, relative_x, relative_y, false) { if block.is_a?(Proc); block.call; end }
+    _button    = Button.new(text, relative_x, relative_y, false, tooltip) { if block.is_a?(Proc); block.call; end }
     @elements.push(_button)
     if _button.y-(_button.height*2) > @internal_height
       @internal_height+=_button.height
