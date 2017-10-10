@@ -10,7 +10,7 @@ class Container
     @x, @y, @width, @height, @internal_width, @internal_height = x, y, width, height-y, width, height-y
     @scroll_x, @scroll_y = 0, 0
     @scroll_speed = 10
-    puts "#{self.class}: with #{width}, height #{@height}"
+    puts "#{self.class}: width #{width}, height #{@height}"
 
     @options = {}
     @text_color = Text::COLOR
