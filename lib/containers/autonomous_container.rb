@@ -3,7 +3,7 @@ class AutonomousContainer < Container
     self.text_color = Gosu::Color::BLACK
     @matches = []
 
-    text "Autonomous", 400, 10, 32, AUTONOMOUS_HEADER_COLOR
+    text "Autonomous", 0, 10, 32, AUTONOMOUS_HEADER_COLOR, :center
     @matches = AppSync.team_match_data
 
     if AppSync.team_has_match_data?
@@ -148,9 +148,9 @@ class AutonomousContainer < Container
       all_matches.block.call
     else
       if AppSync.team_name != ""
-        text "No match data for #{AppSync.team_name}", 50, 50, 32
+        text "No match data for #{AppSync.team_name}", 0, 50, 32, Gosu::Color::BLACK, :center
       else
-        text "No team selected.", 350, 50, 32
+        text "No team selected.", 0, 50, 32, Gosu::Color::BLACK, :center
       end
     end
   end

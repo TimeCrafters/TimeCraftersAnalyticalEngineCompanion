@@ -20,7 +20,11 @@ class Window < Gosu::Window
 
   def initialize
     Window.instance = self
-    super(1000, 700, false)
+    if Gosu.screen_width < 1300
+      super(1280, 720, false)
+    else
+      super((Gosu.screen_width/4)*3, (Gosu.screen_height/4)*3, false)
+    end
     $window = self
     self.caption = NAME
     AppSync.teams_list="./data/galaxy_teams_list.txt"
@@ -37,7 +41,8 @@ class Window < Gosu::Window
     Button.new("Autonomous", 195, 60) { @header_color = AUTONOMOUS_HEADER_COLOR; @active_container = AutonomousContainer.new }
     Button.new("TeleOp", 330, 60) { @header_color = TELEOP_HEADER_COLOR; @active_container = TeleOpContainer.new }
 
-    Button.new("About", 920, 60) { @header_color = ABOUT_HEADER_COLOR; @active_container = AboutContainer.new }
+    b = Button.new("About", 0, 60) { @header_color = ABOUT_HEADER_COLOR; @active_container = AboutContainer.new }
+    b.x = $window.width-(b.width+10)
   end
 
   def draw

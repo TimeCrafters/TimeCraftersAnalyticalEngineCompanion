@@ -3,7 +3,7 @@ class TeleOpContainer < Container
     self.text_color = Gosu::Color::BLACK
     @matches = []
 
-    text "TeleOp", 430, 10, 32, TELEOP_HEADER_COLOR
+    text "TeleOp", 0, 10, 32, TELEOP_HEADER_COLOR, :center
 
     if AppSync.team_has_match_data?
       set_layout_y(100, 22)
@@ -126,9 +126,9 @@ class TeleOpContainer < Container
       all_matches.block.call
     else
       if AppSync.team_name != ""
-        text "No match data for #{AppSync.team_name}", 50, 50, 32
+        text "No match data for #{AppSync.team_name}", 0, 50, 32, Gosu::Color::BLACK, :center
       else
-        text "No team selected.", 350, 50, 32
+        text "No team selected.", 0, 50, 32, Gosu::Color::BLACK, :center
       end
     end
   end

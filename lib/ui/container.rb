@@ -60,10 +60,10 @@ class Container
     yield(self)
   end
 
-  def text(text, x, y, size = Text::SIZE, color = self.text_color)
+  def text(text, x, y, size = Text::SIZE, color = self.text_color, alignment = nil)
     relative_x = @x+x
     relative_y = @y+y
-    _text      = Text.new(text, false, x: relative_x, y: relative_y, size: size, color: color)
+    _text      = Text.new(text, false, x: relative_x, y: relative_y, size: size, color: color, alignment: alignment)
     @elements.push(_text)
     if _text.y-(_text.height*2) > @internal_height
       @internal_height+=_text.height

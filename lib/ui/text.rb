@@ -16,12 +16,24 @@ class Text
     @x = options[:x] || 0
     @y = options[:y] || 0
     @z = options[:z] || 1025
-    @factor_x = options[:factor_x] || 1
-    @factor_y = options[:factor_y] || 1
-    @color    = options[:color] || COLOR
+    @factor_x = options[:factor_x]  || 1
+    @factor_y = options[:factor_y]  || 1
+    @color    = options[:color]     || COLOR
+    @alignment= options[:alignment] || nil
     @textobject = check_cache(@size, @font)
 
     Window.instance.elements.push(self) if auto_manage
+
+    if @alignment
+      case @alignment
+      when :left
+        @x = 0
+      when :center
+        @x = ($window.width/2)-(@textobject.text_width(@text)/2)
+      when :right
+        @x = $window.width-@textobject.text_width(@text)
+      end
+    end
 
     return self
   end

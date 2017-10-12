@@ -7,13 +7,20 @@ BUTTON_TEXT_SIZE         = 20
 BUTTON_PADDING           = 10
 
 class Button
-  attr_reader :text, :x, :y, :offset_x, :offset_y, :tooltip, :block
+  attr_accessor :text, :x, :y, :offset_x, :offset_y, :tooltip, :block
 
   def initialize(text, x, y, auto_manage = true, tooltip = "", &block)
     @text = Text.new(text, false, x: x, y: y, size: BUTTON_TEXT_SIZE, color: BUTTON_TEXT_COLOR)
     @tooltip=Text.new(tooltip, false, x: x, y: y-(height/4*3), z: 10_000, size: BUTTON_TEXT_SIZE, color: BUTTON_TEXT_COLOR)
     @x = x
     @y = y
+    _x_ = @x+(@text.textobject.text_width(@text.text)/2)-(@tooltip.textobject.text_width(@tooltip.text)/2)
+    @tooltip.x = _x_+BUTTON_PADDING
+    if @tooltip.x <= 1
+      @tooltip.x = 2
+    elsif @tooltip.x+@tooltip.textobject.text_width(@tooltip.text) > $window.width-(BUTTON_PADDING+1)
+      @tooltip.x = $window.width-@tooltip.textobject.text_width(@tooltip.text)
+    end
     @offset_x, @offset_y = 0, 0
     if block
       @block = Proc.new{yield(self)}
@@ -77,8 +84,10 @@ class Button
 
   def show_tooltip
     if @tooltip.text != ""
-      $window.fill_rect(@x-BUTTON_PADDING, @y-height, width(@tooltip), height(@tooltip), BUTTON_ACTIVE_COLOR, 9_999)
-      $window.fill_rect(@x-BUTTON_PADDING-1, @y-height-1, width(@tooltip)+2, height(@tooltip)+2, Gosu::Color::WHITE, 9_998)
+      x = @tooltip.x-BUTTON_PADDING
+
+      $window.fill_rect(x, @y-height, width(@tooltip), height(@tooltip), BUTTON_ACTIVE_COLOR, 9_999)
+      $window.fill_rect(x-1, @y-height-1, width(@tooltip)+2, height(@tooltip)+2, Gosu::Color::WHITE, 9_998)
       @tooltip.draw
     end
   end

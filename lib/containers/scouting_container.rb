@@ -54,7 +54,7 @@ class ScoutingContainer < Container
       text "Capball Capped", 250, a_y+176
       tele_capball_capped = text "N/A", 650, a_y+176
     else
-      text "No Scouting Data", 360, 10, 32
+      text "No Scouting Data", 0, 10, 32, Gosu::Color::BLACK, :center
       if AppSync.team_has_scouting_data? && autonomous.count < 5
         text "Team has no Autonomous, and TeleOp data was not stored/collected.", 10, 40, 32
       end

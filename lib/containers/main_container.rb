@@ -2,7 +2,7 @@ class MainContainer < Container
   def setup
     self.text_color = Gosu::Color::BLACK
 
-    text "Select a Team", 350, 10, 32
+    text "Select a Team", 0, 10, 32, Gosu::Color::BLACK, :center
 
     _x = 10
     _y = 70
@@ -17,7 +17,7 @@ class MainContainer < Container
         if number == 10432; b.text.color = Gosu::Color.rgb(40, 100, 40) ; end
         _x+=b.width+20
 
-        if _x > 900
+        if _x > $window.width
           _x = 10
           _y+= 45
         end
