@@ -1,7 +1,9 @@
 class Text
   SIZE = 20
-  FONT = Gosu.default_font_name
+  FONT = "Consolas"#Gosu.default_font_name
   COLOR= Gosu::Color::WHITE
+  BORDER_COLOR = Gosu::Color.rgba(255,255,255,50)
+  SHADOW = 0.5
 
   CACHE = {}
 
@@ -71,6 +73,20 @@ class Text
   end
 
   def draw
+    if true
+      @textobject.draw(@text, @x-SHADOW, @y, @z, @factor_x, @factor_y, BORDER_COLOR)
+      @textobject.draw(@text, @x-SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
+
+      @textobject.draw(@text, @x, @y-SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
+      @textobject.draw(@text, @x+SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
+
+      @textobject.draw(@text, @x, @y+SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
+      @textobject.draw(@text, @x-SHADOW, @y+SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
+
+      @textobject.draw(@text, @x+SHADOW, @y, @z, @factor_x, @factor_y, BORDER_COLOR)
+      @textobject.draw(@text, @x+SHADOW, @y+SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
+    end
+
     @textobject.draw(@text, @x, @y, @z, @factor_x, @factor_y, @color)
   end
 

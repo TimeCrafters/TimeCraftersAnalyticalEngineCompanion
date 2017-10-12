@@ -8,7 +8,7 @@ class ScoutingContainer < Container
     end
 
     if AppSync.team_has_scouting_data? && (autonomous.count > 2 || teleop.count > 0)
-      text "Autonomous", 400, 10, 32, AUTONOMOUS_HEADER_COLOR
+      text "Autonomous", 0, 10, 32, AUTONOMOUS_HEADER_COLOR, :center
       a_y = 45
       text "Can Claim Beacons", 250, a_y
       auto_can_claim_beacons = text "N/A", 650, a_y
@@ -33,7 +33,7 @@ class ScoutingContainer < Container
       text "Can Park on Ramp", 250, a_y+220
       auto_park_on_ramp = text "N/A", 650, a_y+220
 
-      text "TeleOp", 430, 300, 32, TELEOP_HEADER_COLOR
+      text "TeleOp", 0, 300, 32, TELEOP_HEADER_COLOR, :center
       a_y = 340
       text "Can Claim Beacons", 250, a_y
       tele_can_claim_beacons = text "N/A", 650, a_y
