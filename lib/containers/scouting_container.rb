@@ -38,7 +38,12 @@ class ScoutingContainer < Container
       text "Can Balance on Stone", 250, layout_y(true)
       tele_can_balance_on_stone = text "N/A", 650, layout_y
     else
-      text "No Scouting Data", 0, 10, 32, Gosu::Color::BLACK, :center
+      if !AppSync.team_has_scouting_data?
+        text "Scouting", 0, 10, 32, Gosu::Color::BLACK, :center
+        text "No team selected.", 0, 50, 32, Gosu::Color::BLACK, :center
+      else
+        text "No Scouting Data", 0, 10, 32, Gosu::Color::BLACK, :center
+      end
       if AppSync.team_has_scouting_data? && autonomous.count < 5
         text "Team has no Autonomous, and TeleOp data was not stored/collected.", 10, 40, 32
       end
@@ -65,7 +70,7 @@ class ScoutingContainer < Container
           auto_can_score_in_cryptobox.color= BAD_COLOR
           auto_max_glyphs_scorable.color   = BAD_COLOR
         end
-        auto_max_glyphs_scorable.text    = autonomous["max_glyphs_scorable"]
+        auto_max_glyphs_scorable.text    = autonomous["max_glyphs_scorable"].to_s
 
         if autonomous["can_read_cryptobox_key"]
           auto_can_read_cryptobox_key.text = "Yes"
@@ -94,7 +99,7 @@ class ScoutingContainer < Container
           tele_can_score_in_cryptobox.text = "No"
           tele_can_score_in_cryptobox.color= BAD_COLOR
         end
-        tele_max_glyphs_scorable.text = teleop["max_glyphs_scorable"]
+        tele_max_glyphs_scorable.text = teleop["max_scorable_glyphs"].to_s
 
         if teleop["can_complete_cipher"]
           tele_can_complete_cipher.text  = "Yes"
@@ -113,6 +118,7 @@ class ScoutingContainer < Container
           if teleop["relic_zone_2"]; _list << "TWO"; end
           if teleop["relic_zone_3"]; _list << "THREE"; end
           tele_relic_zone.text = _list.join(", ")
+          tele_relic_zone.text = "N/A" if tele_relic_zone.text == ""
         else
           tele_can_score_relic.text = "No"
           tele_can_score_relic.color = BAD_COLOR

@@ -16,11 +16,7 @@ class Button
     @y = y
     _x_ = @x+(@text.textobject.text_width(@text.text)/2)-(@tooltip.textobject.text_width(@tooltip.text)/2)
     @tooltip.x = _x_+BUTTON_PADDING
-    if @tooltip.x <= 1
-      @tooltip.x = 2
-    elsif @tooltip.x+@tooltip.textobject.text_width(@tooltip.text) > $window.width-(BUTTON_PADDING+1)
-      @tooltip.x = $window.width-@tooltip.textobject.text_width(@tooltip.text)
-    end
+    auto_adjust_tooltip_position
     @offset_x, @offset_y = 0, 0
     if block
       @block = Proc.new{yield(self)}
@@ -31,6 +27,20 @@ class Button
     Window.instance.elements.push(self) if auto_manage
 
     return self
+  end
+
+  def update_position_toolip
+    _x_ = @x+(@text.textobject.text_width(@text.text)/2)-(@tooltip.textobject.text_width(@tooltip.text)/2)
+    @tooltip.x = _x_+BUTTON_PADDING
+    auto_adjust_tooltip_position
+  end
+
+  def auto_adjust_tooltip_position
+    if @tooltip.x <= 1
+      @tooltip.x = 2
+    elsif @tooltip.x+@tooltip.textobject.text_width(@tooltip.text) > $window.width-(BUTTON_PADDING+1)
+      @tooltip.x = $window.width-@tooltip.textobject.text_width(@tooltip.text)
+    end
   end
 
   def draw

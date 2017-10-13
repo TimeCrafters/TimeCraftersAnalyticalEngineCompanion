@@ -26,7 +26,7 @@ class MainContainer < Container
     if AppSync.teams_list.count == 0
       text "No Teams List File in #{Dir.pwd}/data", 0, 45, 32, BAD_COLOR, :center
     end
-    if AppSync.teams_list.count >= dataless_teams && AppSync.teams_list.count != 0
+    if dataless_teams >= AppSync.teams_list.count && AppSync.teams_list.count != 0
       text "No Data for Teams", 0, 45, 32, BAD_COLOR, :center
     end
 

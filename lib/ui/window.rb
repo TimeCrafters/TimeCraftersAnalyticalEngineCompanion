@@ -1,9 +1,9 @@
-HOME_HEADER_COLOR       = 0xff_008800#Gosu::Color.rgb(0, 200, 0)
+HOME_HEADER_COLOR       = Gosu::Color.rgb(0, 128, 0)
 SCOUTING_HEADER_COLOR   = Gosu::Color.rgb(40, 40, 40)
 AUTONOMOUS_HEADER_COLOR = Gosu::Color.rgb(100, 0, 0)
 TELEOP_HEADER_COLOR     = Gosu::Color.rgb(0, 0, 70)
 ABOUT_HEADER_COLOR      = Gosu::Color.rgb(200, 80, 0)
-BODY_COLOR   = Gosu::Color.rgb(200, 200, 200)#Gosu::Color.rgb(12,12,12)
+BODY_COLOR   = Gosu::Color.rgb(96, 96, 96)#Gosu::Color.rgb(12,12,12)
 
 class Window < Gosu::Window
   NAME = "TimeCrafters Analytical Engine"
@@ -38,15 +38,16 @@ class Window < Gosu::Window
 
     @title = Text.new(NAME, true, size: 36, y: 20, font: "Sans Serif", alignment: :left, shadow: true)
 
-    _b = Button.new("Home", 10, 60) { @header_color = HOME_HEADER_COLOR; @active_container = MainContainer.new }
-    b  = Button.new("Scouting", BUTTON_PADDING+_b.x+_b.width, 60) { @header_color = SCOUTING_HEADER_COLOR; @active_container = ScoutingContainer.new }
-    _b = Button.new("Autonomous", BUTTON_PADDING+b.x+b.width, 60) { @header_color = AUTONOMOUS_HEADER_COLOR; @active_container = AutonomousContainer.new }
-    b  = Button.new("TeleOp", BUTTON_PADDING+_b.x+_b.width, 60) { @header_color = TELEOP_HEADER_COLOR; @active_container = TeleOpContainer.new }
+    _b = Button.new("Home", 10, 60, true, "Home is where team selection happens") { @header_color = HOME_HEADER_COLOR; @active_container = MainContainer.new }
+    b  = Button.new("Scouting", BUTTON_PADDING+_b.x+_b.width, 60, true, "Scouting data for selected team") { @header_color = SCOUTING_HEADER_COLOR; @active_container = ScoutingContainer.new }
+    _b = Button.new("Autonomous", BUTTON_PADDING+b.x+b.width, 60, true, "Autonomous match data for selected team") { @header_color = AUTONOMOUS_HEADER_COLOR; @active_container = AutonomousContainer.new }
+    b  = Button.new("TeleOp", BUTTON_PADDING+_b.x+_b.width, 60, true, "TeleOp match data for selected team") { @header_color = TELEOP_HEADER_COLOR; @active_container = TeleOpContainer.new }
 
     @current_team = Text.new("Team: 0000 | TEAMNAME", true, size: 24, x: BUTTON_PADDING+b.x+b.width, y: 68, color: Gosu::Color.rgb(0,45,15))
 
-    b = Button.new("About", 0, 60) { @header_color = ABOUT_HEADER_COLOR; @active_container = AboutContainer.new }
+    b = Button.new("About", 0, 60, true, "About the TimeCrafters Analytical Engine Companion") { @header_color = ABOUT_HEADER_COLOR; @active_container = AboutContainer.new }
     b.x = $window.width-(b.width+10)
+    b.update_position_toolip
   end
 
   def draw
