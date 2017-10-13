@@ -9,50 +9,34 @@ class ScoutingContainer < Container
 
     if AppSync.team_has_scouting_data? && (autonomous.count > 2 || teleop.count > 0)
       text "Autonomous", 0, 10, 32, AUTONOMOUS_HEADER_COLOR, :center
-      a_y = 45
-      text "Can Claim Beacons", 250, a_y
-      auto_can_claim_beacons = text "N/A", 650, a_y
-      text "Max Beacons Claimable", 250, a_y+22
-      auto_max_beacons_claimable = text "N/A", 650, a_y+22
-      text "Can Score in corner", 250, a_y+44
-      auto_can_score_in_vortex = text "N/A", 650, a_y+44
-      text "Max Particles Scored in Vortex", 250, a_y+66
-      auto_particles_scored_in_vortex = text "N/A", 650, a_y+66
-      text "Can Score in Corner", 250, a_y+88
-      auto_can_score_in_corner = text "N/A", 650, a_y+88
-      text "Max Particles Scored in Corner", 250, a_y+110
-      auto_particles_scored_in_corner = text "N/A", 650, a_y+110
-      text "Can put Capball on Floor", 250, a_y+132
-      auto_capball_on_floor = text "N/A", 650, a_y+132
-      text "Can Park Completely on Platform", 250, a_y+154
-      auto_park_completely_on_platform = text "N/A", 650, a_y+154
-      text "Can Park Completely on Ramp", 250, a_y+176
-      auto_park_completely_on_ramp = text "N/A", 650, a_y+176
-      text "Can Park on Platform", 250, a_y+198
-      auto_park_on_platform = text "N/A", 650, a_y+198
-      text "Can Park on Ramp", 250, a_y+220
-      auto_park_on_ramp = text "N/A", 650, a_y+220
+      set_layout_y(50, 22)
+      text "Can Score Jewel", 250, layout_y(true)
+      auto_can_score_jewel = text "N/A", 650, layout_y
+      text "Can Score Cryptobox", 250, layout_y(true)
+      auto_can_score_in_cryptobox = text "N/A", 650, layout_y
+      text "Can Read Cryptobox key", 250, layout_y(true)
+      auto_can_read_cryptobox_key = text "N/A", 650, layout_y
+      text "Max Glyphs Scorable", 250, layout_y(true)
+      auto_max_glyphs_scorable = text "N/A", 650, layout_y
+      text "Can Park in Safe Zone", 250, layout_y(true)
+      auto_can_park_in_safe_zone = text "N/A", 650, layout_y
 
       text "TeleOp", 0, 300, 32, TELEOP_HEADER_COLOR, :center
-      a_y = 340
-      text "Can Claim Beacons", 250, a_y
-      tele_can_claim_beacons = text "N/A", 650, a_y
-      text "Max Beacons Claimable", 250, a_y+22
-      tele_max_beacons_claimable = text "N/A", 650, a_y+22
-      text "Can Score in Vortex", 250, a_y+44
-      tele_can_score_in_vortex = text "N/A", 650, a_y+44
-      text "Max Particles Scored in Vortex", 250, a_y+66
-      tele_particles_scored_in_vortex = text "N/A", 650, a_y+66
-      text "Can Score in Corner", 250, a_y+88
-      tele_can_score_in_corner = text "N/A", 650, a_y+88
-      text "Max Particles Scored in Corner", 250, a_y+110
-      tele_particles_scored_in_corner = text "N/A", 650, a_y+110
-      text "Capball off Floor", 250, a_y+132
-      tele_capball_off_floor = text "N/A", 650, a_y+132
-      text "Capball Above Crossbar", 250, a_y+154
-      tele_capball_above_crossbar = text "N/A", 650, a_y+154
-      text "Capball Capped", 250, a_y+176
-      tele_capball_capped = text "N/A", 650, a_y+176
+      set_layout_y(340, 22)
+      text "Can Score in Cryptobox", 250, layout_y(true)
+      tele_can_score_in_cryptobox = text "N/A", 650, layout_y
+      text "Max Glyphs Scorable", 250, layout_y(true)
+      tele_max_glyphs_scorable = text "N/A", 650, layout_y
+      text "Can Complete Cipher", 250, layout_y(true)
+      tele_can_complete_cipher = text "N/A", 650, layout_y
+      text "Can Score Relic", 250, layout_y(true)
+      tele_can_score_relic = text "N/A", 650, layout_y
+      text "Relic Zone(s)", 250, layout_y(true)
+      tele_relic_zone = text "N/A", 650, layout_y
+      text "Can Place Relic Upright", 250, layout_y(true)
+      tele_can_place_relic_upright = text "N/A", 650, layout_y
+      text "Can Balance on Stone", 250, layout_y(true)
+      tele_can_balance_on_stone = text "N/A", 650, layout_y
     else
       text "No Scouting Data", 0, 10, 32, Gosu::Color::BLACK, :center
       if AppSync.team_has_scouting_data? && autonomous.count < 5
@@ -64,131 +48,90 @@ class ScoutingContainer < Container
 
       # AUTONOMOUS
       if autonomous["has_autonomous"]
-        if autonomous["can_claim_beacons"]
-          auto_can_claim_beacons.text = "Yes"
-          auto_can_claim_beacons.color = GOOD_COLOR
-          auto_max_beacons_claimable.color = GOOD_COLOR
+        if autonomous["can_score_jewel"]
+          auto_can_score_jewel.text = "Yes"
+          auto_can_score_jewel.color = GOOD_COLOR
         else
-          auto_can_claim_beacons.text = "No"
-          auto_can_claim_beacons.color = BAD_COLOR
-        end
-        auto_max_beacons_claimable.text = autonomous["max_beacons_claimable"].to_s
-
-        if autonomous["can_score_in_vortex"]
-          auto_can_score_in_vortex.text = "Yes"
-          auto_can_score_in_vortex.color= GOOD_COLOR
-          auto_particles_scored_in_vortex.color = GOOD_COLOR
-        else
-          auto_can_score_in_vortex.text = "No"
-          auto_can_score_in_vortex.color= BAD_COLOR
-        end
-        auto_particles_scored_in_vortex.text = autonomous["max_particles_scored_in_vortex"].to_s
-
-        if autonomous["can_score_in_corner"]
-          auto_can_score_in_corner.text = "Yes"
-          auto_can_score_in_corner.color= GOOD_COLOR
-          auto_particles_scored_in_corner.color = GOOD_COLOR
-        else
-          auto_can_score_in_corner.text = "No"
-          auto_can_score_in_corner.color= BAD_COLOR
-        end
-        auto_particles_scored_in_corner.text = autonomous["max_particles_scored_in_corner"].to_s
-
-        if autonomous["capball_on_floor"]
-          auto_capball_on_floor.text = "Yes"
-          auto_capball_on_floor.color= GOOD_COLOR
-        else
-          auto_capball_on_floor.text = "No"
-          auto_capball_on_floor.color= BAD_COLOR
+          auto_can_score_jewel.text = "No"
+          auto_can_score_jewel.color = BAD_COLOR
         end
 
-        if autonomous["park_completely_on_platform"]
-          auto_park_completely_on_platform.text = "Yes"
-          auto_park_completely_on_platform.color= GOOD_COLOR
+        if autonomous["can_score_in_cryptobox"]
+          auto_can_score_in_cryptobox.text = "Yes"
+          auto_can_score_in_cryptobox.color= GOOD_COLOR
+          auto_max_glyphs_scorable.color   = GOOD_COLOR
         else
-          auto_park_completely_on_platform.text = "No"
-          auto_park_completely_on_platform.color= BAD_COLOR
+          auto_can_score_in_cryptobox.text = "No"
+          auto_can_score_in_cryptobox.color= BAD_COLOR
+          auto_max_glyphs_scorable.color   = BAD_COLOR
+        end
+        auto_max_glyphs_scorable.text    = autonomous["max_glyphs_scorable"]
+
+        if autonomous["can_read_cryptobox_key"]
+          auto_can_read_cryptobox_key.text = "Yes"
+          auto_can_read_cryptobox_key.color= GOOD_COLOR
+        else
+          auto_can_read_cryptobox_key.text = "No"
+          auto_can_read_cryptobox_key.color= BAD_COLOR
         end
 
-        if autonomous["park_completely_on_ramp"]
-          auto_park_completely_on_ramp.text = "Yes"
-          auto_park_completely_on_ramp.color= GOOD_COLOR
+        if autonomous["can_park_in_safe_zone"]
+          auto_can_park_in_safe_zone.text = "Yes"
+          auto_can_park_in_safe_zone.color= GOOD_COLOR
         else
-          auto_park_completely_on_ramp.text = "No"
-          auto_park_completely_on_ramp.color= BAD_COLOR
-        end
-
-        if autonomous["park_on_platform"]
-          auto_park_on_platform.text = "Yes"
-          auto_park_on_platform.color= GOOD_COLOR
-        else
-          auto_park_on_platform.text = "No"
-          auto_park_on_platform.color= BAD_COLOR
-        end
-
-        if autonomous["park_on_ramp"]
-          auto_park_on_ramp.text = "Yes"
-          auto_park_on_ramp.color= GOOD_COLOR
-        else
-          auto_park_on_ramp.text = "No"
-          auto_park_on_ramp.color= BAD_COLOR
+          auto_can_park_in_safe_zone.text = "No"
+          auto_can_park_in_safe_zone.color= BAD_COLOR
         end
       end
 
       # TELEOP
       if teleop.count > 1
-        if teleop["can_claim_beacons"]
-          tele_can_claim_beacons.text = "Yes"
-          tele_can_claim_beacons.color = GOOD_COLOR
-          tele_max_beacons_claimable.color = GOOD_COLOR
+        if teleop["can_score_in_cryptobox"]
+          tele_can_score_in_cryptobox.text = "Yes"
+          tele_can_score_in_cryptobox.color= GOOD_COLOR
+          tele_max_glyphs_scorable.color   = GOOD_COLOR
         else
-          tele_can_claim_beacons.text = "No"
-          tele_can_claim_beacons.color = BAD_COLOR
+          tele_can_score_in_cryptobox.text = "No"
+          tele_can_score_in_cryptobox.color= BAD_COLOR
         end
-        tele_max_beacons_claimable.text = teleop["max_beacons_claimable"].to_s
+        tele_max_glyphs_scorable.text = teleop["max_glyphs_scorable"]
 
-        if teleop["can_score_in_vortex"]
-          tele_can_score_in_vortex.text = "Yes"
-          tele_can_score_in_vortex.color = GOOD_COLOR
-          tele_particles_scored_in_vortex.color = GOOD_COLOR
+        if teleop["can_complete_cipher"]
+          tele_can_complete_cipher.text  = "Yes"
+          tele_can_complete_cipher.color = GOOD_COLOR
         else
-          tele_can_score_in_vortex.text = "No"
-          tele_can_score_in_vortex.color = BAD_COLOR
-        end
-        tele_particles_scored_in_vortex.text = teleop["max_particles_scored_in_vortex"].to_s
-
-        if teleop["can_score_in_corner"]
-          tele_can_score_in_corner.text = "Yes"
-          tele_can_score_in_corner.color = GOOD_COLOR
-          tele_particles_scored_in_corner.color = GOOD_COLOR
-        else
-          tele_can_score_in_corner.text = "No"
-          tele_can_score_in_corner.color = BAD_COLOR
-        end
-        tele_particles_scored_in_corner.text = teleop["max_particles_scored_in_corner"].to_s
-
-        if teleop["capball_off_floor"]
-          tele_capball_off_floor.text = "Yes"
-          tele_capball_off_floor.color = GOOD_COLOR
-        else
-          tele_capball_off_floor.text = "No"
-          tele_capball_off_floor.color = BAD_COLOR
+          tele_can_complete_cipher.text  = "No"
+          tele_can_complete_cipher.color = BAD_COLOR
         end
 
-        if teleop["capball_above_crossbar"]
-          tele_capball_above_crossbar.text = "Yes"
-          tele_capball_above_crossbar.color = GOOD_COLOR
+        if teleop["can_score_relic"]
+          tele_can_score_relic.text = "Yes"
+          tele_can_score_relic.color = GOOD_COLOR
+          tele_relic_zone.color      = GOOD_COLOR
+          _list = []
+          if teleop["relic_zone_1"]; _list << "ONE"; end
+          if teleop["relic_zone_2"]; _list << "TWO"; end
+          if teleop["relic_zone_3"]; _list << "THREE"; end
+          tele_relic_zone.text = _list.join(", ")
         else
-          tele_capball_above_crossbar.text = "No"
-          tele_capball_above_crossbar.color = BAD_COLOR
+          tele_can_score_relic.text = "No"
+          tele_can_score_relic.color = BAD_COLOR
         end
 
-        if teleop["capball_capped"]
-          tele_capball_capped.text = "Yes"
-          tele_capball_capped.color = GOOD_COLOR
+        if teleop["relic_upright"]
+          tele_can_place_relic_upright.text = "Yes"
+          tele_can_place_relic_upright.color = GOOD_COLOR
         else
-          tele_capball_capped.text = "No"
-          tele_capball_capped.color = BAD_COLOR
+          tele_can_place_relic_upright.text = "No"
+          tele_can_place_relic_upright.color = BAD_COLOR
+        end
+
+        if teleop["can_balance_on_stone"]
+          tele_can_balance_on_stone.text = "Yes"
+          tele_can_balance_on_stone.color = GOOD_COLOR
+        else
+          tele_can_balance_on_stone.text = "No"
+          tele_can_balance_on_stone.color = BAD_COLOR
         end
       end
     end
