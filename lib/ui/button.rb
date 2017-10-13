@@ -10,8 +10,8 @@ class Button
   attr_accessor :text, :x, :y, :offset_x, :offset_y, :tooltip, :block
 
   def initialize(text, x, y, auto_manage = true, tooltip = "", &block)
-    @text = Text.new(text, false, x: x, y: y, size: BUTTON_TEXT_SIZE, color: BUTTON_TEXT_COLOR)
-    @tooltip=Text.new(tooltip, false, x: x, y: y-(height/4*3), z: 10_000, size: BUTTON_TEXT_SIZE, color: BUTTON_TEXT_COLOR)
+    @text = Text.new(text, false, x: x, y: y, size: BUTTON_TEXT_SIZE, color: BUTTON_TEXT_COLOR, shadow: true)
+    @tooltip=Text.new(tooltip, false, x: x, y: y-(height/4*3), z: 10_000, size: BUTTON_TEXT_SIZE, color: BUTTON_TEXT_COLOR, shadow: false)
     @x = x
     @y = y
     _x_ = @x+(@text.textobject.text_width(@text.text)/2)-(@tooltip.textobject.text_width(@tooltip.text)/2)

@@ -27,21 +27,23 @@ class Window < Gosu::Window
     end
     $window = self
     self.caption = NAME
-    AppSync.teams_list="./data/galaxy_teams_list.txt"
+    list_search_results = []
+    Dir.glob("#{Dir.pwd}/data/*.txt").each {|f| if f.include?("list"); list_search_results << f; end}
+    AppSync.teams_list=list_search_results.first
 
     @elements = []
     @header_color = HOME_HEADER_COLOR
     @mouse = Mouse.new(0, 0)
     @active_container = MainContainer.new
 
-    @title = Text.new(NAME, true, size: 36, y: 20, font: "Sans Serif", alignment: :left)
+    @title = Text.new(NAME, true, size: 36, y: 20, font: "Sans Serif", alignment: :left, shadow: true)
 
     _b = Button.new("Home", 10, 60) { @header_color = HOME_HEADER_COLOR; @active_container = MainContainer.new }
     b  = Button.new("Scouting", BUTTON_PADDING+_b.x+_b.width, 60) { @header_color = SCOUTING_HEADER_COLOR; @active_container = ScoutingContainer.new }
     _b = Button.new("Autonomous", BUTTON_PADDING+b.x+b.width, 60) { @header_color = AUTONOMOUS_HEADER_COLOR; @active_container = AutonomousContainer.new }
     b  = Button.new("TeleOp", BUTTON_PADDING+_b.x+_b.width, 60) { @header_color = TELEOP_HEADER_COLOR; @active_container = TeleOpContainer.new }
 
-    @current_team = Text.new("Team: 0000 | TEAMNAME", true, size: 20, x: BUTTON_PADDING+b.x+b.width, y: 70, color: Gosu::Color::YELLOW)
+    @current_team = Text.new("Team: 0000 | TEAMNAME", true, size: 24, x: BUTTON_PADDING+b.x+b.width, y: 68, color: Gosu::Color.rgb(0,45,15))
 
     b = Button.new("About", 0, 60) { @header_color = ABOUT_HEADER_COLOR; @active_container = AboutContainer.new }
     b.x = $window.width-(b.width+10)
@@ -64,7 +66,7 @@ class Window < Gosu::Window
       @current_team.color= Gosu::Color::WHITE
     else
       @current_team.text = "Team: no team selected."
-      @current_team.color= Gosu::Color::YELLOW
+      @current_team.color= Gosu::Color.rgb(200, 200, 200)
     end
 
     @elements.each(&:update)

@@ -2,12 +2,12 @@ class Text
   SIZE = 20
   FONT = "Consolas"#Gosu.default_font_name
   COLOR= Gosu::Color::WHITE
-  BORDER_COLOR = Gosu::Color.rgba(255,255,255,50)
-  SHADOW = 0.5
+  BORDER_COLOR = Gosu::Color.rgba(255,255,255,75)
+  SHADOW = 1
 
   CACHE = {}
 
-  attr_accessor :text, :x, :y, :z, :size, :factor_x, :factor_y, :color, :options
+  attr_accessor :text, :x, :y, :z, :size, :factor_x, :factor_y, :color, :shadow, :options
   attr_reader :textobject
 
   def initialize(text, auto_manage = true, options={})
@@ -22,6 +22,7 @@ class Text
     @factor_y = options[:factor_y]  || 1
     @color    = options[:color]     || COLOR
     @alignment= options[:alignment] || nil
+    @shadow   = options[:shadow]    || false
     @textobject = check_cache(@size, @font)
 
     Window.instance.elements.push(self) if auto_manage
@@ -73,7 +74,7 @@ class Text
   end
 
   def draw
-    if true
+    if @shadow
       @textobject.draw(@text, @x-SHADOW, @y, @z, @factor_x, @factor_y, BORDER_COLOR)
       @textobject.draw(@text, @x-SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
 
