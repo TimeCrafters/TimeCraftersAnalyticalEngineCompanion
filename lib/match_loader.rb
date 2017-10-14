@@ -119,57 +119,42 @@ class MatchLoader
         end
       elsif event_struct.period == "teleop"
         if event_struct.type == "scored"
-          if event_struct.subtype == "beacon"
-            teleop_period.beacons_claimed+=1
+          if event_struct.subtype == "glyph"
+            teleop_period.glyph_scored+=1
           end
 
-          if event_struct.subtype == "particle"
-            if event_struct.location == "vortex"
-              teleop_period.scored_in_vortex+=1
-            elsif event_struct.location == "corner"
-              teleop_period.scored_in_corner+=1
+          if event_struct.subtype == "relic"
+            if event_struct.location == "upright"
+              teleop_period.relic_upright+=1
+            elsif event_struct.location == "zone_1"
+              teleop_period.relic_zone_1+=1
+            elsif event_struct.location == "zone_2"
+              teleop_period.relic_zone_2+=1
+            elsif event_struct.location == "zone_3"
+              teleop_period.relic_zone_3+=1
             end
           end
 
-          if event_struct.subtype == "capball"
-            if event_struct.location == "off_floor"
-              teleop_period.capball_off_floor+=1
-              teleop_period.is_capball_off_floor = true
-            end
-            if event_struct.location == "above_crossbar"
-              teleop_period.capball_above_crossbar+=1
-              teleop_period.is_capball_above_crossbar = true
-            end
-            if event_struct.location == "capped"
-              teleop_period.capball_capped+=1
-              teleop_period.is_capball_capped = true
-            end
+          if event_struct.subtype == "parking"
+            teleop_period.balanced_on_stone+=1
           end
 
         elsif event_struct.type == "missed"
-          if event_struct.subtype == "beacon"
-            teleop_period.beacons_missed+=1
+          if event_struct.subtype == "glyph"
+            teleop_period.glyph_missed+=1
           end
 
-          if event_struct.subtype == "particle"
-            if event_struct.location == "vortex"
-              teleop_period.missed_vortex+=1
-            elsif event_struct.location == "corner"
-              teleop_period.missed_corner+=1
-            end
+          if event_struct.subtype == "relic_missed"
+            teleop_period.relic_missed+=1
           end
 
-          if event_struct.subtype == "capball"
-            teleop_period.capball_missed+=1
+          if event_struct.subtype == "parking"
+            teleop_period.balancing_missed+=1
           end
 
           if event_struct.subtype == "robot"
             teleop_period.dead_robot+=1
             teleop_period.is_dead_robot = true
-          end
-        elsif event_struct.type == "lost"
-          if event_struct.type == "beacon"
-            teleop_period.beacons_stolen+=1
           end
         end
       end
