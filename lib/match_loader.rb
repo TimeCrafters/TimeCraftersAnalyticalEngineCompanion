@@ -15,7 +15,7 @@ class MatchLoader
                     :glyph_scored, :glyph_missed, :glyph_read_cryptobox_key,
                     :parked_in_safe_zone, :parking_missed,
                     :balanced_on_stone, :balancing_missed,
-                    :relic_upright, :relic_zone_1, :relic_zone_2, :relic_zone_3,
+                    :relic_upright, :relic_zone_1, :relic_zone_2, :relic_zone_3, :relic_missed,
                     :dead_robot,
                     :is_dead_robot) do
     def initialize(*)
@@ -37,6 +37,7 @@ class MatchLoader
       self.relic_zone_1  ||= 0
       self.relic_zone_2  ||= 0
       self.relic_zone_3  ||= 0
+      self.relic_missed  ||= 0
 
       self.dead_robot ||= 0
 
@@ -117,7 +118,7 @@ class MatchLoader
           end
         end
       elsif event_struct.period == "teleop"
-        if event_struct.type == "score"
+        if event_struct.type == "scored"
           if event_struct.subtype == "beacon"
             teleop_period.beacons_claimed+=1
           end
@@ -145,7 +146,7 @@ class MatchLoader
             end
           end
 
-        elsif event_struct.type == "miss"
+        elsif event_struct.type == "missed"
           if event_struct.subtype == "beacon"
             teleop_period.beacons_missed+=1
           end
