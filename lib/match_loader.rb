@@ -11,42 +11,34 @@ class MatchLoader
       self.description ||= ""
     end
   end
-  Match = Struct.new(:beacons_claimed, :beacons_missed, :beacons_stolen,
-                    :scored_in_vortex, :scored_in_corner, :missed_vortex, :missed_corner,
-                    :completely_on_platform, :completely_on_ramp, :on_platform, :on_ramp, :missed_parking,
-                    :capball_on_floor, :capball_missed, :capball_off_floor, :capball_above_crossbar, :capball_capped,
+  Match = Struct.new(:jewel_scored, :jewel_missed,
+                    :glyph_scored, :glyph_missed, :glyph_read_cryptobox_key,
+                    :parked_in_safe_zone, :parking_missed,
+                    :balanced_on_stone, :balancing_missed,
+                    :relic_upright, :relic_zone_1, :relic_zone_2, :relic_zone_3,
                     :dead_robot,
-                    :is_capball_off_floor, :is_capball_on_floor, :is_capball_above_crossbar, :is_capball_capped,
                     :is_dead_robot) do
     def initialize(*)
       super
-      self.beacons_claimed ||= 0
-      self.beacons_missed  ||= 0
-      self.beacons_stolen  ||= 0
+      self.jewel_scored ||= 0
+      self.jewel_missed ||= 0
 
-      self.scored_in_vortex ||= 0
-      self.scored_in_corner ||= 0
-      self.missed_vortex ||= 0
-      self.missed_corner ||= 0
+      self.glyph_scored ||= 0
+      self.glyph_missed ||= 0
+      self.glyph_read_cryptobox_key ||= 0
 
-      self.completely_on_platform ||= 0
-      self.completely_on_ramp     ||= 0
-      self.on_platform            ||= 0
-      self.on_ramp                ||= 0
-      self.missed_parking         ||= 0
+      self.parked_in_safe_zone ||= 0
+      self.parking_missed      ||= 0
 
-      self.capball_on_floor       ||= 0
-      self.capball_missed         ||= 0
-      self.capball_off_floor      ||= 0
-      self.capball_above_crossbar ||= 0
-      self.capball_capped         ||= 0
+      self.balanced_on_stone ||= 0
+      self.balancing_missed  ||= 0
+
+      self.relic_upright ||= 0
+      self.relic_zone_1  ||= 0
+      self.relic_zone_2  ||= 0
+      self.relic_zone_3  ||= 0
 
       self.dead_robot ||= 0
-
-      self.is_capball_on_floor       ||= false
-      self.is_capball_off_floor      ||= false
-      self.is_capball_above_crossbar ||= false
-      self.is_capball_capped         ||= false
 
       self.is_dead_robot ||= false
     end
@@ -80,65 +72,43 @@ class MatchLoader
 
     events.each do |event|
 
-      event_struct.team = event["team"]
-      event_struct.period = event["period"]
-      event_struct.type = event["type"]
-      event_struct.subtype = event["subtype"]
-      event_struct.location = event["location"]
-      event_struct.points = event["points"]
+      event_struct.team        = event["team"]
+      event_struct.period      = event["period"]
+      event_struct.type        = event["type"]
+      event_struct.subtype     = event["subtype"]
+      event_struct.location    = event["location"]
+      event_struct.points      = event["points"]
       event_struct.description = event["description"]
 
       if event_struct.period == "autonomous"
-        if event_struct.type == "score"
-          if event_struct.subtype == "beacon"
-            autonomous_period.beacons_claimed+=1
+        if event_struct.type == "scored"
+          if event_struct.subtype == "jewel"
+            autonomous_period.jewel_scored+=1
           end
 
-          if event_struct.subtype == "particle"
-            if event_struct.location == "vortex"
-              autonomous_period.scored_in_vortex+=1
-            elsif event_struct.location == "corner"
-              autonomous_period.scored_in_corner+=1
+          if event_struct.subtype == "glyph"
+            if event_struct.location == "glyph"
+              autonomous_period.glyph_scored+=1
+            elsif event_struct.location == "cryptokey"
+              autonomous_period.glyph_read_cryptobox_key+=1
             end
           end
 
           if event_struct.subtype == "parking"
-            if event_struct.location == "on_platform"
-              autonomous_period.completely_on_platform+=1
-            elsif event_struct.location == "on_ramp"
-              autonomous_period.completely_on_ramp+=1
-            elsif event_struct.location == "platform"
-              autonomous_period.on_platform+=1
-            elsif event_struct.location == "ramp"
-              autonomous_period.on_ramp+=1
-            end
+            autonomous_period.parked_in_safe_zone+=1
           end
 
-          if event_struct.subtype == "capball"
-            if event_struct.location == "floor"
-              autonomous_period.capball_on_floor+=1
-            end
+        elsif event_struct.type == "missed"
+          if event_struct.subtype == "jewel"
+            autonomous_period.jewel_missed+=1
           end
 
-        elsif event_struct.type == "miss"
-          if event_struct.subtype == "beacon"
-            autonomous_period.beacons_missed+=1
-          end
-
-          if event_struct.subtype == "particle"
-            if event_struct.location == "vortex"
-              autonomous_period.missed_vortex+=1
-            elsif event_struct.location == "corner"
-              autonomous_period.missed_corner+=1
-            end
+          if event_struct.subtype == "glyph"
+            autonomous_period.glyph_missed+=1
           end
 
           if event_struct.subtype == "parking"
-            autonomous_period.missed_parking+=1
-          end
-
-          if event_struct.subtype == "capball"
-            autonomous_period.capball_missed+=1
+            autonomous_period.parking_missed+=1
           end
 
           if event_struct.subtype == "robot"
