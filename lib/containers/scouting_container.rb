@@ -14,7 +14,7 @@ class ScoutingContainer < Container
       auto_can_score_jewel = text "N/A", 650, layout_y
       text "Can Score Cryptobox", 250, layout_y(true)
       auto_can_score_in_cryptobox = text "N/A", 650, layout_y
-      text "Can Read Cryptobox key", 250, layout_y(true)
+      text "Can Read Cryptobox Key", 250, layout_y(true)
       auto_can_read_cryptobox_key = text "N/A", 650, layout_y
       text "Max Glyphs Scorable", 250, layout_y(true)
       auto_max_glyphs_scorable = text "N/A", 650, layout_y

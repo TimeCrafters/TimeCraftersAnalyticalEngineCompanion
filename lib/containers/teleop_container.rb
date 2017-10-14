@@ -12,7 +12,7 @@ class TeleOpContainer < Container
       glyph_scored = text "N/A", 650, layout_y
       text "Glyph Missed", 250, layout_y(true)
       glyph_missed = text "N/A", 650, layout_y
-      text "glyph Success Percentage", 250, layout_y(true)
+      text "Glyph Success Percentage", 250, layout_y(true)
       glyph_success_percentage = text "N/A", 650, layout_y
       layout_y
 

@@ -21,7 +21,7 @@ class AutonomousContainer < Container
       glyph_scored = text "N/A", 650, layout_y
       text "Glyph Missed", 250, layout_y(true)
       glyph_missed = text "N/A", 650, layout_y
-      text "Glyph Read Cryptobox key", 250, layout_y(true)
+      text "Glyph Read Cryptobox Key", 250, layout_y(true)
       glyph_read_cryptobox_key = text "N/A", 650, layout_y
       text "Glyph Success Percentage", 250, layout_y(true)
       glyph_success_percentage = text "N/A", 650, layout_y
