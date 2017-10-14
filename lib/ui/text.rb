@@ -22,7 +22,9 @@ class Text
     @factor_y = options[:factor_y]  || 1
     @color    = options[:color]     || COLOR
     @alignment= options[:alignment] || nil
-    @shadow   = options[:shadow]    || false
+    @shadow   = true  if options[:shadow] == true
+    @shadow   = false if options[:shadow] == false
+    @shadow   = true if options[:shadow] == nil
     @textobject = check_cache(@size, @font)
 
     Window.instance.elements.push(self) if auto_manage
@@ -75,17 +77,18 @@ class Text
 
   def draw
     if @shadow
-      @textobject.draw(@text, @x-SHADOW, @y, @z, @factor_x, @factor_y, BORDER_COLOR)
-      @textobject.draw(@text, @x-SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
+      _color = Gosu::Color.rgba(@color.red, @color.green, @color.blue, 75)
+      @textobject.draw(@text, @x-SHADOW, @y, @z, @factor_x, @factor_y, _color)
+      @textobject.draw(@text, @x-SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, _color)
 
-      @textobject.draw(@text, @x, @y-SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
-      @textobject.draw(@text, @x+SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
+      @textobject.draw(@text, @x, @y-SHADOW, @z, @factor_x, @factor_y, _color)
+      @textobject.draw(@text, @x+SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, _color)
 
-      @textobject.draw(@text, @x, @y+SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
-      @textobject.draw(@text, @x-SHADOW, @y+SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
+      @textobject.draw(@text, @x, @y+SHADOW, @z, @factor_x, @factor_y, _color)
+      @textobject.draw(@text, @x-SHADOW, @y+SHADOW, @z, @factor_x, @factor_y, _color)
 
-      @textobject.draw(@text, @x+SHADOW, @y, @z, @factor_x, @factor_y, BORDER_COLOR)
-      @textobject.draw(@text, @x+SHADOW, @y+SHADOW, @z, @factor_x, @factor_y, BORDER_COLOR)
+      @textobject.draw(@text, @x+SHADOW, @y, @z, @factor_x, @factor_y, _color)
+      @textobject.draw(@text, @x+SHADOW, @y+SHADOW, @z, @factor_x, @factor_y, _color)
     end
 
     @textobject.draw(@text, @x, @y, @z, @factor_x, @factor_y, @color)

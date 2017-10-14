@@ -1,5 +1,5 @@
 class Container
-  GOOD_COLOR = Gosu::Color.rgb(0, 100, 0)
+  GOOD_COLOR = Gosu::Color.rgb(0, 50, 0)
   BAD_COLOR  = Gosu::Color.rgb(100, 0, 0)
 
   attr_accessor :text_color

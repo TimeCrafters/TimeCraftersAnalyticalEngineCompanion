@@ -3,7 +3,7 @@ SCOUTING_HEADER_COLOR   = Gosu::Color.rgb(40, 40, 40)
 AUTONOMOUS_HEADER_COLOR = Gosu::Color.rgb(100, 0, 0)
 TELEOP_HEADER_COLOR     = Gosu::Color.rgb(0, 0, 70)
 ABOUT_HEADER_COLOR      = Gosu::Color.rgb(200, 80, 0)
-BODY_COLOR   = Gosu::Color.rgb(96, 96, 96)#Gosu::Color.rgb(12,12,12)
+BODY_COLOR   = Gosu::Color.rgb(128, 128, 128)#Gosu::Color.rgb(12,12,12)
 
 class Window < Gosu::Window
   NAME = "TimeCrafters Analytical Engine"
