@@ -6,40 +6,42 @@ class TeleOpContainer < Container
     text "TeleOp", 0, 10, 32, TELEOP_HEADER_COLOR, :center
 
     if AppSync.team_has_match_data?
+      main_x = ($window.width/4)*1#250
+      data_x = ($window.width/4)*2.7#650
+
       set_layout_y(100, 22)
-
-      text "Glyph Scored", 250, layout_y(true)
-      glyph_scored = text "N/A", 650, layout_y
-      text "Glyph Missed", 250, layout_y(true)
-      glyph_missed = text "N/A", 650, layout_y
-      text "Glyph Success Percentage", 250, layout_y(true)
-      glyph_success_percentage = text "N/A", 650, layout_y
+      text "Glyph Scored", main_x, layout_y(true)
+      glyph_scored = text "N/A", data_x, layout_y
+      text "Glyph Missed", main_x, layout_y(true)
+      glyph_missed = text "N/A", data_x, layout_y
+      text "Glyph Success Percentage", main_x, layout_y(true)
+      glyph_success_percentage = text "N/A", data_x, layout_y
       layout_y
 
-      text "Relic Zone 1", 250, layout_y(true)
-      relic_zone_1 = text "N/A", 650, layout_y
-      text "Relic Zone 2", 250, layout_y(true)
-      relic_zone_2 = text "N/A", 650, layout_y
-      text "Relic Zone 3", 250, layout_y(true)
-      relic_zone_3 = text "N/A", 650, layout_y
-      text "Relic Upright", 250, layout_y(true)
-      relic_upright = text "N/A", 650, layout_y
-      text "Relic Missed", 250, layout_y(true)
-      relic_missed = text "N/A", 650, layout_y
-      text "Relic Success Percentage", 250, layout_y(true)
-      relic_success_percentage = text "N/A", 650, layout_y
+      text "Relic Zone 1", main_x, layout_y(true)
+      relic_zone_1 = text "N/A", data_x, layout_y
+      text "Relic Zone 2", main_x, layout_y(true)
+      relic_zone_2 = text "N/A", data_x, layout_y
+      text "Relic Zone 3", main_x, layout_y(true)
+      relic_zone_3 = text "N/A", data_x, layout_y
+      text "Relic Upright", main_x, layout_y(true)
+      relic_upright = text "N/A", data_x, layout_y
+      text "Relic Missed", main_x, layout_y(true)
+      relic_missed = text "N/A", data_x, layout_y
+      text "Relic Success Percentage", main_x, layout_y(true)
+      relic_success_percentage = text "N/A", data_x, layout_y
       layout_y
 
-      text "Balanced on Stone", 250, layout_y(true)
-      balanced_on_stone = text "N/A", 650, layout_y
-      text "Missed Balancing on Stone", 250, layout_y(true)
-      balancing_missed = text "N/A", 650, layout_y
-      text "Parking Success Percentage", 250, layout_y(true)
-      parking_success_percentage = text "N/A", 650, layout_y
+      text "Balanced on Stone", main_x, layout_y(true)
+      balanced_on_stone = text "N/A", data_x, layout_y
+      text "Missed Balancing on Stone", main_x, layout_y(true)
+      balancing_missed = text "N/A", data_x, layout_y
+      text "Parking Success Percentage", main_x, layout_y(true)
+      parking_success_percentage = text "N/A", data_x, layout_y
       layout_y
 
-      text "Dead Robot", 250, layout_y(true)
-      dead_robot = text "N/A", 650, layout_y
+      text "Dead Robot", main_x, layout_y(true)
+      dead_robot = text "N/A", data_x, layout_y
 
       @matches = AppSync.team_match_data
 

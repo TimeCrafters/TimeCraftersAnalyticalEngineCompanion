@@ -65,7 +65,11 @@ class AppSync
   end
 
   def self.teams_list
-    @teams_list
+    if @teams_list
+      return @teams_list
+    else
+      return []
+    end
   end
 
   def self.active_team(team_number)

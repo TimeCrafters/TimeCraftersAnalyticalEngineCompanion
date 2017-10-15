@@ -6,7 +6,7 @@ ABOUT_HEADER_COLOR      = Gosu::Color.rgb(200, 80, 0)
 BODY_COLOR   = Gosu::Color.rgb(128, 128, 128)#Gosu::Color.rgb(12,12,12)
 
 class Window < Gosu::Window
-  NAME = "TimeCrafters Analytical Engine"
+  NAME = "TimeCrafters Analytical Engine Companion"
   attr_accessor :active_container
   attr_reader :elements, :mouse
 
@@ -29,14 +29,14 @@ class Window < Gosu::Window
     self.caption = NAME
     list_search_results = []
     Dir.glob("#{Dir.pwd}/data/*.txt").each {|f| if f.include?("list"); list_search_results << f; end}
-    AppSync.teams_list=list_search_results.first
+    AppSync.teams_list=list_search_results.first if list_search_results.first
 
     @elements = []
     @header_color = HOME_HEADER_COLOR
     @mouse = Mouse.new(0, 0)
     @active_container = MainContainer.new
 
-    @title = Text.new(NAME, true, size: 36, y: 20, font: "Sans Serif", alignment: :left, shadow: true)
+    @title = Text.new(NAME, true, size: 36, x: BUTTON_PADDING, y: 20, font: "Sans Serif", shadow: true)
 
     _b = Button.new("Home", 10, 60, true, "Home is where team selection happens") { @header_color = HOME_HEADER_COLOR; @active_container = MainContainer.new }
     b  = Button.new("Scouting", BUTTON_PADDING+_b.x+_b.width, 60, true, "Scouting data for selected team") { @header_color = SCOUTING_HEADER_COLOR; @active_container = ScoutingContainer.new }

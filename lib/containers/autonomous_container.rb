@@ -7,36 +7,38 @@ class AutonomousContainer < Container
     @matches = AppSync.team_match_data
 
     if AppSync.team_has_match_data?
+      main_x = ($window.width/4)*1#250
+      data_x = ($window.width/4)*2.7#650
+
       set_layout_y(100, 22)
-
-      text "Jewel Scored", 250, layout_y(true)
-      jewel_scored = text "N/A", 650, layout_y
-      text "Jewel Missed", 250, layout_y(true)
-      jewel_missed = text "N/A", 650, layout_y
-      text "Jewel Success Percentage", 250, layout_y(true)
-      jewel_success_percentage = text "N/A", 650, layout_y
+      text "Jewel Scored", main_x, layout_y(true)
+      jewel_scored = text "N/A", data_x, layout_y
+      text "Jewel Missed", main_x, layout_y(true)
+      jewel_missed = text "N/A", data_x, layout_y
+      text "Jewel Success Percentage", main_x, layout_y(true)
+      jewel_success_percentage = text "N/A", data_x, layout_y
       layout_y
 
-      text "Glyph Scored", 250, layout_y(true)
-      glyph_scored = text "N/A", 650, layout_y
-      text "Glyph Missed", 250, layout_y(true)
-      glyph_missed = text "N/A", 650, layout_y
-      text "Glyph Read Cryptobox Key", 250, layout_y(true)
-      glyph_read_cryptobox_key = text "N/A", 650, layout_y
-      text "Glyph Success Percentage", 250, layout_y(true)
-      glyph_success_percentage = text "N/A", 650, layout_y
+      text "Glyph Scored", main_x, layout_y(true)
+      glyph_scored = text "N/A", data_x, layout_y
+      text "Glyph Missed", main_x, layout_y(true)
+      glyph_missed = text "N/A", data_x, layout_y
+      text "Glyph Read Cryptobox Key", main_x, layout_y(true)
+      glyph_read_cryptobox_key = text "N/A", data_x, layout_y
+      text "Glyph Success Percentage", main_x, layout_y(true)
+      glyph_success_percentage = text "N/A", data_x, layout_y
       layout_y
 
-      text "Parked in Safe Zone", 250, layout_y(true)
-      parked_in_safe_zone = text "N/A", 650, layout_y
-      text "Missed Parking in Safe Zone", 250, layout_y(true)
-      parking_missed = text "N/A", 650, layout_y
-      text "Parking Success Percentage", 250, layout_y(true)
-      parking_success_percentage = text "N/A", 650, layout_y
+      text "Parked in Safe Zone", main_x, layout_y(true)
+      parked_in_safe_zone = text "N/A", data_x, layout_y
+      text "Missed Parking in Safe Zone", main_x, layout_y(true)
+      parking_missed = text "N/A", data_x, layout_y
+      text "Parking Success Percentage", main_x, layout_y(true)
+      parking_success_percentage = text "N/A", data_x, layout_y
       layout_y
 
-      text "Dead Robot", 250, layout_y(true)
-      dead_robot = text "N/A", 650, layout_y
+      text "Dead Robot", main_x, layout_y(true)
+      dead_robot = text "N/A", data_x, layout_y
       _x = 10
       _y = 50
       tally_match = MatchLoader::Match.new

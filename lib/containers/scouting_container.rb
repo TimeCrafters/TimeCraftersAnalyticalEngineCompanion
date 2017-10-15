@@ -9,34 +9,37 @@ class ScoutingContainer < Container
 
     if AppSync.team_has_scouting_data? && (autonomous.count > 2 || teleop.count > 0)
       text "Autonomous", 0, 10, 32, AUTONOMOUS_HEADER_COLOR, :center
-      set_layout_y(50, 22)
-      text "Can Score Jewel", 250, layout_y(true)
-      auto_can_score_jewel = text "N/A", 650, layout_y
-      text "Can Score Cryptobox", 250, layout_y(true)
-      auto_can_score_in_cryptobox = text "N/A", 650, layout_y
-      text "Can Read Cryptobox Key", 250, layout_y(true)
-      auto_can_read_cryptobox_key = text "N/A", 650, layout_y
-      text "Max Glyphs Scorable", 250, layout_y(true)
-      auto_max_glyphs_scorable = text "N/A", 650, layout_y
-      text "Can Park in Safe Zone", 250, layout_y(true)
-      auto_can_park_in_safe_zone = text "N/A", 650, layout_y
+      main_x = ($window.width/4)*1#250
+      data_x = ($window.width/4)*2.7#650
 
-      text "TeleOp", 0, 300, 32, TELEOP_HEADER_COLOR, :center
-      set_layout_y(340, 22)
-      text "Can Score in Cryptobox", 250, layout_y(true)
-      tele_can_score_in_cryptobox = text "N/A", 650, layout_y
-      text "Max Glyphs Scorable", 250, layout_y(true)
-      tele_max_glyphs_scorable = text "N/A", 650, layout_y
-      text "Can Complete Cipher", 250, layout_y(true)
-      tele_can_complete_cipher = text "N/A", 650, layout_y
-      text "Can Score Relic", 250, layout_y(true)
-      tele_can_score_relic = text "N/A", 650, layout_y
-      text "Relic Zone(s)", 250, layout_y(true)
-      tele_relic_zone = text "N/A", 650, layout_y
-      text "Can Place Relic Upright", 250, layout_y(true)
-      tele_can_place_relic_upright = text "N/A", 650, layout_y
-      text "Can Balance on Stone", 250, layout_y(true)
-      tele_can_balance_on_stone = text "N/A", 650, layout_y
+      set_layout_y(50, 22)
+      text "Can Score Jewel", main_x, layout_y(true)
+      auto_can_score_jewel = text "N/A", data_x, layout_y
+      text "Can Score in Cryptobox", main_x, layout_y(true)
+      auto_can_score_in_cryptobox = text "N/A", data_x, layout_y
+      text "Can Read Cryptobox Key", main_x, layout_y(true)
+      auto_can_read_cryptobox_key = text "N/A", data_x, layout_y
+      text "Max Glyphs Scorable", main_x, layout_y(true)
+      auto_max_glyphs_scorable = text "N/A", data_x, layout_y
+      text "Can Park in Safe Zone", main_x, layout_y(true)
+      auto_can_park_in_safe_zone = text "N/A", data_x, layout_y
+
+      text "TeleOp", 0, 200, 32, TELEOP_HEADER_COLOR, :center
+      set_layout_y(240, 22)
+      text "Can Score in Cryptobox", main_x, layout_y(true)
+      tele_can_score_in_cryptobox = text "N/A", data_x, layout_y
+      text "Max Glyphs Scorable", main_x, layout_y(true)
+      tele_max_glyphs_scorable = text "N/A", data_x, layout_y
+      text "Can Complete Cipher", main_x, layout_y(true)
+      tele_can_complete_cipher = text "N/A", data_x, layout_y
+      text "Can Score Relic", main_x, layout_y(true)
+      tele_can_score_relic = text "N/A", data_x, layout_y
+      text "Relic Zone(s)", main_x, layout_y(true)
+      tele_relic_zone = text "N/A", data_x, layout_y
+      text "Can Place Relic Upright", main_x, layout_y(true)
+      tele_can_place_relic_upright = text "N/A", data_x, layout_y
+      text "Can Balance on Stone", main_x, layout_y(true)
+      tele_can_balance_on_stone = text "N/A", data_x, layout_y
     else
       if !AppSync.team_has_scouting_data?
         text "Scouting", 0, 10, 32, Gosu::Color::BLACK, :center
