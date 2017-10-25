@@ -3,7 +3,7 @@ SCOUTING_HEADER_COLOR   = Gosu::Color.rgb(40, 40, 40)
 AUTONOMOUS_HEADER_COLOR = Gosu::Color.rgb(100, 0, 0)
 TELEOP_HEADER_COLOR     = Gosu::Color.rgb(0, 0, 70)
 ABOUT_HEADER_COLOR      = Gosu::Color.rgb(200, 80, 0)
-BODY_COLOR   = Gosu::Color.rgb(128, 128, 128)#Gosu::Color.rgb(12,12,12)
+BODY_COLOR   = Gosu::Color.rgb(175, 175, 175)#Gosu::Color.rgb(12,12,12)
 
 class Window < Gosu::Window
   NAME = "TimeCrafters Analytical Engine Companion"
@@ -45,7 +45,7 @@ class Window < Gosu::Window
 
     @current_team = Text.new("Team: 0000 | TEAMNAME", true, size: 24, x: BUTTON_PADDING+b.x+b.width, y: 68, color: Gosu::Color.rgb(0,45,15))
 
-    b = Button.new("About", 0, 60, true, "About the TimeCrafters Analytical Engine Companion") { @header_color = ABOUT_HEADER_COLOR; @active_container = AboutContainer.new }
+    b = Button.new("About", 0, 60, true, "About the #{NAME}") { @header_color = ABOUT_HEADER_COLOR; @active_container = AboutContainer.new }
     b.x = $window.width-(b.width+10)
     b.update_position_toolip
   end
