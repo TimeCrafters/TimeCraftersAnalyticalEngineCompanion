@@ -16,12 +16,14 @@ require_relative "lib/scouting"
 
 require_relative "lib/ui/text"
 require_relative "lib/ui/button"
+require_relative "lib/ui/input"
 require_relative "lib/ui/container"
 
 require_relative "lib/containers/main_container"
 require_relative "lib/containers/scouting_container"
 require_relative "lib/containers/autonomous_container"
 require_relative "lib/containers/teleop_container"
+require_relative "lib/containers/scout_team_container"
 require_relative "lib/containers/about_container"
 
 require_relative "lib/ui/window"

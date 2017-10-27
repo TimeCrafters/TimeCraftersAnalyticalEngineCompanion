@@ -84,6 +84,18 @@ class Container
     return _button
   end
 
+  def input(text, x, y, width = Input::WIDTH, size = Text::SIZE, color = Gosu::Color::BLACK, tooltip = "")
+    relative_x = @x+x
+    relative_y = @y+y
+    _input     = Input.new(text, relative_x, relative_y, width, size, color)
+    @elements.push(_input)
+    if _input.y-(_input.height*2) > @internal_height
+      @internal_height+=_input.height
+    end
+
+    return _input
+  end
+
   def fill_rect(x, y, width, height, color = BODY_COLOR, z = 0)
     $window.fill_rect(x, y, width, height, color)
   end

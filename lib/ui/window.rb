@@ -43,6 +43,11 @@ class Window < Gosu::Window
     _b = Button.new("Autonomous", BUTTON_PADDING+b.x+b.width, 60, true, "Autonomous match data for selected team") { @header_color = AUTONOMOUS_HEADER_COLOR; @active_container = AutonomousContainer.new }
     b  = Button.new("TeleOp", BUTTON_PADDING+_b.x+_b.width, 60, true, "TeleOp match data for selected team") { @header_color = TELEOP_HEADER_COLOR; @active_container = TeleOpContainer.new }
 
+    if ARGV.join.include?("--debug")
+      _b = Button.new("Scout", BUTTON_PADDING+b.x+b.width+50, 60, true, "Scout a team") { @header_color = TELEOP_HEADER_COLOR; @active_container = ScoutTeamContainer.new }
+      b  = Button.new("Track", BUTTON_PADDING+_b.x+_b.width, 60, true, "Track a match") {}
+    end
+
     @current_team = Text.new("Team: 0000 | TEAMNAME", true, size: 24, x: BUTTON_PADDING+b.x+b.width, y: 68, color: Gosu::Color.rgb(0,45,15))
 
     b = Button.new("About", 0, 60, true, "About the #{NAME}") { @header_color = ABOUT_HEADER_COLOR; @active_container = AboutContainer.new }
@@ -81,6 +86,24 @@ class Window < Gosu::Window
     if @active_container.is_a?(Container)
       @active_container.button_up(id)
     end
+
+    if id == Gosu::KbF11
+      if fullscreen?
+        if Gosu.screen_width < 1300
+          resize(1280, 720, false)
+        else
+          resize((Gosu.screen_width/4)*3, (Gosu.screen_height/4)*3, false)
+        end
+      else
+        resize(Gosu.screen_width, Gosu.screen_height, true)
+      end
+    end
+  end
+
+  def resize(width, height, fullscreen)
+    self.width = width
+    self.height= height
+    self.fullscreen = fullscreen
   end
 
   def needs_cursor?
