@@ -1,7 +1,7 @@
 class Input
   WIDTH = 200
-  FOCUS_BACKGROUND_COLOR = Gosu::Color::RED
-  NO_FOCUS_BACKGROUND_COLOR = Gosu::Color::GRAY
+  FOCUS_BACKGROUND_COLOR = Gosu::Color.rgb(150,150,144)
+  NO_FOCUS_BACKGROUND_COLOR = Gosu::Color.rgb(130,130,130)
 
   attr_accessor :text, :x, :y, :width, :size, :color, :type, :focus
   attr_reader :text_object, :text_input, :height, :fixed_x
@@ -29,7 +29,7 @@ class Input
     @carot_ticks = 0
     @carot_width = 2.5
     @carot_height= @text_object.height
-    @carot_color = Gosu::Color::GREEN
+    @carot_color = Gosu::Color.rgb(50,50,25)
     @carot_show_ticks = 25
     @show_carot  = true
 
@@ -42,7 +42,7 @@ class Input
   end
 
   def draw
-    $window.fill_rect(x-BUTTON_PADDING, y-BUTTON_PADDING, width+BUTTON_PADDING, @text_object.height+BUTTON_PADDING, @background_color)
+    $window.fill_rect(x-BUTTON_PADDING, y-BUTTON_PADDING, width+(BUTTON_PADDING*2), @text_object.height+(BUTTON_PADDING*2), @background_color)
     Gosu.clip_to(x, y, width, @text_object.height) do
       @text_object.draw
 
