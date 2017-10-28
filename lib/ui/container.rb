@@ -96,6 +96,18 @@ class Container
     return _input
   end
 
+  def check_box(x, y, checked = false, size = CheckBox::SIZE)
+    relative_x = @x+x
+    relative_y = @y+y
+    _check_box = CheckBox.new(relative_x, relative_y, checked, size)
+    @elements.push(_check_box)
+    if _check_box.y-(_check_box.height*2) > @internal_height
+      @internal_height+=_check_box.height
+    end
+
+    return _check_box
+  end
+
   def fill_rect(x, y, width, height, color = BODY_COLOR, z = 0)
     $window.fill_rect(x, y, width, height, color)
   end

@@ -17,6 +17,7 @@ require_relative "lib/scouting"
 require_relative "lib/ui/text"
 require_relative "lib/ui/button"
 require_relative "lib/ui/input"
+require_relative "lib/ui/check_box"
 require_relative "lib/ui/container"
 
 require_relative "lib/containers/main_container"
