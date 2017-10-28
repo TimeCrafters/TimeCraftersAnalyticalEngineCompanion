@@ -42,6 +42,7 @@ class Input
   end
 
   def draw
+    $window.fill_rect((x-1)-BUTTON_PADDING, (y-1)-BUTTON_PADDING, width+(BUTTON_PADDING*2)+2, @text_object.height+(BUTTON_PADDING*2)+2, Gosu::Color::BLACK)
     $window.fill_rect(x-BUTTON_PADDING, y-BUTTON_PADDING, width+(BUTTON_PADDING*2), @text_object.height+(BUTTON_PADDING*2), @background_color)
     Gosu.clip_to(x, y, width, @text_object.height) do
       @text_object.draw

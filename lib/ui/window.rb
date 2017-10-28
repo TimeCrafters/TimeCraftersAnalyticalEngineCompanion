@@ -44,7 +44,7 @@ class Window < Gosu::Window
     b  = Button.new("TeleOp", BUTTON_PADDING+_b.x+_b.width, 60, true, "TeleOp match data for selected team") { @header_color = TELEOP_HEADER_COLOR; @active_container = TeleOpContainer.new }
 
     if ARGV.join.include?("--debug")
-      _b = Button.new("Scout", BUTTON_PADDING+b.x+b.width+50, 60, true, "Scout a team") { @header_color = TELEOP_HEADER_COLOR; @active_container = ScoutTeamContainer.new }
+      _b = Button.new("Scout", BUTTON_PADDING+b.x+b.width+50, 60, true, "Scout a team") { @header_color = SCOUTING_HEADER_COLOR; @active_container = ScoutTeamContainer.new }
       b  = Button.new("Track", BUTTON_PADDING+_b.x+_b.width, 60, true, "Track a match") {}
     end
 
