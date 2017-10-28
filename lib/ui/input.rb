@@ -42,18 +42,20 @@ class Input
   end
 
   def draw
-    $window.fill_rect((x-1)-BUTTON_PADDING, (y-1)-BUTTON_PADDING, width+(BUTTON_PADDING*2)+2, @text_object.height+(BUTTON_PADDING*2)+2, Gosu::Color::BLACK)
-    $window.fill_rect(x-BUTTON_PADDING, y-BUTTON_PADDING, width+(BUTTON_PADDING*2), @text_object.height+(BUTTON_PADDING*2), @background_color)
-    Gosu.clip_to(x, y, width, @text_object.height) do
+    $window.fill_rect(x, y, width, height, Gosu::Color::BLACK)
+    $window.fill_rect(x+1, y+1, width-2, height-2, @background_color)
+    Gosu.clip_to(x, @text_object.y, width, @text_object.height) do
       @text_object.draw
 
       # Carot (Cursor)
-      $window.fill_rect((@x+@text_object.width)-@x_offset, @y, @carot_width, @carot_height, @carot_color) if @show_carot && @focus
+      $window.fill_rect((@x+@text_object.width)-@x_offset, @text_object.y, @carot_width, @carot_height, @carot_color) if @show_carot && @focus
     end
 
   end
 
   def update
+    @text_object.y = @y+BUTTON_PADDING
+
     if (@text_object.width+@carot_width)-@width >= 0
       @x_offset = (@text_object.width+@carot_width)-@width
     else
@@ -100,5 +102,14 @@ class Input
         true
       end
     end
+  end
+
+  def width(text_object = @text_object)
+    # text_object.textobject.text_width(text_object.text)+BUTTON_PADDING*2
+    @width
+  end
+
+  def height(text_object = @text_object)
+    text_object.textobject.height+BUTTON_PADDING*2
   end
 end
