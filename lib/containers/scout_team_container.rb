@@ -19,7 +19,7 @@ class ScoutTeamContainer < Container
     check_box(relative_x(widest.x)+widest.width+BUTTON_PADDING, relative_y(_j.y)-BUTTON_PADDING)
     check_box(relative_x(widest.x)+widest.width+BUTTON_PADDING, relative_y(_g.y)-BUTTON_PADDING)
     check_box(relative_x(widest.x)+widest.width+BUTTON_PADDING, relative_y(_c.y)-BUTTON_PADDING)
-    input("0", relative_x(widest.x)+widest.width+BUTTON_PADDING, relative_y(_s.y)-BUTTON_PADDING, 50, 22)
+    input("0", relative_x(widest.x)+widest.width+BUTTON_PADDING, relative_y(_s.y)-BUTTON_PADDING, 25+BUTTON_PADDING, 22)
     check_box(relative_x(widest.x)+widest.width+BUTTON_PADDING, relative_y(_p.y)-BUTTON_PADDING)
 
 
@@ -37,9 +37,10 @@ class ScoutTeamContainer < Container
     texts.each {|t| if t.width+t.x > widest.width+widest.x; widest = t; end}
 
     check_box(relative_x(widest.x)-(widest.width+BUTTON_PADDING), relative_y(_g.y)-BUTTON_PADDING)
-    input("0", relative_x(widest.x)-(widest.width+BUTTON_PADDING), relative_y(_s.y)-BUTTON_PADDING, 50, 22)
+    input("0", relative_x(widest.x)-(widest.width+BUTTON_PADDING), relative_y(_s.y)-BUTTON_PADDING, 25+BUTTON_PADDING, 22)
     check_box(relative_x(widest.x)-(widest.width+BUTTON_PADDING), relative_y(_c.y)-BUTTON_PADDING)
     check_box(relative_x(widest.x)-(widest.width+BUTTON_PADDING), relative_y(_r.y)-BUTTON_PADDING)
+    check_box(relative_x(widest.x)-(widest.width+BUTTON_PADDING), relative_y(_u.y)-BUTTON_PADDING)
     check_box(relative_x(widest.x)-(widest.width+BUTTON_PADDING), relative_y(_b.y)-BUTTON_PADDING)
   end
 end

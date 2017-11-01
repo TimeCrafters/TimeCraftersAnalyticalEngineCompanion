@@ -25,12 +25,12 @@ class CheckBox
   def draw
     $window.fill_rect(@x, @y, width, height, Gosu::Color::BLACK)
     if mouse_over?
-      $window.fill_rect(@x+1, @y+1, width-2, height-2, Button::BUTTON_HOVER_COLOR)
+      $window.fill_rect(@x+1, @y+1, width-2, height-2, BUTTON_HOVER_COLOR)
     else
       if @checked
-        $window.fill_rect(@x+1, @y+1, width-2, height-2, Button::BUTTON_ACTIVE_COLOR)
+        $window.fill_rect(@x+1, @y+1, width-2, height-2, BUTTON_ACTIVE_COLOR)
       else
-        $window.fill_rect(@x+1, @y+1, width-2, height-2, Button::BUTTON_COLOR)
+        $window.fill_rect(@x+1, @y+1, width-2, height-2, BUTTON_COLOR)
       end
     end
     if @checked
