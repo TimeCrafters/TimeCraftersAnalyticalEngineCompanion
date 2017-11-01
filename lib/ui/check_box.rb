@@ -1,5 +1,5 @@
 class CheckBox
-  SIZE = 25
+  SIZE = 22
 
   attr_accessor :x, :y, :checked
   attr_reader :text
@@ -8,7 +8,7 @@ class CheckBox
     @x, @y = x, y
     @checked = checked
     @size = size
-    @text = Text.new("✔", false, x: x, y: y, size: size, color: Gosu::Color::BLACK, shadow: true)
+    @text = Text.new("✔", false, x: x, y: y, size: size, color: Button::BUTTON_TEXT_COLOR, shadow: true)
     return self
   end
 
@@ -25,9 +25,13 @@ class CheckBox
   def draw
     $window.fill_rect(@x, @y, width, height, Gosu::Color::BLACK)
     if mouse_over?
-      $window.fill_rect(@x+1, @y+1, width-2, height-2, Input::FOCUS_BACKGROUND_COLOR)
+      $window.fill_rect(@x+1, @y+1, width-2, height-2, Button::BUTTON_HOVER_COLOR)
     else
-      $window.fill_rect(@x+1, @y+1, width-2, height-2, Input::NO_FOCUS_BACKGROUND_COLOR)
+      if @checked
+        $window.fill_rect(@x+1, @y+1, width-2, height-2, Button::BUTTON_ACTIVE_COLOR)
+      else
+        $window.fill_rect(@x+1, @y+1, width-2, height-2, Button::BUTTON_COLOR)
+      end
     end
     if @checked
       @text.draw

@@ -112,6 +112,7 @@ class Container
     $window.fill_rect(x, y, width, height, color)
   end
 
+  # Fills container background with color
   def fill(color = BODY_COLOR, z = 0)
     fill_rect(@x, @y, @width, @height, color, z)
   end
@@ -126,6 +127,16 @@ class Container
     i = @layout_y_start+(@layout_y_spacing*@layout_y_count)
     @layout_y_count+=1 unless stay
     return i
+  end
+
+  # Return X position relative to container
+  def relative_x(int)
+    int-self.x
+  end
+
+  # Return Y position relative to container
+  def relative_y(int)
+    int-self.y
   end
 
   def calc_percentage(positive, total)

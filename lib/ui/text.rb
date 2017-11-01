@@ -1,9 +1,10 @@
 class Text
   SIZE = 20
-  FONT = "Consolas"#Gosu.default_font_name
+  FONT = "Liberation Mono"#{}"Courier"#{}"Consolas"#Gosu.default_font_name
   COLOR= Gosu::Color::WHITE
   BORDER_COLOR = Gosu::Color.rgba(255,255,255,75)
   SHADOW = 1
+  SHADOW_ALPHA = 30
 
   CACHE = {}
 
@@ -77,7 +78,7 @@ class Text
 
   def draw
     if @shadow && !ARGV.join.include?("--no-shadow")
-      _color = Gosu::Color.rgba(@color.red, @color.green, @color.blue, 75)
+      _color = Gosu::Color.rgba(@color.red, @color.green, @color.blue, SHADOW_ALPHA)
       @textobject.draw(@text, @x-SHADOW, @y, @z, @factor_x, @factor_y, _color)
       @textobject.draw(@text, @x-SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, _color)
 
