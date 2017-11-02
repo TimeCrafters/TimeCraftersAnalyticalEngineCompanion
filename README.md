@@ -9,7 +9,8 @@ TODO: Write some instructions here.
 * Container - A container is effectively equivalent to an Android Activity.
 * Button - A button.
 * Text - An object for rendering text.
-* EditLine - A text box for text input.
+* Input - A text box for text input.
+* CheckBox - A checkbox.
 
 ## Contributing
 TODO: Write stuff here.
