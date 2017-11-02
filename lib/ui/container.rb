@@ -108,6 +108,10 @@ class Container
     return _check_box
   end
 
+  def resize
+    # TODO: Auto reposition elements and adjust container scrolling
+  end
+
   def fill_rect(x, y, width, height, color = BODY_COLOR, z = 0)
     $window.fill_rect(x, y, width, height, color)
   end

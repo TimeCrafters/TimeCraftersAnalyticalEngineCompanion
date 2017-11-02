@@ -1,6 +1,6 @@
 class Text
   SIZE = 20
-  FONT = "Liberation Mono"#{}"Courier"#{}"Consolas"#Gosu.default_font_name
+  FONT = "Consolas"#{}"Liberation Mono"#{}"Courier"#{}"Consolas"#Gosu.default_font_name
   COLOR= Gosu::Color::WHITE
   BORDER_COLOR = Gosu::Color.rgba(255,255,255,75)
   SHADOW = 1
@@ -33,11 +33,11 @@ class Text
     if @alignment
       case @alignment
       when :left
-        @x = 0
+        @x = 0+BUTTON_PADDING
       when :center
         @x = ($window.width/2)-(@textobject.text_width(@text)/2)
       when :right
-        @x = $window.width-@textobject.text_width(@text)
+        @x = $window.width-BUTTON_PADDING-@textobject.text_width(@text)
       end
     end
 
