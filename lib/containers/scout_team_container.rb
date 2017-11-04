@@ -1,5 +1,6 @@
 class ScoutTeamContainer < Container
   def setup
+    @allow_recreation_on_resize = false
     self.text_color = Gosu::Color::BLACK
 
     text "Scout Team", 0, 10, 32, SCOUTING_HEADER_COLOR, :center

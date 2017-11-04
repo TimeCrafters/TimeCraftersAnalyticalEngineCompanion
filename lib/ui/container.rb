@@ -13,6 +13,7 @@ class Container
     puts "#{self.class}: width #{width}, height #{@height}"
 
     @options = {}
+    @allow_recreation_on_resize = true
     @text_color = Text::COLOR
     @elements = []
 
@@ -110,6 +111,9 @@ class Container
 
   def resize
     # TODO: Auto reposition elements and adjust container scrolling
+    if @allow_recreation_on_resize
+      $window.active_container = self.class.new
+    end
   end
 
   def fill_rect(x, y, width, height, color = BODY_COLOR, z = 0)

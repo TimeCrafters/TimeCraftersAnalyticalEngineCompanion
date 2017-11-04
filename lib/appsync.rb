@@ -53,13 +53,16 @@ class AppSync
 
   def self.teams_list=(filename)
     @teams_list = {}
-    File.open(filename) do |f|
-      f.each do |line|
-        list = line.split(" ")
-        i = list.first.to_i
-        if i == 0; next; end
+    if ARGV.join.include?("--no-teamslist")
+    else
+      File.open(filename) do |f|
+        f.each do |line|
+          list = line.split(" ")
+          i = list.first.to_i
+          if i == 0; next; end
 
-        @teams_list[i] = list[1..list.count-1].join(" ").strip
+          @teams_list[i] = list[1..list.count-1].join(" ").strip
+        end
       end
     end
   end
