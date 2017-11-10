@@ -36,7 +36,7 @@ class MainContainer < Container
       end
     end
 
-    if AppSync.teams_list.count == 0 # Assumed to be a first time user
+    if AppSync.teams_list.count == 0 && !$window.need_teams_list_selector# Assumed to be a first time user
       set_layout_y(70, 30)
       text "Welcome", 0, 10, 60, text_color, :center
       text "The #{Window::NAME}", 0, layout_y, 30, text_color, :center
@@ -53,6 +53,15 @@ class MainContainer < Container
       text "Enjoy. :)", 0, layout_y, 30, text_color, :center
       text "", 0, layout_y, 30, text_color, :center
       text "TimeCrafters.org".unpack("b*").join, 0, self.height-20, 19, text_color, :center
+
+    elsif AppSync.teams_list.count == 0 && $window.need_teams_list_selector
+      set_layout_y(70, 50)
+      text "Almost Ready", 0, 10, 60, text_color, :center
+      text "Multiple team lists were detected, please select one to use:", 0, layout_y, 30, text_color, :center
+      $window.list_search_results.sort.each do |list|
+        count = open(list).read.split("\n").count
+        button(list.split("/").last, 250, layout_y, "Has #{count} teams") { AppSync.teams_list=list; $window.active_container = self.class.new }
+      end
     end
     if dataless_teams >= AppSync.teams_list.count && AppSync.teams_list.count != 0
       text "No Data for Teams", 0, 10, 32, BAD_COLOR, :center
@@ -64,9 +73,12 @@ class MainContainer < Container
   end
 
   def draw
-    if AppSync.teams_list.count == 0
+    if AppSync.teams_list.count == 0 && !$window.need_teams_list_selector
       @logo_image.draw($window.width-412,100,0, 0.5, 0.5, Gosu::Color.rgb(0,128,0))
       @logo_image.draw(412,100,0, -0.5, 0.5, Gosu::Color.rgb(0,128,0))
+    elsif AppSync.teams_list.count == 0 && $window.need_teams_list_selector
+      @logo_image.draw($window.width-412,100,0, 0.5, 0.5, Gosu::Color.rgb(255,0,255))
+      @logo_image.draw(412,100,0, -0.5, 0.5, Gosu::Color.rgb(255,0,255))
     end
     super
   end

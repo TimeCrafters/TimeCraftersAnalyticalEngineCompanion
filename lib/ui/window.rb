@@ -8,7 +8,7 @@ BODY_COLOR              = Gosu::Color.rgb(175, 175, 175) # OFF-WHITE
 class Window < Gosu::Window
   NAME = "TimeCrafters Analytical Engine Companion"
   attr_accessor :active_container
-  attr_reader :elements, :mouse
+  attr_reader :elements, :mouse, :need_teams_list_selector, :list_search_results
 
   def self.instance=(this)
     @instance = this
@@ -27,9 +27,14 @@ class Window < Gosu::Window
     end
     $window = self
     self.caption = NAME
-    list_search_results = []
-    Dir.glob("#{Dir.pwd}/data/*.txt").each {|f| if f.include?("list"); list_search_results << f; end}
-    AppSync.teams_list=list_search_results.first if list_search_results.first
+    @list_search_results = []
+    @need_teams_list_selector = false
+
+    Dir.glob("#{Dir.pwd}/data/*.txt").each {|f| @list_search_results << f}
+    if @list_search_results.count > 1
+      @need_teams_list_selector = true
+    end
+    AppSync.teams_list=@list_search_results.first if @list_search_results.first && @list_search_results.count == 1
 
     @elements = []
     @header_color = HOME_HEADER_COLOR
@@ -42,13 +47,13 @@ class Window < Gosu::Window
     b  = Button.new("Scouting", BUTTON_PADDING+_b.x+_b.width, 60, true, "Scouting data for selected team") { @header_color = SCOUTING_HEADER_COLOR; @active_container = ScoutingContainer.new }
     _b = Button.new("Autonomous", BUTTON_PADDING+b.x+b.width, 60, true, "Autonomous match data for selected team") { @header_color = AUTONOMOUS_HEADER_COLOR; @active_container = AutonomousContainer.new }
     b  = Button.new("TeleOp", BUTTON_PADDING+_b.x+_b.width, 60, true, "TeleOp match data for selected team") { @header_color = TELEOP_HEADER_COLOR; @active_container = TeleOpContainer.new }
+    _b = Button.new("Scout", BUTTON_PADDING+b.x+b.width+50, 60, true, "Scout the selected team") { @header_color = SCOUTING_HEADER_COLOR; @active_container = ScoutTeamContainer.new }
 
-    if ARGV.join.include?("--debug")
-      _b = Button.new("Scout", BUTTON_PADDING+b.x+b.width+50, 60, true, "Scout the selected team") { @header_color = SCOUTING_HEADER_COLOR; @active_container = ScoutTeamContainer.new }
-      b  = Button.new("Track", BUTTON_PADDING+_b.x+_b.width, 60, true, "Track a match for selected team") {}
-    end
+    b  = Button.new("Track", BUTTON_PADDING+_b.x+_b.width, 60, true, "Track a match for selected team") {} if ARGV.join.include?("--debug")
 
-    @current_team = Text.new("Team: 0000 | TEAMNAME", true, size: 24, x: BUTTON_PADDING+b.x+b.width, y: 68, color: Gosu::Color.rgb(0,45,15))
+    last_button = _b
+    last_button = b if ARGV.join.include?("--debug")
+    @current_team = Text.new("Team: 0000 | TEAMNAME", true, size: 24, x: BUTTON_PADDING+last_button.x+last_button.width, y: 68, color: Gosu::Color.rgb(0,45,15))
 
     b = Button.new("About", 0, 60, true, "About the #{NAME}") { @header_color = ABOUT_HEADER_COLOR; @active_container = AboutContainer.new }
     @about_button = b

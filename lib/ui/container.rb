@@ -110,7 +110,6 @@ class Container
   end
 
   def resize
-    # TODO: Auto reposition elements and adjust container scrolling
     if @allow_recreation_on_resize
       $window.active_container = self.class.new
     end
