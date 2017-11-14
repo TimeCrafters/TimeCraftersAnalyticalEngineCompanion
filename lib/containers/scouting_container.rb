@@ -5,8 +5,6 @@ class ScoutingContainer < Container
     if AppSync.team_has_scouting_data?
       autonomous = AppSync.team_scouting_data("autonomous")
       teleop     = AppSync.team_scouting_data("teleop")
-      p autonomous
-      p teleop
     end
 
     if AppSync.team_has_scouting_data? && (autonomous.count > 2 || teleop.count > 0)

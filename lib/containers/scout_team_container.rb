@@ -67,28 +67,28 @@ class ScoutTeamContainer < Container
           puts "Created directory"
         end
 
-        autonomous_hash[:can_score_jewel]        = auto_can_score_jewel.checked        # Boolean
-        autonomous_hash[:can_score_in_cryptobox] = auto_can_score_in_cryptobox.checked # Boolean
-        autonomous_hash[:can_read_cryptobox_key] = auto_can_read_cryptobox_key.checked # Boolean
-        autonomous_hash[:max_glyphs_scorable]    = auto_max_glyphs_scorable.text.to_i  # Integer
-        autonomous_hash[:can_park_in_safe_zone]  = auto_can_park_in_safe_zone.checked  # Boolean
-        autonomous_hash[:has_autonomous]         = auto_has_autonomous.checked         # Boolean
-        autonomous_hash[:autonomous_notes]       = auto_autonomous_notes.text          # String
+        autonomous_hash["can_score_jewel"]        = auto_can_score_jewel.checked        # Boolean
+        autonomous_hash["can_score_in_cryptobox"] = auto_can_score_in_cryptobox.checked # Boolean
+        autonomous_hash["can_read_cryptobox_key"] = auto_can_read_cryptobox_key.checked # Boolean
+        autonomous_hash["max_glyphs_scorable"]    = auto_max_glyphs_scorable.text.to_i  # Integer
+        autonomous_hash["can_park_in_safe_zone"]  = auto_can_park_in_safe_zone.checked  # Boolean
+        autonomous_hash["has_autonomous"]         = auto_has_autonomous.checked         # Boolean
+        autonomous_hash["autonomous_notes"]       = auto_autonomous_notes.text          # String
         auto_json = JSONMiddleWare.dump(autonomous_hash)
         File.open("./data/#{AppSync.team_number}/autonomous.json", "w") do |f|
           f.write auto_json
         end
 
-        teleop_hash[:can_score_in_cryptobox] = tele_can_score_in_cryptobox.checked  # Boolean
-        teleop_hash[:max_scorable_glyphs]    = tele_max_glyphs_scorable.text.to_i   # Integer
-        teleop_hash[:can_complete_cipher]    = tele_can_complete_cipher.checked     # Boolean
-        teleop_hash[:can_score_relic]        = tele_can_score_relic.checked         # Boolean
-        teleop_hash[:relic_zone_1]           = tele_relic_zone_1.checked            # Boolean
-        teleop_hash[:relic_zone_2]           = tele_relic_zone_2.checked            # Boolean
-        teleop_hash[:relic_zone_3]           = tele_relic_zone_3.checked            # Boolean
-        teleop_hash[:relic_upright]          = tele_can_place_relic_upright.checked # Boolean
-        teleop_hash[:can_balance_on_stone]   = tele_can_balance_on_stone.checked    # Boolean
-        teleop_hash[:teleop_notes]           = tele_teleop_notes.text               # String
+        teleop_hash["can_score_in_cryptobox"] = tele_can_score_in_cryptobox.checked  # Boolean
+        teleop_hash["max_scorable_glyphs"]    = tele_max_glyphs_scorable.text.to_i   # Integer
+        teleop_hash["can_complete_cipher"]    = tele_can_complete_cipher.checked     # Boolean
+        teleop_hash["can_score_relic"]        = tele_can_score_relic.checked         # Boolean
+        teleop_hash["relic_zone_1"]           = tele_relic_zone_1.checked            # Boolean
+        teleop_hash["relic_zone_2"]           = tele_relic_zone_2.checked            # Boolean
+        teleop_hash["relic_zone_3"]           = tele_relic_zone_3.checked            # Boolean
+        teleop_hash["relic_upright"]          = tele_can_place_relic_upright.checked # Boolean
+        teleop_hash["can_balance_on_stone"]   = tele_can_balance_on_stone.checked    # Boolean
+        teleop_hash["teleop_notes"]           = tele_teleop_notes.text               # String
         teleop_json = JSONMiddleWare.dump(teleop_hash)
         File.open("./data/#{AppSync.team_number}/teleop.json", "w") do |f|
           f.write teleop_json
