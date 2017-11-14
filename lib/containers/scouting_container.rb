@@ -5,6 +5,8 @@ class ScoutingContainer < Container
     if AppSync.team_has_scouting_data?
       autonomous = AppSync.team_scouting_data("autonomous")
       teleop     = AppSync.team_scouting_data("teleop")
+      p autonomous
+      p teleop
     end
 
     if AppSync.team_has_scouting_data? && (autonomous.count > 2 || teleop.count > 0)
@@ -41,11 +43,11 @@ class ScoutingContainer < Container
       text "Can Balance on Stone", main_x, layout_y(true)
       tele_can_balance_on_stone = text "N/A", data_x, layout_y
     else
-      if !AppSync.team_has_scouting_data?
-        text "Scouting", 0, 10, 32, Gosu::Color::BLACK, :center
+      text "Scouting", 0, 10, 32, Gosu::Color::BLACK, :center
+      if AppSync.team_name == ""
         text "No team selected.", 0, 50, 32, Gosu::Color::BLACK, :center
-      else
-        text "No Scouting Data", 0, 10, 32, Gosu::Color::BLACK, :center
+      elsif !AppSync.team_has_scouting_data? && AppSync.team_name != ""
+        text "No Scouting Data", 0, 50, 32, Gosu::Color::BLACK, :center
       end
       if AppSync.team_has_scouting_data? && autonomous.count < 5
         text "Team has no Autonomous, and TeleOp data was not stored/collected.", 10, 40, 32
