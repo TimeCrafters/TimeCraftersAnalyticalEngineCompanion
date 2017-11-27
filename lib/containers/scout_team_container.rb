@@ -57,6 +57,37 @@ class ScoutTeamContainer < Container
       tele_can_balance_on_stone    = check_box(relative_x(widest.x)-(widest.width-(BUTTON_PADDING*4)), relative_y(_b.y)-BUTTON_PADDING)
       tele_teleop_notes            = input("",(relative_x(widest.x)-(widest.width))-Input::WIDTH+(BUTTON_PADDING*8), relative_y(_n.y)-BUTTON_PADDING, Input::WIDTH, 22)
 
+      if File.exists?("./data/#{AppSync.team_number}/autonomous.json")
+        auto = JSONMiddleWare.load(open("./data/#{AppSync.team_number}/autonomous.json").read)
+        if auto["has_autonomous"]
+          auto_can_score_jewel.checked = auto["can_score_jewel"]
+          if auto["can_score_in_cryptobox"]
+            auto_can_score_in_cryptobox.checked  = true
+            auto_max_glyphs_scorable.text = auto["max_glyphs_scorable"]
+          end
+          auto_can_read_cryptobox_key.checked = auto["can_read_cryptobox_key"]
+          auto_can_park_in_safe_zone.checked  = auto["can_park_in_safe_zone"]
+          auto_autonomous_notes.text          = auto["autonomous_notes"]
+        else
+          auto["has_autonomous"].checked = false
+        end
+      end
+
+      if File.exists?("./data/#{AppSync.team_number}/teleop.json")
+        teleop = JSONMiddleWare.load(open("./data/#{AppSync.team_number}/teleop.json").read)
+        tele_can_score_in_cryptobox.checked = teleop["can_score_in_cryptobox"]
+        tele_max_glyphs_scorable.text = teleop["max_scorable_glyphs"]
+        tele_can_complete_cipher.checked = teleop["can_complete_cipher"]
+        if teleop["can_score_relic"]
+          tele_can_score_relic.checked = true
+          tele_relic_zone_1.checked = teleop["relic_zone_1"]
+          tele_relic_zone_2.checked = teleop["relic_zone_2"]
+          tele_relic_zone_3.checked = teleop["relic_zone_3"]
+          tele_can_place_relic_upright.checked = teleop["relic_upright"]
+        end
+        tele_can_balance_on_stone.checked = teleop["can_balance_on_stone"]
+      end
+
       button("Save", $window.width/2-0, relative_y(_b.y+22+(BUTTON_PADDING*8))) do
         # Do science
         autonomous_hash = {}

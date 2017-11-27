@@ -36,6 +36,12 @@ class MainContainer < Container
       end
     end
 
+    if RUBY_PLATFORM =~ /mingw|mswin/i
+      button "Open Data Folder", 10, 10 do
+        system("explorer #{Dir.pwd.gsub('/', '\\')}\\data")
+      end
+    end
+
     if AppSync.teams_list.count == 0 && !$window.need_teams_list_selector# Assumed to be a first time user
       set_layout_y(70, 30)
       text "Welcome", 0, 10, 60, text_color, :center

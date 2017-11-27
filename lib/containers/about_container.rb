@@ -6,7 +6,7 @@ class AboutContainer < Container
     text "Written by: Matthew Larson", 300, layout_y, Text::SIZE, Gosu::Color::BLACK, :center
     text "Written in: Ruby", 300, layout_y, Text::SIZE, Gosu::Color::BLACK, :center
     text "Uses: Ruby and Gosu", 300, layout_y, Text::SIZE, Gosu::Color::BLACK, :center
-    text "Website: https://TimeCrafters.org/analytical-engine", 300, layout_y, Text::SIZE, Gosu::Color::BLACK, :center
+    text "Website: https://TimeCrafters.org/analytical-engine-companion", 300, layout_y, Text::SIZE, Gosu::Color::BLACK, :center
     layout_y
     text "Legal Notices", 300, layout_y, Text::SIZE, Gosu::Color::BLACK, :center
     text "Copyright: © 2017 Matthew \"Cyberarm\" Larson. Licensed under the MIT open source license.", 10, layout_y, Text::SIZE, Gosu::Color::BLACK, :center
