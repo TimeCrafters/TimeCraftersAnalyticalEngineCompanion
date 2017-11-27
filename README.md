@@ -1,6 +1,12 @@
 # TimeCrafters Analytical Engine Companion
 This the desktop Companion for the TimeCrafters Analytical Engine app.
-TODO: Put some images here.
+## Screenshots
+### First Run Home
+![](https://raw.githubusercontent.com/TimeCrafters/TimeCraftersAnalyticalEngineCompanion/master/media/screenshots/TAEChome.png)
+### Scouting
+![](https://raw.githubusercontent.com/TimeCrafters/TimeCraftersAnalyticalEngineCompanion/master/media/screenshots/TAECscouting.png)
+### Scout Team
+![](https://raw.githubusercontent.com/TimeCrafters/TimeCraftersAnalyticalEngineCompanion/master/media/screenshots/TAECScout.png)
 
 ## How to use
 TODO: Write some instructions here.
