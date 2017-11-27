@@ -6,7 +6,7 @@ Releasy::Project.new do
   version "Wildflower-beta_01"
 
   executable "timecrafters_analytical_engine.rb"
-  files ["lib/**/*.*", "data/**/*.*"]
+  files ["lib/**/*.*", "data", "media/**/*.*"]
   exclude_encoding # Applications that don't use advanced encoding (e.g. Japanese characters) can save build size with this.
   verbose
 
