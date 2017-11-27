@@ -86,6 +86,7 @@ class ScoutTeamContainer < Container
           tele_can_place_relic_upright.checked = teleop["relic_upright"]
         end
         tele_can_balance_on_stone.checked = teleop["can_balance_on_stone"]
+        tele_teleop_notes.text = teleop["teleop_notes"]
       end
 
       button("Save", $window.width/2-0, relative_y(_b.y+22+(BUTTON_PADDING*8))) do
