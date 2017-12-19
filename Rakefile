@@ -11,8 +11,8 @@ Releasy::Project.new do
   verbose
 
   add_build :windows_folder do
-    # icon "assets/icon.ico"
-    executable_type :console # Assuming you don't want it to run with a console window.
+    icon "media/TimeCraftersIcon.ico"
+    executable_type :windows # Assuming you don't want it to run with a console window.
     add_package :exe # Windows self-extracting archive.
   end
 end

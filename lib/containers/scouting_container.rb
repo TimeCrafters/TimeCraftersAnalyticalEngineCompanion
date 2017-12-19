@@ -102,7 +102,8 @@ class ScoutingContainer < Container
           tele_can_score_in_cryptobox.text = "No"
           tele_can_score_in_cryptobox.color= BAD_COLOR
         end
-        tele_max_glyphs_scorable.text = teleop["max_scorable_glyphs"].to_s
+        tele_max_glyphs_scorable.text = teleop["max_scorable_glyphs"] unless teleop["max_scorable_glyphs"] == nil
+        tele_max_glyphs_scorable.text = teleop["max_glyphs_scorable"] if teleop["max_scorable_glyphs"] == nil
 
         if teleop["can_complete_cipher"]
           tele_can_complete_cipher.text  = "Yes"

@@ -76,7 +76,9 @@ class ScoutTeamContainer < Container
       if File.exists?("./data/#{AppSync.team_number}/teleop.json")
         teleop = JSONMiddleWare.load(open("./data/#{AppSync.team_number}/teleop.json").read)
         tele_can_score_in_cryptobox.checked = teleop["can_score_in_cryptobox"]
-        tele_max_glyphs_scorable.text = teleop["max_scorable_glyphs"]
+        # Fixed an error I made when update TAE that poured into TAE-C
+        tele_max_glyphs_scorable.text = teleop["max_scorable_glyphs"] unless teleop["max_scorable_glyphs"] == nil
+        tele_max_glyphs_scorable.text = teleop["max_glyphs_scorable"] if teleop["max_scorable_glyphs"] == nil
         tele_can_complete_cipher.checked = teleop["can_complete_cipher"]
         if teleop["can_score_relic"]
           tele_can_score_relic.checked = true
@@ -112,7 +114,7 @@ class ScoutTeamContainer < Container
         end
 
         teleop_hash["can_score_in_cryptobox"] = tele_can_score_in_cryptobox.checked  # Boolean
-        teleop_hash["max_scorable_glyphs"]    = tele_max_glyphs_scorable.text.to_i   # Integer
+        teleop_hash["max_glyphs_scorable"]    = tele_max_glyphs_scorable.text.to_i   # Integer
         teleop_hash["can_complete_cipher"]    = tele_can_complete_cipher.checked     # Boolean
         teleop_hash["can_score_relic"]        = tele_can_score_relic.checked         # Boolean
         teleop_hash["relic_zone_1"]           = tele_relic_zone_1.checked            # Boolean
