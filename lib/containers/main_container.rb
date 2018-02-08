@@ -29,7 +29,7 @@ class MainContainer < Container
         if number == 10432; b.text.color = Gosu::Color.rgb(40, 100, 40); end
         _x+=b.width+20
 
-        if _x > $window.width
+        if _x+b.width > $window.width
           _x = 10
           _y+= 45
         end
