@@ -1,0 +1,39 @@
+{
+  "season":"rover_ruckus",
+  "spec_version": 1,
+  "match_teleop": [
+    {
+      "type":"boolean",
+      "name":"dead_robot"
+    }
+  ],
+
+  "match_autonomous": [
+    {
+      "type": "boolean",
+      "name": "dead_robot"
+    }
+  ],
+
+  "scouting_teleop": [
+    {
+      "type": "boolean",
+      "name": "dead_robot"
+    },
+    {
+      "type": "string",
+      "name": "notes"
+    }
+  ],
+
+  "scouting_autonomous": [
+    {
+      "type": "boolean",
+      "name": "dead_robot"
+    },
+    {
+      "type": "string",
+      "name": "notes"
+    }
+  ]
+}

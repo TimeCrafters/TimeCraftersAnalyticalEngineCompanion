@@ -39,11 +39,11 @@ class Window < Gosu::Window
     @elements = []
     @header_color = HOME_HEADER_COLOR
     @mouse = Mouse.new(0, 0)
-    @active_container = MainContainer.new
+    @active_container = HomeContainer.new
 
     @title = Text.new(NAME, true, size: 36, x: BUTTON_PADDING, y: 20, font: "Sans Serif", shadow: true)
 
-    _b = Button.new("Home", 10, 60, true, "Home is where team selection happens") { @header_color = HOME_HEADER_COLOR; @active_container = MainContainer.new }
+    _b = Button.new("Home", 10, 60, true, "Home is where team selection happens") { @header_color = HOME_HEADER_COLOR; @active_container = HomeContainer.new }
     b  = Button.new("Scouting", BUTTON_PADDING+_b.x+_b.width, 60, true, "Scouting data for selected team") { @header_color = SCOUTING_HEADER_COLOR; @active_container = ScoutingContainer.new }
     _b = Button.new("Autonomous", BUTTON_PADDING+b.x+b.width, 60, true, "Autonomous match data for selected team") { @header_color = AUTONOMOUS_HEADER_COLOR; @active_container = AutonomousContainer.new }
     b  = Button.new("TeleOp", BUTTON_PADDING+_b.x+_b.width, 60, true, "TeleOp match data for selected team") { @header_color = TELEOP_HEADER_COLOR; @active_container = TeleOpContainer.new }

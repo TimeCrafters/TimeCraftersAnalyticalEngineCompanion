@@ -23,7 +23,7 @@ class Input
     @text_input.text = @text
 
     @background_color = NO_FOCUS_BACKGROUND_COLOR
-    @fixed_x = @x
+    @fixed_x = @x+2
     @x_offset= 0
 
     @carot_ticks = 0
@@ -48,7 +48,7 @@ class Input
       @text_object.draw
 
       # Carot (Cursor)
-      $window.fill_rect((@x+@text_object.width)-@x_offset, @text_object.y, @carot_width, @carot_height, @carot_color) if @show_carot && @focus
+      $window.fill_rect((@x+2+@text_object.width)-@x_offset, @text_object.y, @carot_width, @carot_height, @carot_color) if @show_carot && @focus
     end
 
   end

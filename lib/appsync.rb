@@ -11,6 +11,9 @@ class AppSync
   def self.team_name
     @team_name ||= ""
   end
+  def self.schema
+    @schema ||= Schema.new("./relic_recovery_schema.json")
+  end
 
   def self.team_has_scouting_data?(number = @team_number)
     files = Dir.glob("./data/#{number}/*.json")

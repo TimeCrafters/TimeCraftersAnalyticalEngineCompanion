@@ -1,0 +1,177 @@
+{
+  "season": "relic_recovery",
+  "spec_version": 1,
+  "match_autonomous": [
+    {
+      "type": "boolean",
+      "name": "dead_robot"
+    }
+  ],
+
+  "match_teleop": {
+    // [_type][_subtype][_location] = [_points] && [_description]
+    // e.g. ["scored"]["relic"]["zone_three"]
+    "scored": [
+      {
+        "glyph": {
+          "": {
+            "points": 2,
+            "description": "Scored a glyph"
+          },
+          "row": {
+            "points": 10,
+            "description": "Completed Row in Cryptobox",
+            "requires": {
+              "type": "scored",
+              "subtype": "glyph",
+              "location": "",
+              "count": 3
+            },
+            "max_scorable": 4
+          },
+          "column": {
+            "points": 20,
+            "description": "Completed Column in Cryptobox",
+            "requires": {
+              "type": "scored",
+              "subtype": "glyph",
+              "location": "",
+              "count": 4
+            },
+            "max_scorable": 3
+          },
+          "cipher": {
+            "points": 40,
+            "description": "Completed Cryptobox Cipher",
+            "requires": {
+              "type": "scored",
+              "subtype": "glyph",
+              "location": "",
+              "count": 12
+            },
+            "max_scorable": 1
+          }
+        },
+        "relic": {
+          "zone_one": {
+            "points": 10,
+            "description": "Scored Relic in Zone 1"
+          },
+          "zone_two": {
+            "points": 20,
+            "description": "Scored Relic in Zone 2"
+          },
+          "zone_three": {
+            "points": 40,
+            "description": "Scored Relic in Zone 3"
+          },
+          "upright": {
+            "points": 15,
+            "description": "Scored Relic Upright"
+          }
+        },
+        "balance": {
+          "": {
+            "points": 20,
+            "description": "Robot balanced on Stone"
+          }
+        }
+      }
+    ],
+    "missed": [
+      {
+        "glyph": {
+
+        },
+        "relic": {
+          "":""
+        },
+        "balance": {
+          "points": 0,
+          "description": "Robot Failed to Balance on Stone",
+          "precludes": {
+            "type": "scored",
+            "subtype": "balance",
+            "location": "",
+            "count": 1
+          }
+        }
+      }
+    ]
+  },
+
+  "scouting_teleop": [
+    {
+      "type": "boolean",
+      "name": "can_score_in_cryptobox"
+    },
+    {
+      "type": "number",
+      "name": "max_glyphs_scorable"
+    },
+    {
+      "type": "boolean",
+      "name": "can_complete_cipher"
+    },
+    {
+      "type": "boolean",
+      "name": "can_score_relic"
+    },
+    {
+      "type": "boolean",
+      "name": "relic_zone_1"
+    },
+    {
+      "type": "boolean",
+      "name": "relic_zone_2"
+    },
+    {
+      "type": "boolean",
+      "name": "relic_zone_3"
+    },
+    {
+      "type": "boolean",
+      "name": "relic_upright"
+    },
+    {
+      "type": "boolean",
+      "name": "can_balance_on_stone"
+    },
+    {
+      "type": "string",
+      "name": "teleop_notes"
+    }
+  ],
+
+  "scouting_autonomous": [
+    {
+      "type": "boolean",
+      "name": "can_score_jewel"
+    },
+    {
+      "type": "boolean",
+      "name": "can_score_in_cryptobox"
+    },
+    {
+      "type": "boolean",
+      "name": "can_read_cryptobox_key"
+    },
+    {
+      "type": "number",
+      "name": "max_glyphs_scorable"
+    },
+    {
+      "type": "boolean",
+      "name": "can_park_in_safe_zone"
+    },
+    {
+      "type": "boolean",
+      "name": "has_autonomous",
+      "default": true
+    },
+    {
+      "type": "string",
+      "name": "autonomous_notes"
+    }
+  ]
+}

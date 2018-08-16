@@ -1,4 +1,4 @@
-class MainContainer < Container
+class HomeContainer < Container
   def setup
     @logo_image = Gosu::Image.new("./media/TimeCraftersLogo.png")
     self.text_color = Gosu::Color::BLACK
