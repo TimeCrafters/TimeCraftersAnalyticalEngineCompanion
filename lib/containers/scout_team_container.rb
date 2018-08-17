@@ -6,56 +6,60 @@ class ScoutTeamContainer < Container
     text "Scout Team", 0, 10, 32, SCOUTING_HEADER_COLOR, :center
 
     if AppSync.team_number != 0 && AppSync.team_number != nil
-      text "Autonomous", 0, 50, 25, AUTONOMOUS_HEADER_COLOR, :left
-      set_layout_y(80, 47)
+      if !AppSync.schema.failed
+        text "Autonomous", 0, 50, 25, AUTONOMOUS_HEADER_COLOR, :left
+        set_layout_y(80, 47)
 
-      auto_fields = scouting_fields(AppSync.schema.scouting_autonomous, :left, "autonomous")
+        auto_fields = scouting_fields(AppSync.schema.scouting_autonomous, :left, "autonomous")
 
 
-      text "Teleop", 0, 50, 25, TELEOP_HEADER_COLOR, :right
-      set_layout_y(80, 47)
+        text "Teleop", 0, 50, 25, TELEOP_HEADER_COLOR, :right
+        set_layout_y(80, 47)
 
-      teleop_fields = scouting_fields(AppSync.schema.scouting_teleop, :right, "teleop")
+        teleop_fields = scouting_fields(AppSync.schema.scouting_teleop, :right, "teleop")
 
-      last_element =  teleop_fields.values[teleop_fields.size-1]["text"]
+        last_element =  teleop_fields.values[teleop_fields.size-1]["text"]
 
-      button("Save", $window.width/2-0, relative_y(last_element.y+last_element.height+(BUTTON_PADDING*2))) do
-        # Do science
-        autonomous_hash = {}
-        teleop_hash      = {}
+        button("Save", $window.width/2-0, relative_y(last_element.y+last_element.height+(BUTTON_PADDING*2))) do
+          # Do science
+          autonomous_hash = {}
+          teleop_hash      = {}
 
-        unless File.directory?("./data/#{AppSync.team_number}")
-          Dir.mkdir("./data/#{AppSync.team_number}")
-          puts "Created directory"
-        end
-
-        auto_fields.each do |key, value|
-          case value["field"]["type"]
-          when "string"
-            autonomous_hash[value["field"]["name"]] = value["input"].text
-          when "number"
-            autonomous_hash[value["field"]["name"]] = value["input"].text.to_i
-          when "boolean"
-            autonomous_hash[value["field"]["name"]] = value["input"].checked
+          unless File.directory?("./data/#{AppSync.team_number}")
+            Dir.mkdir("./data/#{AppSync.team_number}")
+            puts "Created directory"
           end
-        end
 
-        File.open("./data/#{AppSync.team_number}/autonomous.json", "w") {|f| f.write JSONMiddleWare.dump(autonomous_hash)}
-
-        teleop_fields.each do |key, value|
-          case value["field"]["type"]
-          when "string"
-            teleop_hash[value["field"]["name"]] = value["input"].text
-          when "number"
-            teleop_hash[value["field"]["name"]] = value["input"].text.to_i
-          when "boolean"
-            teleop_hash[value["field"]["name"]] = value["input"].checked
+          auto_fields.each do |key, value|
+            case value["field"]["type"]
+            when "string"
+              autonomous_hash[value["field"]["name"]] = value["input"].text
+            when "number"
+              autonomous_hash[value["field"]["name"]] = value["input"].text.to_i
+            when "boolean"
+              autonomous_hash[value["field"]["name"]] = value["input"].checked
+            end
           end
+
+          File.open("./data/#{AppSync.team_number}/autonomous.json", "w") {|f| f.write JSONMiddleWare.dump(autonomous_hash)}
+
+          teleop_fields.each do |key, value|
+            case value["field"]["type"]
+            when "string"
+              teleop_hash[value["field"]["name"]] = value["input"].text
+            when "number"
+              teleop_hash[value["field"]["name"]] = value["input"].text.to_i
+            when "boolean"
+              teleop_hash[value["field"]["name"]] = value["input"].checked
+            end
+          end
+
+          File.open("./data/#{AppSync.team_number}/teleop.json", "w") {|f| f.write JSONMiddleWare.dump(teleop_hash)}
+
+          $window.active_container = ScoutingContainer.new
         end
-
-        File.open("./data/#{AppSync.team_number}/teleop.json", "w") {|f| f.write JSONMiddleWare.dump(teleop_hash)}
-
-        $window.active_container = ScoutingContainer.new
+      else
+        text "Missing or broken schema.", 0, 50, 32, text_color, :center
       end
     else
       text "No team selected.", 0, 50, 32, text_color, :center
@@ -65,6 +69,8 @@ class ScoutTeamContainer < Container
   def scouting_fields(array, side, period)
     fields = {}
     array.each do |field|
+      next unless field["name"]
+
       fields[field] = {}
       fields[field]["field"] = field
 
