@@ -1,7 +1,7 @@
 # Schema Spec
 The schema file is a json hash
 
-``` json
+``` javascript
 {
   "spec_version": 1, // required, is an integer
   "season": "season_name", // required, is a string
