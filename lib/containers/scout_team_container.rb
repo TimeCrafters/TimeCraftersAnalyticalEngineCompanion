@@ -68,8 +68,14 @@ class ScoutTeamContainer < Container
 
   def scouting_fields(array, side, period)
     fields = {}
-    array.each do |field|
-      next unless field["name"]
+    array.each_with_index do |field, index|
+      if field["name"].nil? && field["type"].nil?
+        field["friendly_name"] = "Schema broken for \"scouting_#{period}\", element #{index}, missing 'type' and 'name'"
+      elsif field["name"].nil?
+        field["friendly_name"] = "Schema broken for \"scouting_#{period}\", element #{index}, missing 'name'"
+      elsif field["type"].nil?
+        field["friendly_name"] = "Schema broken for \"scouting_#{period}\", element #{index}, missing 'type'"
+      end
 
       fields[field] = {}
       fields[field]["field"] = field
