@@ -4,6 +4,7 @@ class ScoutTeamContainer < Container
     self.text_color = Gosu::Color::BLACK
 
     text "Scout Team", 0, 10, 32, SCOUTING_HEADER_COLOR, :center
+    text friendlify(AppSync.schema.season), 0, 50, 28, SCOUTING_HEADER_COLOR, :center
 
     if AppSync.team_number != 0 && AppSync.team_number != nil
       text "Autonomous", 0, 50, 25, AUTONOMOUS_HEADER_COLOR, :left
