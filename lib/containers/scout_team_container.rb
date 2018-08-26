@@ -128,8 +128,4 @@ class ScoutTeamContainer < Container
 
     return fields
   end
-
-  def friendlify(string)
-    string.split("_").map {|s| s.capitalize}.join(" ")
-  end
 end

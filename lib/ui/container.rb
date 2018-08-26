@@ -160,6 +160,10 @@ class Container
     end
   end
 
+  def friendlify(string)
+    string.split("_").map {|s| s.capitalize}.join(" ")
+  end
+
   def switch_team(button_id, container, mode= :scouting)
     appsync_method = nil
     case mode
