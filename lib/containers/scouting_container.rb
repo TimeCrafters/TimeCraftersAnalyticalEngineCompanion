@@ -12,7 +12,7 @@ class ScoutingContainer < Container
       populate_fields(AppSync.schema.scouting_teleop, :teleop)
 
     else
-      text "Scouting", 0, 10, 32, Gosu::Color::BLACK, :center
+      text "Scouting", 0, 10, 32, SCOUTING_HEADER_COLOR, :center
       if AppSync.team_name == ""
         text "No team selected.", 0, 50, 32, Gosu::Color::BLACK, :center
       elsif !AppSync.team_has_scouting_data? && AppSync.team_name != ""
@@ -56,7 +56,7 @@ class ScoutingContainer < Container
         c = (scouting_data[data["name"]] > 0) ? GOOD_COLOR : BAD_COLOR
         text scouting_data[data["name"]], data_x, layout_y, 22, c
       when "string"
-        s = (scouting_data[data["name"]].length == 0) ? scouting_data[data["name"]] : "\"\""
+        s = (scouting_data[data["name"]].strip.length == 0) ? "\"\"" : scouting_data[data["name"]]
         text s, data_x, layout_y, 22
       end
     end

@@ -2,7 +2,7 @@ class AboutContainer < Container
   def setup
     self.text_color = Gosu::Color::BLACK
     set_layout_y(50, 22)
-    text "About", 0, 10, 32, Gosu::Color::BLACK, :center
+    text "About", 0, 10, 32, ABOUT_HEADER_COLOR, :center
     text "Written by: Matthew Larson", 300, layout_y, Text::SIZE, Gosu::Color::BLACK, :center
     text "Written in: Ruby", 300, layout_y, Text::SIZE, Gosu::Color::BLACK, :center
     text "Uses: Ruby and Gosu", 300, layout_y, Text::SIZE, Gosu::Color::BLACK, :center
