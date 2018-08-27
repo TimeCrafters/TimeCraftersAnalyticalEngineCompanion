@@ -3,7 +3,7 @@ BUTTON_TEXT_ACTIVE_COLOR = Gosu::Color::BLACK
 BUTTON_COLOR             = Gosu::Color.rgb(12,12,12)
 BUTTON_HOVER_COLOR       = Gosu::Color.rgb(100, 100, 100)
 BUTTON_ACTIVE_COLOR      = Gosu::Color.rgb(50, 50, 50)
-BUTTON_TEXT_SIZE         = 20
+BUTTON_TEXT_SIZE         = Text::SIZE
 BUTTON_PADDING           = 10
 
 class Button
@@ -73,7 +73,6 @@ class Button
 
   def click_check
     if mouse_over?
-      puts "Clicked: #{@text.text}"
       @block.call if @block.is_a?(Proc)
     end
   end

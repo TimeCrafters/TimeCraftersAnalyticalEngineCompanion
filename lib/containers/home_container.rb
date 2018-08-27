@@ -3,7 +3,7 @@ class HomeContainer < Container
     @logo_image = Gosu::Image.new("./media/TimeCraftersLogo.png")
     self.text_color = Gosu::Color::BLACK
     _x = 10
-    _y = 70
+    _y = 120
     _b = nil
     dataless_teams = 0
     AppSync.teams_list.each do |number, name|
@@ -18,7 +18,7 @@ class HomeContainer < Container
 
         if _x > $window.width
           _x = 10
-          _y+= 45
+          _y+= 60
         end
       else
         b = button("#{number}", _x, _y, "#{name}") do
@@ -31,12 +31,12 @@ class HomeContainer < Container
 
         if _x+b.width > $window.width
           _x = 10
-          _y+= 45
+          _y+= 60
         end
       end
     end
 
-    button "Open Data Folder", 10, 10 do
+    button("Open Data Folder", 10, Text::SIZE_HEADER, "#{Dir.pwd}/data") do
       if RUBY_PLATFORM =~ /mingw|mswin/i
         system("explorer #{Dir.pwd.gsub('/', '\\')}\\data")
       elsif RUBY_PLATFORM =~ /linux/i
@@ -48,7 +48,7 @@ class HomeContainer < Container
 
     if AppSync.teams_list.count == 0 && !$window.need_teams_list_selector# Assumed to be a first time user
       set_layout_y(70, 30)
-      text "Welcome", 0, 10, 60, HOME_HEADER_COLOR, :center
+      text "Welcome", 0, 10, Text::SIZE_HEADER, HOME_HEADER_COLOR, :center
       text "The #{Window::NAME}", 0, layout_y, 30, text_color, :center
       text "is meant to be used as a desktop viewer for data", 0, layout_y, 30, text_color, :center
       text "gathered from the Android application.", 0, layout_y, 30, text_color, :center
@@ -62,11 +62,11 @@ class HomeContainer < Container
       text "", 0, layout_y, 30, text_color, :center
       text "Enjoy. :)", 0, layout_y, 30, text_color, :center
       text "", 0, layout_y, 30, text_color, :center
-      text "TimeCrafters.org".unpack("b*").join, 0, self.height-20, 19, text_color, :center
+      text "TimeCrafters.org".unpack("B*").join, 0, self.height-20, 19, text_color, :center
 
     elsif AppSync.teams_list.count == 0 && $window.need_teams_list_selector
       set_layout_y(70, 50)
-      text "Almost Ready", 0, 10, 60, text_color, :center
+      text "Almost Ready", 0, 10, Text::SIZE_HEADER, text_color, :center
       text "Multiple team lists were detected, please select one to use:", 0, layout_y, 30, text_color, :center
       $window.list_search_results.sort.each do |list|
         count = open(list).read.split("\n").count
@@ -78,7 +78,7 @@ class HomeContainer < Container
     end
 
     if AppSync.teams_list.count >= dataless_teams && AppSync.teams_list.count > 0
-      text "Select a Team", 0, 10, 32, Gosu::Color::BLACK, :center
+      text "Select a Team", 0, 10, Text::SIZE_HEADER, Gosu::Color::BLACK, :center
     end
   end
 

@@ -3,17 +3,17 @@ class ScoutTeamContainer < Container
     @allow_recreation_on_resize = false
     self.text_color = Gosu::Color::BLACK
 
-    text "Scout Team", 0, 10, 32, SCOUTING_HEADER_COLOR, :center
+    text "Scout Team", 0, 10, Text::SIZE_HEADER, SCOUTING_HEADER_COLOR, :center
 
     if AppSync.team_number != 0 && AppSync.team_number != nil
       if !AppSync.schema.failed
-        text "Autonomous", 0, 50, 25, AUTONOMOUS_HEADER_COLOR, :left
+        text "Autonomous", 0, Text::SIZE_HEADER, 25, AUTONOMOUS_HEADER_COLOR, :left
         set_layout_y(80, 47)
 
         auto_fields = scouting_fields(AppSync.schema.scouting_autonomous, :left, "autonomous")
 
 
-        text "Teleop", 0, 50, 25, TELEOP_HEADER_COLOR, :right
+        text "Teleop", 0, Text::SIZE_HEADER, 25, TELEOP_HEADER_COLOR, :right
         set_layout_y(80, 47)
 
         teleop_fields = scouting_fields(AppSync.schema.scouting_teleop, :right, "teleop")
@@ -59,10 +59,10 @@ class ScoutTeamContainer < Container
           $window.active_container = ScoutingContainer.new
         end
       else
-        text "Missing or broken schema.", 0, 50, 32, text_color, :center
+        text "Missing or broken schema.", 0, Text::SIZE_HEADER, Text::SIZE_HEADING, text_color, :center
       end
     else
-      text "No team selected.", 0, 50, 32, text_color, :center
+      text "No team selected.", 0, Text::SIZE_HEADER, Text::SIZE_HEADING, text_color, :center
     end
   end
 
@@ -81,9 +81,9 @@ class ScoutTeamContainer < Container
       fields[field]["field"] = field
 
       if field["friendly_name"]
-        fields[field]["text"] = text field["friendly_name"], 0, layout_y, 22, text_color, side
+        fields[field]["text"] = text field["friendly_name"], 0, layout_y, Text::SIZE, text_color, side
       else
-        fields[field]["text"] = text friendlify(field["name"]), 0, layout_y, 22, text_color, side
+        fields[field]["text"] = text friendlify(field["name"]), 0, layout_y, Text::SIZE, text_color, side
       end
 
       raise if fields[field]["text"].nil?
@@ -118,7 +118,7 @@ class ScoutTeamContainer < Container
       when "number"
         default = data[fields[key]["field"]["name"]] ? data[fields[key]["field"]["name"]] : 0
         default = fields[key]["field"]["default"] if fields[key]["field"]["default"] != nil
-        fields[key]["input"] = input(default, x_position, relative_y(value["text"].y)-BUTTON_PADDING, BUTTON_PADDING*3, 22)
+        fields[key]["input"] = input(default, x_position, relative_y(value["text"].y)-BUTTON_PADDING, BUTTON_PADDING*3, Text::SIZE)
       when "boolean"
         default = data[fields[key]["field"]["name"]] ? data[fields[key]["field"]["name"]] : false
         default = fields[key]["field"]["default"] if fields[key]["field"]["default"] != nil

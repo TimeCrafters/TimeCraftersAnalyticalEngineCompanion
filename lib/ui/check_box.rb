@@ -1,5 +1,5 @@
 class CheckBox
-  SIZE = 22
+  SIZE = Text::SIZE
 
   attr_accessor :x, :y, :checked
   attr_reader :text

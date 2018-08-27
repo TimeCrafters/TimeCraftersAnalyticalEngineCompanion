@@ -1,6 +1,8 @@
 class Text
-  SIZE = 20
-  FONT = "Consolas"#{}"Liberation Mono"#{}"Courier"#{}"Consolas"#Gosu.default_font_name
+  SIZE_HEADER = 60
+  SIZE_HEADING= 32
+  SIZE = 24
+  FONT = "Consolas"#"Liberation Mono"#{}"Courier"#{}"Consolas"#Gosu.default_font_name
   COLOR= Gosu::Color::WHITE
   BORDER_COLOR = Gosu::Color.rgba(255,255,255,75)
   SHADOW = 1

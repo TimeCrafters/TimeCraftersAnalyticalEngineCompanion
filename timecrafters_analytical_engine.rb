@@ -13,7 +13,6 @@ require_relative "lib/json_middleware"
 require_relative "lib/schema"
 require_relative "lib/appsync"
 require_relative "lib/match_loader"
-require_relative "lib/scouting"
 
 require_relative "lib/ui/text"
 require_relative "lib/ui/button"
