@@ -109,8 +109,6 @@ class MatchLoader
     event_struct = Event.new
 
     events.each do |event|
-      p event
-
       event_struct.team        = event["team"]
       event_struct.period      = event["period"]
       event_struct.type        = event["type"]
@@ -121,10 +119,8 @@ class MatchLoader
 
       if event_struct.period == "autonomous"
         if event_struct.location.length == 0
-          puts "#{event_struct.type}_#{event_struct.subtype}"
           autonomous_period.autonomous["#{event_struct.type}_#{event_struct.subtype}"] += 1
         else
-          puts "#{event_struct.type}_#{event_struct.subtype}_#{event_struct.location}"
           autonomous_period.autonomous["#{event_struct.type}_#{event_struct.subtype}_#{event_struct.location}"] += 1
         end
       elsif event_struct.period == "teleop"
