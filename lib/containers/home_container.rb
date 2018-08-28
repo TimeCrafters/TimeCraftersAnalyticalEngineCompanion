@@ -2,10 +2,26 @@ class HomeContainer < Container
   def setup
     @logo_image = Gosu::Image.new("./media/TimeCraftersLogo.png")
     self.text_color = Gosu::Color::BLACK
+
+    button("Open Data Folder", 10, Text::SIZE_HEADER, "#{Dir.pwd}/data") do
+      if RUBY_PLATFORM =~ /mingw|mswin/i
+        system("explorer #{Dir.pwd.gsub('/', '\\')}\\data")
+      elsif RUBY_PLATFORM =~ /linux/i
+        system("xdg-open #{Dir.pwd}/data")
+      elsif RUBY_PLATFORM =~ /darwin/i
+        system("open #{Dir.pwd}/data")
+      end
+    end
+
     _x = 10
     _y = 120
     _b = nil
     dataless_teams = 0
+
+    # team_data_color = Button default text color
+    team_no_data_color = Gosu::Color.rgb(200, 200, 255)
+    team_10432_color = Gosu::Color.rgb(40, 100, 40)
+    team_no_data_10432_color = Gosu::Color.rgb(80, 200, 80)
 
     AppSync.teams_list.each do |number, name|
       if AppSync.team_has_scouting_data?(number) or AppSync.team_has_match_data?(number)
@@ -14,7 +30,7 @@ class HomeContainer < Container
           $window.active_container = ScoutingContainer.new
         end
 
-        if number == 10432; b.text.color = Gosu::Color.rgb(40, 100, 40); end
+        if number == 10432; b.text.color = team_10432_color; end
         _x+=b.width+20
 
         if _x > $window.width
@@ -26,24 +42,14 @@ class HomeContainer < Container
           AppSync.active_team(number)
           $window.active_container = ScoutingContainer.new
         end
-        b.text.color = Gosu::Color.rgb(200, 200, 255)
-        if number == 10432; b.text.color = Gosu::Color.rgb(40, 100, 40); end
+        b.text.color = team_no_data_color
+        if number == 10432; b.text.color = team_no_data_10432_color; end
         _x+=b.width+20
 
         if _x+b.width > $window.width
           _x = 10
           _y+= 60
         end
-      end
-    end
-
-    button("Open Data Folder", 10, Text::SIZE_HEADER, "#{Dir.pwd}/data") do
-      if RUBY_PLATFORM =~ /mingw|mswin/i
-        system("explorer #{Dir.pwd.gsub('/', '\\')}\\data")
-      elsif RUBY_PLATFORM =~ /linux/i
-        system("xdg-open #{Dir.pwd}/data")
-      elsif RUBY_PLATFORM =~ /darwin/i
-        system("open #{Dir.pwd}/data")
       end
     end
 
