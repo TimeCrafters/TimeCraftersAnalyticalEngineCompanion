@@ -36,6 +36,9 @@ class Window < Gosu::Window
     end
     AppSync.teams_list=@list_search_results.first if @list_search_results.first && @list_search_results.count == 1
 
+    @need_teams_list_selector = true if ARGV.join.include?("--multiple-lists")
+    AppSync.teams_list.clear if ARGV.join.include?("--multiple-lists")
+
     @elements = []
     @header_color = HOME_HEADER_COLOR
     @mouse = Mouse.new(0, 0)

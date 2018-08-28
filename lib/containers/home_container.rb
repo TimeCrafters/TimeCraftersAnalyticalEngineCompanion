@@ -6,6 +6,7 @@ class HomeContainer < Container
     _y = 120
     _b = nil
     dataless_teams = 0
+
     AppSync.teams_list.each do |number, name|
       if AppSync.team_has_scouting_data?(number) or AppSync.team_has_match_data?(number)
         b = button("#{number}", _x, _y, "#{name}") do
@@ -64,7 +65,7 @@ class HomeContainer < Container
       text "", 0, layout_y, 30, text_color, :center
       text "TimeCrafters.org".unpack("B*").join, 0, self.height-20, 19, text_color, :center
 
-    elsif AppSync.teams_list.count == 0 && $window.need_teams_list_selector
+    elsif (AppSync.teams_list.count == 0 && $window.need_teams_list_selector)
       set_layout_y(70, 50)
       text "Almost Ready", 0, 10, Text::SIZE_HEADER, text_color, :center
       text "Multiple team lists were detected, please select one to use:", 0, layout_y, 30, text_color, :center
@@ -84,11 +85,11 @@ class HomeContainer < Container
 
   def draw
     if AppSync.teams_list.count == 0 && !$window.need_teams_list_selector
-      @logo_image.draw($window.width-412,100,0, 0.5, 0.5, Gosu::Color.rgb(0,128,0))
-      @logo_image.draw(412,100,0, -0.5, 0.5, Gosu::Color.rgb(0,128,0))
+      @logo_image.draw($window.width-412,160,0, 0.5, 0.5, Gosu::Color.rgb(0,128,0))
+      @logo_image.draw(412,160,0, -0.5, 0.5, Gosu::Color.rgb(0,128,0))
     elsif AppSync.teams_list.count == 0 && $window.need_teams_list_selector
-      @logo_image.draw($window.width-412,100,0, 0.5, 0.5, Gosu::Color.rgb(255,0,255))
-      @logo_image.draw(412,100,0, -0.5, 0.5, Gosu::Color.rgb(255,0,255))
+      @logo_image.draw($window.width-412,160,0, 0.5, 0.5, Gosu::Color.rgb(255,0,255))
+      @logo_image.draw(412,160,0, -0.5, 0.5, Gosu::Color.rgb(255,0,255))
     end
     super
   end

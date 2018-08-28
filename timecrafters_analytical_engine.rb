@@ -1,4 +1,5 @@
 require "gosu"
+require "ostruct"
 begin
   require "oj"
   USE_INTERNAL_JSON = false

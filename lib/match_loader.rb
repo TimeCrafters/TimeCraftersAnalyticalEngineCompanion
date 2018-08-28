@@ -11,41 +11,77 @@ class MatchLoader
       self.description ||= ""
     end
   end
-  Match = Struct.new(:jewel_scored, :jewel_missed,
-                    :glyph_scored, :glyph_missed, :glyph_read_cryptobox_key,
-                    :parked_in_safe_zone, :parking_missed,
-                    :balanced_on_stone, :balancing_missed,
-                    :relic_upright, :relic_zone_1, :relic_zone_2, :relic_zone_3, :relic_missed,
-                    :dead_robot,
-                    :is_dead_robot) do
-    def initialize(*)
-      super
-      self.jewel_scored ||= 0
-      self.jewel_missed ||= 0
+  class Match
+    def initialize
+      if defined?(@@master_hash)
+        @hash = @@master_hash
+        return self
+      end
+      @hash = {}
+      create_struct_from_schema
+      @@master_hash = @hash
+      # pp @hash
+      return self
+    end
 
-      self.glyph_scored ||= 0
-      self.glyph_missed ||= 0
-      self.glyph_read_cryptobox_key ||= 0
+    def create_struct_from_schema
+      create_from(AppSync.schema.match_autonomous, :autonomous)
+      create_from(AppSync.schema.match_teleop, :teleop)
+    end
 
-      self.parked_in_safe_zone ||= 0
-      self.parking_missed      ||= 0
+    def create_from(schema, period)
+      period = period.to_s
+      @hash[period] = {} unless @hash[period]
+      @hash[period]["_data"] = {} unless @hash[period]["_data"]
 
-      self.balanced_on_stone ||= 0
-      self.balancing_missed  ||= 0
+      schema.each do |type, array|
+        array.each do |hash|
+          hash.each do |subtype, data|
+            data.each do |location, v|
+              if location.length == 0
+                @hash[period]["#{type}_#{subtype}"] = 0#type_default(v)
+                @hash[period]["_data"]["#{type}_#{subtype}"] = v
+              else
+                @hash[period]["#{type}_#{subtype}_#{location}"] = 0#type_default(v)
+                @hash[period]["_data"]["#{type}_#{subtype}_#{location}"] = v
 
-      self.relic_upright ||= 0
-      self.relic_zone_1  ||= 0
-      self.relic_zone_2  ||= 0
-      self.relic_zone_3  ||= 0
-      self.relic_missed  ||= 0
+              end
+            end
+          end
+        end
+      end
 
-      self.dead_robot ||= 0
+      def autonomous
+        @hash["autonomous"]
+      end
 
-      self.is_dead_robot ||= false
+      def teleop
+        @hash["teleop"]
+      end
+    end
+
+    def type_default(hash)
+      if !hash.is_a?(Hash)
+        p hash
+        raise "hash is not a Hash"
+      end
+      if hash["default"]
+        return hash["default"]
+      else
+        case hash["type"]
+        when "number"
+          return 0
+        when "boolean"
+          return false
+        when "string"
+          return ""
+        end
+      end
     end
   end
-  attr_reader :data, :events, :autonomous, :teleop
 
+
+  attr_reader :data, :events, :autonomous, :teleop
   def initialize(filename)
     @events = []
     @autonomous = nil
@@ -55,6 +91,7 @@ class MatchLoader
       parse(filename)
     rescue => e
       puts "Error: #{e}"
+      raise
     end
 
     return self
@@ -72,6 +109,7 @@ class MatchLoader
     event_struct = Event.new
 
     events.each do |event|
+      p event
 
       event_struct.team        = event["team"]
       event_struct.period      = event["period"]
@@ -82,81 +120,21 @@ class MatchLoader
       event_struct.description = event["description"]
 
       if event_struct.period == "autonomous"
-        if event_struct.type == "scored"
-          if event_struct.subtype == "jewel"
-            autonomous_period.jewel_scored+=1
-          end
-
-          if event_struct.subtype == "glyph"
-            if event_struct.location == "glyph"
-              autonomous_period.glyph_scored+=1
-            elsif event_struct.location == "cryptokey"
-              autonomous_period.glyph_read_cryptobox_key+=1
-            end
-          end
-
-          if event_struct.subtype == "parking"
-            autonomous_period.parked_in_safe_zone+=1
-          end
-
-        elsif event_struct.type == "missed"
-          if event_struct.subtype == "jewel"
-            autonomous_period.jewel_missed+=1
-          end
-
-          if event_struct.subtype == "glyph"
-            autonomous_period.glyph_missed+=1
-          end
-
-          if event_struct.subtype == "parking"
-            autonomous_period.parking_missed+=1
-          end
-
-          if event_struct.subtype == "robot"
-            autonomous_period.dead_robot+=1
-            autonomous_period.is_dead_robot = true
-          end
+        if event_struct.location.length == 0
+          puts "#{event_struct.type}_#{event_struct.subtype}"
+          autonomous_period.autonomous["#{event_struct.type}_#{event_struct.subtype}"] += 1
+        else
+          puts "#{event_struct.type}_#{event_struct.subtype}_#{event_struct.location}"
+          autonomous_period.autonomous["#{event_struct.type}_#{event_struct.subtype}_#{event_struct.location}"] += 1
         end
       elsif event_struct.period == "teleop"
-        if event_struct.type == "scored"
-          if event_struct.subtype == "glyph"
-            teleop_period.glyph_scored+=1
-          end
-
-          if event_struct.subtype == "relic"
-            if event_struct.location == "upright"
-              teleop_period.relic_upright+=1
-            elsif event_struct.location == "zone_1"
-              teleop_period.relic_zone_1+=1
-            elsif event_struct.location == "zone_2"
-              teleop_period.relic_zone_2+=1
-            elsif event_struct.location == "zone_3"
-              teleop_period.relic_zone_3+=1
-            end
-          end
-
-          if event_struct.subtype == "parking"
-            teleop_period.balanced_on_stone+=1
-          end
-
-        elsif event_struct.type == "missed"
-          if event_struct.subtype == "glyph"
-            teleop_period.glyph_missed+=1
-          end
-
-          if event_struct.subtype == "relic_missed"
-            teleop_period.relic_missed+=1
-          end
-
-          if event_struct.subtype == "parking"
-            teleop_period.balancing_missed+=1
-          end
-
-          if event_struct.subtype == "robot"
-            teleop_period.dead_robot+=1
-            teleop_period.is_dead_robot = true
-          end
+        if event_struct.location.length == 0
+          teleop_period.teleop["#{event_struct.type}_#{event_struct.subtype}"] += 1
+        else
+          teleop_period.teleop["#{event_struct.type}_#{event_struct.subtype}_#{event_struct.location}"] += 1
         end
+      else
+        puts "Unknown period: #{event_struct.period}"
       end
 
       @events.push(event_struct)

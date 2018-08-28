@@ -1,26 +1,86 @@
 {
   "season": "relic_recovery",
   "spec_version": 1,
-  "match_autonomous": [
-    {
-      "type": "boolean",
-      "name": "dead_robot"
-    }
-  ],
+  "match_autonomous": {
+    "scored": [
+      {
+        "jewel": {
+          "": {
+            "points": 10,
+            "description": "Scored Jewel",
+            "type": "number"
+          }
+        },
+        "glyph": {
+          "glyph": {
+            "friendly_name": "Scored Glyph",
+            "points": 10,
+            "description": "Scored Glyph",
+            "type": "number"
+          },
+          "cryptokey": {
+            "points": 10,
+            "description": "Scored Glyph",
+            "type": "number"
+          }
+        },
+        "parking": {
+          "": {
+            "points": 10,
+            "description": "Parking in safezone",
+            "type": "number"
+          }
+        }
+      }
+    ],
+    "missed": [
+      {
+        "jewel": {
+          "": {
+            "points": 0,
+            "description": "Missed scoring Jewel",
+            "type": "number"
+          }
+        },
+        "glyph": {
+          "": {
+            "points": 0,
+            "description": "Missed scoring Glyph in Cryptobox",
+            "type": "number"
+          }
+        },
+        "parking": {
+          "":{
+            "points": 0,
+            "description": "Missed parking in Safe Zone",
+            "type": "boolean"
+          }
+        },
+        "robot": {
+          "": {
+            "friendly_name": "Dead Robot",
+            "points": 0,
+            "description": "Dead Robot",
+            "type": "boolean"
+          }
+        }
+      }
+    ]
+  },
 
   "match_teleop": {
-    // [_type][_subtype][_location] = [_points] && [_description]
-    // e.g. ["scored"]["relic"]["zone_three"]
     "scored": [
       {
         "glyph": {
           "": {
             "points": 2,
-            "description": "Scored a glyph"
+            "description": "Scored a glyph",
+            "type": "number"
           },
           "row": {
             "points": 10,
             "description": "Completed Row in Cryptobox",
+            "type": "number",
             "requires": {
               "type": "scored",
               "subtype": "glyph",
@@ -32,6 +92,7 @@
           "column": {
             "points": 20,
             "description": "Completed Column in Cryptobox",
+            "type": "number",
             "requires": {
               "type": "scored",
               "subtype": "glyph",
@@ -43,6 +104,7 @@
           "cipher": {
             "points": 40,
             "description": "Completed Cryptobox Cipher",
+            "type": "boolean",
             "requires": {
               "type": "scored",
               "subtype": "glyph",
@@ -55,25 +117,47 @@
         "relic": {
           "zone_one": {
             "points": 10,
-            "description": "Scored Relic in Zone 1"
+            "description": "Scored Relic in Zone 1",
+            "type": "boolean"
           },
           "zone_two": {
             "points": 20,
-            "description": "Scored Relic in Zone 2"
+            "description": "Scored Relic in Zone 2",
+            "type": "boolean"
           },
           "zone_three": {
             "points": 40,
-            "description": "Scored Relic in Zone 3"
+            "description": "Scored Relic in Zone 3",
+            "type": "boolean"
           },
           "upright": {
             "points": 15,
-            "description": "Scored Relic Upright"
+            "description": "Scored Relic Upright",
+            "type": "boolean",
+            "requires_one_of": [
+              {
+                "type": "scored",
+                "subtype": "relic",
+                "location": "zone_one"
+              },
+              {
+                "type": "scored",
+                "subtype": "relic",
+                "location": "zone_two"
+              },
+              {
+                "type": "scored",
+                "subtype": "relic",
+                "location": "zone_two"
+              }
+            ]
           }
         },
         "balance": {
           "": {
             "points": 20,
-            "description": "Robot balanced on Stone"
+            "description": "Robot balanced on Stone",
+            "type": "boolean"
           }
         }
       }
@@ -81,19 +165,52 @@
     "missed": [
       {
         "glyph": {
-
+          "": {
+            "points": 0,
+            "description": "Missed scoring glyph",
+            "type": "number"
+          }
         },
         "relic": {
-          "":""
+          "": {
+            "points": 0,
+            "description": "Robot Failed to score Relic",
+            "type": "number",
+            "precludes_all_of": [
+              {
+                "type": "scored",
+                "subtype": "relic",
+                "location": "zone_one"
+              },
+              {
+                "type": "scored",
+                "subtype": "relic",
+                "location": "zone_two"
+              },
+              {
+                "type": "scored",
+                "subtype": "relic",
+                "location": "zone_three"
+              },
+              {
+                "type": "scored",
+                "subtype": "relic",
+                "location": "upright"
+              }
+            ]
+          }
         },
         "balance": {
-          "points": 0,
-          "description": "Robot Failed to Balance on Stone",
-          "precludes": {
-            "type": "scored",
-            "subtype": "balance",
-            "location": "",
-            "count": 1
+          "": {
+            "points": 0,
+            "description": "Robot Failed to Balance on Stone",
+            "type": "number",
+            "precludes": {
+              "type": "scored",
+              "subtype": "balance",
+              "location": "",
+              "count": 1
+            }
           }
         }
       }

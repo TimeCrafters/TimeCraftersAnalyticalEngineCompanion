@@ -11,71 +11,14 @@ class AutonomousContainer < Container
       data_x = ($window.width/4)*2.7#650
 
       set_layout_y(100, Text::SIZE)
-      text "Jewel Scored", main_x, layout_y(true)
-      jewel_scored = text "N/A", data_x, layout_y
-      text "Jewel Missed", main_x, layout_y(true)
-      jewel_missed = text "N/A", data_x, layout_y
-      text "Jewel Success Percentage", main_x, layout_y(true)
-      jewel_success_percentage = text "N/A", data_x, layout_y
-      layout_y
 
-      text "Glyph Scored", main_x, layout_y(true)
-      glyph_scored = text "N/A", data_x, layout_y
-      text "Glyph Missed", main_x, layout_y(true)
-      glyph_missed = text "N/A", data_x, layout_y
-      text "Glyph Read Cryptobox Key", main_x, layout_y(true)
-      glyph_read_cryptobox_key = text "N/A", data_x, layout_y
-      text "Glyph Success Percentage", main_x, layout_y(true)
-      glyph_success_percentage = text "N/A", data_x, layout_y
-      layout_y
-
-      text "Parked in Safe Zone", main_x, layout_y(true)
-      parked_in_safe_zone = text "N/A", data_x, layout_y
-      text "Missed Parking in Safe Zone", main_x, layout_y(true)
-      parking_missed = text "N/A", data_x, layout_y
-      text "Parking Success Percentage", main_x, layout_y(true)
-      parking_success_percentage = text "N/A", data_x, layout_y
-      layout_y
-
-      text "Dead Robot", main_x, layout_y(true)
-      dead_robot = text "N/A", data_x, layout_y
-      _x = 10
-      _y = 50
       tally_match = MatchLoader::Match.new
+      populate_fields(tally_match.autonomous)
+      _x = 10
+      _y = Text::SIZE_HEADER
       @matches.each_with_index do |match, index|
-        tally_match.jewel_scored+=match.autonomous.jewel_scored
-        tally_match.jewel_missed+=match.autonomous.jewel_missed
-
-        tally_match.glyph_scored+=match.autonomous.glyph_scored
-        tally_match.glyph_missed+=match.autonomous.glyph_missed
-        tally_match.glyph_read_cryptobox_key+=match.autonomous.glyph_read_cryptobox_key
-
-        tally_match.parked_in_safe_zone+=match.autonomous.parked_in_safe_zone
-        tally_match.parking_missed+=match.autonomous.parking_missed
-
-        tally_match.dead_robot+=match.autonomous.dead_robot
 
         b = button "Match #{index+1}", _x, _y do
-          jewel_scored.text = match.autonomous.jewel_scored.to_s
-          jewel_missed.text = match.autonomous.jewel_missed.to_s
-          jewel_success_percentage.text = calc_percentage(match.autonomous.jewel_scored, match.autonomous.jewel_scored+match.autonomous.jewel_missed)
-
-          glyph_scored.text = match.autonomous.glyph_scored.to_s
-          glyph_missed.text = match.autonomous.glyph_missed.to_s
-          glyph_read_cryptobox_key.text = match.autonomous.glyph_read_cryptobox_key.to_s
-          glyph_success_percentage.text = calc_percentage(match.autonomous.glyph_scored, match.autonomous.glyph_scored+match.autonomous.glyph_missed)
-
-          parked_in_safe_zone.text = match.autonomous.parked_in_safe_zone.to_s
-          parking_missed.text = match.autonomous.parking_missed.to_s
-          parking_success_percentage.text = calc_percentage(match.autonomous.parked_in_safe_zone, match.autonomous.parked_in_safe_zone+match.autonomous.parking_missed)
-
-          if match.autonomous.is_dead_robot
-            dead_robot.text = "Yes"
-            dead_robot.color= BAD_COLOR
-          else
-            dead_robot.text = "No"
-            dead_robot.color= GOOD_COLOR
-          end
         end
 
         _x+=b.width+10
@@ -85,22 +28,7 @@ class AutonomousContainer < Container
         end
       end
 
-      all_matches = button "All Matches", 200, 50 do
-        jewel_scored.text = tally_match.jewel_scored.to_s
-        jewel_missed.text = tally_match.jewel_missed.to_s
-        jewel_success_percentage.text = calc_percentage(tally_match.jewel_scored, tally_match.jewel_scored+tally_match.jewel_missed)
-
-        glyph_scored.text = tally_match.jewel_scored.to_s
-        glyph_missed.text = tally_match.jewel_missed.to_s
-        glyph_read_cryptobox_key.text = tally_match.glyph_read_cryptobox_key.to_s
-        glyph_success_percentage.text = calc_percentage(tally_match.glyph_scored, tally_match.glyph_scored+tally_match.glyph_missed)
-
-        parked_in_safe_zone.text = tally_match.parked_in_safe_zone.to_s
-        parking_missed.text = tally_match.parking_missed.to_s
-        parking_success_percentage.text = calc_percentage(tally_match.parked_in_safe_zone, tally_match.parked_in_safe_zone+tally_match.parking_missed)
-
-        dead_robot.text = tally_match.dead_robot.to_s
-        dead_robot.color=self.text_color
+      all_matches = button "All Matches", 200, Text::SIZE_HEADER do
       end
 
       all_matches.block.call
@@ -110,6 +38,25 @@ class AutonomousContainer < Container
       else
         text "No team selected.", 0, Text::SIZE_HEADER, Text::SIZE_HEADING, Gosu::Color::BLACK, :center
       end
+    end
+  end
+
+  def populate_fields(hash)
+    p hash
+    main_x = ($window.width/4)*1#250
+    data_x = ($window.width/4)*2.7#650
+    @fields = {}
+
+    hash.each do |key, value|
+      next if key == "_data"
+
+      @fields[key] = {}
+      name = hash.dig("_data", key, "friendly_name") ? friendlify(hash.dig("_data", key, "friendly_name")) : friendlify(key)
+      @fields[key]["text"] = text(name, main_x, layout_y(true))
+      @fields[key]["value"] = "N/A"
+      puts "#{key}: #{value}"
+      @fields[key]["data"] = text(value, data_x, layout_y(true))
+      layout_y
     end
   end
 

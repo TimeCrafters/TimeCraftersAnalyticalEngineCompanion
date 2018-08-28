@@ -27,19 +27,21 @@ The schema file is a json hash
     "missed": [ // required, is an array of hashes
       {
         "NAME": { // required, is a string. can be named whatever you want, preferrably written in snake case
-          "points": 0, // required, is an integer
-          "description": "Robot Failed to Balance on Stone", // required, is a string
-          "precludes": { // optional hash, allows you to specify that if this is 'scored' then disable the ability score the precluded thing
-            "type": "scored", // required, if precludes is specified. is a string
-            "subtype": "balance", // required, if precludes is specified. is a string
-            "location": "", // required, if precludes is specified. is a string
-            "count": 1 // required?, if precludes is specified. is a integer
+          "SUBTYPE": {
+            "points": 0, // required, is an integer
+            "description": "Robot Failed to Balance on Stone", // required, is a string
+            "precludes": { // optional hash, allows you to specify that if this is 'scored' then disable the ability score the precluded thing
+              "type": "scored", // required, if precludes is specified. is a string
+              "subtype": "balance", // required, if precludes is specified. is a string
+              "location": "", // required, if precludes is specified. is a string
+              "count": 1 // required?, if precludes is specified. is a integer
+            }
           }
         }
       }
     ]
   },
-  "match_teleop": { // required, is a hash
+  "match_teleop": { // required, is a hash. Behaves the same as "match_autonomous"
     "scored": [ // required, is an array of hashes
 
     ],
