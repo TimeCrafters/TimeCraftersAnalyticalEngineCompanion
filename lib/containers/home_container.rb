@@ -33,7 +33,7 @@ class HomeContainer < Container
         if number == 10432; b.text.color = team_10432_color; end
         _x+=b.width+20
 
-        if _x > $window.width
+        if _x+b.width+BUTTON_PADDING > $window.width
           _x = 10
           _y+= 60
         end
@@ -46,7 +46,7 @@ class HomeContainer < Container
         if number == 10432; b.text.color = team_no_data_10432_color; end
         _x+=b.width+20
 
-        if _x+b.width > $window.width
+        if _x+b.width+BUTTON_PADDING > $window.width
           _x = 10
           _y+= 60
         end
