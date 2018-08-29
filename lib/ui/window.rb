@@ -3,11 +3,15 @@ SCOUTING_HEADER_COLOR   = Gosu::Color.rgb(40, 40, 40)    # GRAY
 AUTONOMOUS_HEADER_COLOR = Gosu::Color.rgb(100, 0, 0)     # RED
 TELEOP_HEADER_COLOR     = Gosu::Color.rgb(0, 0, 70)      # BLUE
 ABOUT_HEADER_COLOR      = Gosu::Color.rgb(133, 71, 8)    # BROWN
-BODY_COLOR              = Gosu::Color.rgb(175, 175, 175) # OFF-WHITE
+if Time.now.hour >= 18
+  BODY_COLOR = Gosu::Color.rgb(100, 100, 100) # OFF-BLACK
+else
+  BODY_COLOR = Gosu::Color.rgb(200, 200, 200) # OFF-WHITE
+end
 
 class Window < Gosu::Window
   NAME = "TimeCrafters Analytical Engine Companion"
-  attr_accessor :active_container
+  attr_accessor :active_container, :header_color
   attr_reader :elements, :mouse, :need_teams_list_selector, :list_search_results
 
   def self.instance=(this)

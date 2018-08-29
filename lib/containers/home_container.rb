@@ -27,6 +27,7 @@ class HomeContainer < Container
       if AppSync.team_has_scouting_data?(number) or AppSync.team_has_match_data?(number)
         b = button("#{number}", _x, _y, "#{name}") do
           AppSync.active_team(number)
+          $window.header_color = SCOUTING_HEADER_COLOR
           $window.active_container = ScoutingContainer.new
         end
 
@@ -40,6 +41,7 @@ class HomeContainer < Container
       else
         b = button("#{number}", _x, _y, "#{name}") do
           AppSync.active_team(number)
+          $window.header_color = SCOUTING_HEADER_COLOR
           $window.active_container = ScoutingContainer.new
         end
         b.text.color = team_no_data_color
