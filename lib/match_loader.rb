@@ -13,14 +13,8 @@ class MatchLoader
   end
   class Match
     def initialize
-      if defined?(@@master_hash)
-        @hash = @@master_hash
-        return self
-      end
       @hash = {}
       create_struct_from_schema
-      @@master_hash = @hash
-      # pp @hash
       return self
     end
 
@@ -98,6 +92,8 @@ class MatchLoader
   end
 
   def parse(filename)
+    puts "===================================="
+    puts "#{filename}"
     events = []
     File.open(filename).each do |line|
       events.push(JSONMiddleWare.load(line))
@@ -120,8 +116,12 @@ class MatchLoader
       if event_struct.period == "autonomous"
         if event_struct.location.length == 0
           autonomous_period.autonomous["#{event_struct.type}_#{event_struct.subtype}"] += 1
+          v = autonomous_period.autonomous["#{event_struct.type}_#{event_struct.subtype}"]
+          puts "#{event_struct.type}_#{event_struct.subtype}: #{v}"
         else
           autonomous_period.autonomous["#{event_struct.type}_#{event_struct.subtype}_#{event_struct.location}"] += 1
+          v = autonomous_period.autonomous["#{event_struct.type}_#{event_struct.subtype}_#{event_struct.location}"]
+          puts "#{event_struct.type}_#{event_struct.subtype}: #{v}"
         end
       elsif event_struct.period == "teleop"
         if event_struct.location.length == 0
@@ -136,7 +136,8 @@ class MatchLoader
       @events.push(event_struct)
     end
 
-    @autonomous = autonomous_period
-    @teleop     = teleop_period
+    @autonomous = autonomous_period.autonomous
+    @teleop     = teleop_period.teleop
+    puts "==========================================="
   end
 end

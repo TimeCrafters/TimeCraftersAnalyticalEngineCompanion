@@ -19,6 +19,10 @@ class AutonomousContainer < Container
       @matches.each_with_index do |match, index|
 
         b = button "Match #{index+1}", _x, _y do
+          match.autonomous.each do |key, value|
+            next if key == "_data"
+            @fields[key]["data"].text = "#{value}"
+          end
         end
 
         _x+=b.width+10
@@ -28,7 +32,21 @@ class AutonomousContainer < Container
         end
       end
 
-      all_matches = button "All Matches", 200, Text::SIZE_HEADER do
+      all_matches = button "All Matches", 210, Text::SIZE_HEADER do
+        unless tally_match.frozen?
+          @matches.each do |match|
+            match.autonomous.each do |key, value|
+              next if key == "_data"
+              tally_match.autonomous[key]+=value
+            end
+          end
+        end
+        tally_match.freeze
+
+        tally_match.autonomous.each do |key, value|
+          next if key == "_data"
+          @fields[key]["data"].text = "#{value}"
+        end
       end
 
       all_matches.block.call
@@ -55,6 +73,7 @@ class AutonomousContainer < Container
       @fields[key]["text"] = text(name, main_x, layout_y(true))
       @fields[key]["value"] = "N/A"
       puts "#{key}: #{value}"
+      value = "N/A" if value == 0
       @fields[key]["data"] = text(value, data_x, layout_y(true))
       layout_y
     end
