@@ -39,6 +39,8 @@ class CheckBox
   end
 
   def update
+    mouse_over?
+
     @text.x = @x+BUTTON_PADDING
     @text.y = @y+BUTTON_PADDING
   end
@@ -56,6 +58,7 @@ class CheckBox
   def mouse_over?
     if $window.mouse.x.between?(@x, @x+width)
       if $window.mouse.y.between?(@y, @y+height)
+        $window.redraw
         true
       end
     end

@@ -1,4 +1,5 @@
 require "gosu"
+require "launchy"
 begin
   require "oj"
   USE_INTERNAL_JSON = false

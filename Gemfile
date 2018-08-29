@@ -1,4 +1,5 @@
 source "https://rubygems.org"
 gem "gosu"
 gem "oj"
+gem "launchy"
 gem "releasy", github: "Spooner/releasy"

@@ -29,6 +29,8 @@ class Window < Gosu::Window
     self.caption = NAME
     @list_search_results = []
     @need_teams_list_selector = false
+    @needs_redraw = true
+    @last_redraw  = Gosu.milliseconds+10_000
 
     Dir.glob("#{Dir.pwd}/data/*.txt").each {|f| @list_search_results << f}
     if @list_search_results.count > 1
@@ -76,7 +78,13 @@ class Window < Gosu::Window
     end
   end
 
+  def needs_redraw?
+    @needs_redraw
+  end
+
   def update
+    @needs_redraw = false if Gosu.milliseconds-@last_redraw > 100
+
     @mouse.x, @mouse.y = self.mouse_x, self.mouse_y
 
     if AppSync.team_name.length > 0
@@ -91,6 +99,11 @@ class Window < Gosu::Window
     if @active_container.is_a?(Container)
       @active_container.update
     end
+  end
+
+  def redraw
+    @needs_redraw = true
+    @last_redraw  = Gosu.milliseconds
   end
 
   def button_up(id)
@@ -113,6 +126,7 @@ class Window < Gosu::Window
   end
 
   def resize(width, height, fullscreen)
+    redraw
     self.width = width
     self.height= height
     self.fullscreen = fullscreen

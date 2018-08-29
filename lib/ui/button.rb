@@ -60,6 +60,7 @@ class Button
   end
 
   def update
+    mouse_over?
     @text.x = @x+BUTTON_PADDING
     @text.y = @y+BUTTON_PADDING
   end
@@ -86,6 +87,7 @@ class Button
   def mouse_over?
     if $window.mouse.x.between?(@x+@offset_x, @x+@offset_x+width)
       if $window.mouse.y.between?(@y+@offset_y, @y+@offset_y+height)
+        $window.redraw
         true
       end
     end

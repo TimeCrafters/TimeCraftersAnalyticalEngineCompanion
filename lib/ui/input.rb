@@ -75,6 +75,7 @@ class Input
     end
 
     if @focus
+      $window.redraw
       @text_object.text = @text_input.text
       $window.text_input = @text_input unless $window.text_input == @text_input
     end
@@ -99,6 +100,7 @@ class Input
   def mouse_over?
     if $window.mouse.x.between?(@x, @x+width)
       if $window.mouse.y.between?(@y, @y+height)
+        $window.redraw
         true
       end
     end
