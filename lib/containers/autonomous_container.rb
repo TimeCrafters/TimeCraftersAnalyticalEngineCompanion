@@ -13,7 +13,7 @@ class AutonomousContainer < Container
       set_layout_y(100, Text::SIZE)
 
       tally_match = MatchLoader::Match.new
-      populate_fields(tally_match.autonomous)
+      populate_fields(MatchLoader::Match.new.autonomous)
       _x = 10
       _y = Text::SIZE_HEADER
       @matches.each_with_index do |match, index|
@@ -21,7 +21,24 @@ class AutonomousContainer < Container
         b = button "Match #{index+1}", _x, _y do
           match.autonomous.each do |key, value|
             next if key == "_data"
-            @fields[key]["data"].text = "#{value}"
+            case match.autonomous["_data"][key]["type"]
+            when "boolean"
+              c = value > 0 ? GOOD_COLOR : BAD_COLOR unless key.start_with?("missed")
+              c = value > 0 ? BAD_COLOR : GOOD_COLOR if key.start_with?("missed")
+              v = value > 0 ? "Yes" : "No"
+
+              @fields[key]["data"].color= c
+              @fields[key]["data"].text = "#{v}"
+            when "number"
+              c = value > 0 ? GOOD_COLOR : BAD_COLOR unless key.start_with?("missed")
+              c = value > 0 ? BAD_COLOR : GOOD_COLOR if key.start_with?("missed")
+
+              @fields[key]["data"].color= c
+              @fields[key]["data"].text = "#{value}"
+            when "string"
+              @fields[key]["data"].color= text_color
+              @fields[key]["data"].text = "#{value}"
+            end
           end
         end
 
@@ -45,7 +62,23 @@ class AutonomousContainer < Container
 
         tally_match.autonomous.each do |key, value|
           next if key == "_data"
-          @fields[key]["data"].text = "#{value}"
+          case tally_match.autonomous["_data"][key]["type"]
+          when "boolean"
+            c = value > 0 ? GOOD_COLOR : BAD_COLOR unless key.start_with?("missed")
+            c = value > 0 ? BAD_COLOR : GOOD_COLOR if key.start_with?("missed")
+
+            @fields[key]["data"].color= c
+            @fields[key]["data"].text = "#{value}"
+          when "number"
+            c = value > 0 ? GOOD_COLOR : BAD_COLOR unless key.start_with?("missed")
+            c = value > 0 ? BAD_COLOR : GOOD_COLOR if key.start_with?("missed")
+
+            @fields[key]["data"].color= c
+            @fields[key]["data"].text = "#{value}"
+          when "string"
+            @fields[key]["data"].color= text_color
+            @fields[key]["data"].text = "#{value}"
+          end
         end
       end
 
@@ -60,7 +93,6 @@ class AutonomousContainer < Container
   end
 
   def populate_fields(hash)
-    p hash
     main_x = ($window.width/4)*1#250
     data_x = ($window.width/4)*2.7#650
     @fields = {}
@@ -72,7 +104,6 @@ class AutonomousContainer < Container
       name = hash.dig("_data", key, "friendly_name") ? friendlify(hash.dig("_data", key, "friendly_name")) : friendlify(key)
       @fields[key]["text"] = text(name, main_x, layout_y(true))
       @fields[key]["value"] = "N/A"
-      puts "#{key}: #{value}"
       value = "N/A" if value == 0
       @fields[key]["data"] = text(value, data_x, layout_y(true))
       layout_y

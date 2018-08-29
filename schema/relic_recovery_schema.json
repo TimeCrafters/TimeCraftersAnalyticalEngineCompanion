@@ -8,7 +8,7 @@
           "": {
             "points": 10,
             "description": "Scored Jewel",
-            "type": "number"
+            "type": "boolean"
           }
         },
         "glyph": {
@@ -21,7 +21,7 @@
           "cryptokey": {
             "points": 10,
             "description": "Scored Glyph",
-            "type": "number"
+            "type": "boolean"
           }
         },
         "parking": {
@@ -39,7 +39,7 @@
           "": {
             "points": 0,
             "description": "Missed scoring Jewel",
-            "type": "number"
+            "type": "boolean"
           }
         },
         "glyph": {
