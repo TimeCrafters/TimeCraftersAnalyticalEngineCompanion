@@ -4,88 +4,41 @@ class TeleOpContainer < Container
     @matches = []
 
     text "TeleOp", 0, 10, Text::SIZE_HEADER, TELEOP_HEADER_COLOR, :center
+    @matches = AppSync.team_match_data
 
     if AppSync.team_has_match_data?
       main_x = ($window.width/4)*1#250
       data_x = ($window.width/4)*2.7#650
 
       set_layout_y(100, Text::SIZE)
-      text "Glyph Scored", main_x, layout_y(true)
-      glyph_scored = text "N/A", data_x, layout_y
-      text "Glyph Missed", main_x, layout_y(true)
-      glyph_missed = text "N/A", data_x, layout_y
-      text "Glyph Success Percentage", main_x, layout_y(true)
-      glyph_success_percentage = text "N/A", data_x, layout_y
-      layout_y
 
-      text "Relic Zone 1", main_x, layout_y(true)
-      relic_zone_1 = text "N/A", data_x, layout_y
-      text "Relic Zone 2", main_x, layout_y(true)
-      relic_zone_2 = text "N/A", data_x, layout_y
-      text "Relic Zone 3", main_x, layout_y(true)
-      relic_zone_3 = text "N/A", data_x, layout_y
-      text "Relic Upright", main_x, layout_y(true)
-      relic_upright = text "N/A", data_x, layout_y
-      text "Relic Missed", main_x, layout_y(true)
-      relic_missed = text "N/A", data_x, layout_y
-      text "Relic Success Percentage", main_x, layout_y(true)
-      relic_success_percentage = text "N/A", data_x, layout_y
-      layout_y
-
-      text "Balanced on Stone", main_x, layout_y(true)
-      balanced_on_stone = text "N/A", data_x, layout_y
-      text "Missed Balancing on Stone", main_x, layout_y(true)
-      balancing_missed = text "N/A", data_x, layout_y
-      text "Parking Success Percentage", main_x, layout_y(true)
-      parking_success_percentage = text "N/A", data_x, layout_y
-      layout_y
-
-      text "Dead Robot", main_x, layout_y(true)
-      dead_robot = text "N/A", data_x, layout_y
-
-      @matches = AppSync.team_match_data
-
-      _x = 10
-      _y = 50
       tally_match = MatchLoader::Match.new
-
+      populate_fields(MatchLoader::Match.new.teleop)
+      _x = 10
+      _y = Text::SIZE_HEADER
       @matches.each_with_index do |match, index|
-        tally_match.glyph_scored+=match.teleop.glyph_scored
-        tally_match.glyph_missed+=match.teleop.glyph_missed
-
-        tally_match.relic_zone_1+=match.teleop.relic_zone_1
-        tally_match.relic_zone_2+=match.teleop.relic_zone_2
-        tally_match.relic_zone_3+=match.teleop.relic_zone_3
-        tally_match.relic_upright+=match.teleop.relic_upright
-        tally_match.relic_missed+=match.teleop.relic_missed
-
-        tally_match.balanced_on_stone+=match.teleop.balanced_on_stone
-        tally_match.balancing_missed+=match.teleop.balancing_missed
-
-        tally_match.dead_robot+=match.teleop.dead_robot
 
         b = button "Match #{index+1}", _x, _y do
-          glyph_scored.text = match.teleop.glyph_scored.to_s
-          glyph_missed.text = match.teleop.glyph_missed.to_s
-          glyph_success_percentage.text = calc_percentage(match.teleop.glyph_scored, match.teleop.glyph_scored+match.teleop.glyph_missed)
+          match.teleop.each do |key, value|
+            next if key == "_data"
+            case match.teleop["_data"][key]["type"]
+            when "boolean"
+              c = value > 0 ? GOOD_COLOR : BAD_COLOR unless key.start_with?("missed")
+              c = value > 0 ? BAD_COLOR : GOOD_COLOR if key.start_with?("missed")
+              v = value > 0 ? "Yes" : "No"
 
-          relic_zone_1.text  = match.teleop.relic_zone_1.to_s
-          relic_zone_2.text  = match.teleop.relic_zone_2.to_s
-          relic_zone_3.text  = match.teleop.relic_zone_3.to_s
-          relic_upright.text = match.teleop.relic_upright.to_s
-          relic_missed.text = match.teleop.relic_missed.to_s
-          relic_success_percentage.text = calc_percentage(match.teleop.relic_zone_1+match.teleop.relic_zone_2+match.teleop.relic_zone_3, match.teleop.relic_zone_1+match.teleop.relic_zone_2+match.teleop.relic_zone_3+match.teleop.relic_missed)
+              @fields[key]["data"].color= c
+              @fields[key]["data"].text = "#{v}"
+            when "number"
+              c = value > 0 ? GOOD_COLOR : BAD_COLOR unless key.start_with?("missed")
+              c = value > 0 ? BAD_COLOR : GOOD_COLOR if key.start_with?("missed")
 
-          balanced_on_stone.text = match.teleop.balanced_on_stone.to_s
-          balancing_missed.text = match.teleop.balancing_missed.to_s
-          parking_success_percentage.text = calc_percentage(match.teleop.balanced_on_stone, match.teleop.balanced_on_stone+match.teleop.balancing_missed)
-
-          if match.teleop.is_dead_robot
-            dead_robot.text = "Yes"
-            dead_robot.color= BAD_COLOR
-          else
-            dead_robot.text = "No"
-            dead_robot.color= GOOD_COLOR
+              @fields[key]["data"].color= c
+              @fields[key]["data"].text = "#{value}"
+            when "string"
+              @fields[key]["data"].color= text_color
+              @fields[key]["data"].text = "#{value}"
+            end
           end
         end
 
@@ -96,24 +49,37 @@ class TeleOpContainer < Container
         end
       end
 
-      all_matches = button "All Matches", 200, 50 do
-        glyph_scored.text = tally_match.glyph_scored.to_s
-        glyph_missed.text = tally_match.glyph_missed.to_s
-        glyph_success_percentage.text = calc_percentage(tally_match.glyph_scored, tally_match.glyph_scored+tally_match.glyph_missed)
+      all_matches = button "All Matches", 210, Text::SIZE_HEADER do
+        unless tally_match.frozen?
+          @matches.each do |match|
+            match.teleop.each do |key, value|
+              next if key == "_data"
+              tally_match.teleop[key]+=value
+            end
+          end
+        end
+        tally_match.freeze
 
-        relic_zone_1.text  = tally_match.relic_zone_1.to_s
-        relic_zone_2.text  = tally_match.relic_zone_2.to_s
-        relic_zone_3.text  = tally_match.relic_zone_3.to_s
-        relic_upright.text = tally_match.relic_upright.to_s
-        relic_missed.text = tally_match.relic_missed.to_s
-        relic_success_percentage.text = calc_percentage(tally_match.relic_zone_1+tally_match.relic_zone_2+tally_match.relic_zone_3, tally_match.relic_zone_1+tally_match.relic_zone_2+tally_match.relic_zone_3+tally_match.relic_missed)
+        tally_match.teleop.each do |key, value|
+          next if key == "_data"
+          case tally_match.teleop["_data"][key]["type"]
+          when "boolean"
+            c = value > 0 ? GOOD_COLOR : BAD_COLOR unless key.start_with?("missed")
+            c = value > 0 ? BAD_COLOR : GOOD_COLOR if key.start_with?("missed")
 
-        balanced_on_stone.text = tally_match.balanced_on_stone.to_s
-        balancing_missed.text = tally_match.balancing_missed.to_s
-        parking_success_percentage.text = calc_percentage(tally_match.balanced_on_stone, tally_match.balanced_on_stone+tally_match.balancing_missed)
+            @fields[key]["data"].color= c
+            @fields[key]["data"].text = "#{value}"
+          when "number"
+            c = value > 0 ? GOOD_COLOR : BAD_COLOR unless key.start_with?("missed")
+            c = value > 0 ? BAD_COLOR : GOOD_COLOR if key.start_with?("missed")
 
-        dead_robot.text = tally_match.dead_robot.to_s
-        dead_robot.color=self.text_color
+            @fields[key]["data"].color= c
+            @fields[key]["data"].text = "#{value}"
+          when "string"
+            @fields[key]["data"].color= text_color
+            @fields[key]["data"].text = "#{value}"
+          end
+        end
       end
 
       all_matches.block.call
@@ -123,6 +89,24 @@ class TeleOpContainer < Container
       else
         text "No team selected.", 0, Text::SIZE_HEADER, Text::SIZE_HEADING, Gosu::Color::BLACK, :center
       end
+    end
+  end
+
+  def populate_fields(hash)
+    main_x = ($window.width/4)*1#250
+    data_x = ($window.width/4)*2.7#650
+    @fields = {}
+
+    hash.each do |key, value|
+      next if key == "_data"
+
+      @fields[key] = {}
+      name = hash.dig("_data", key, "friendly_name") ? friendlify(hash.dig("_data", key, "friendly_name")) : friendlify(key)
+      @fields[key]["text"] = text(name, main_x, layout_y(true))
+      @fields[key]["value"] = "N/A"
+      value = "N/A" if value == 0
+      @fields[key]["data"] = text(value, data_x, layout_y(true))
+      layout_y
     end
   end
 
