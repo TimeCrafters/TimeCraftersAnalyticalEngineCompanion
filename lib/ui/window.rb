@@ -25,16 +25,17 @@ class Window < Gosu::Window
   def initialize
     Window.instance = self
     if (Gosu.screen_width/4)*3 < 1300
-      super(1280, 720, fullscreen: false, resizable: true)
+      super(1280, 720, fullscreen: false, resizable: true, update_interval: 1000.0/24)
     else
-      super((Gosu.screen_width/4)*3, (Gosu.screen_height/4)*3, fullscreen: false, resizable: true)
+      super((Gosu.screen_width/4)*3, (Gosu.screen_height/4)*3, fullscreen: false, resizable: true, update_interval: 1000.0/24)
     end
     $window = self
     self.caption = NAME
     @list_search_results = []
     @need_teams_list_selector = false
     @needs_redraw = true
-    @last_redraw  = Gosu.milliseconds+10_000
+    @has_updated  = false
+    @last_redraw  = Gosu.milliseconds
 
     Dir.glob("#{Dir.pwd}/data/*.txt").each {|f| @list_search_results << f}
     if @list_search_results.count > 1
@@ -80,6 +81,11 @@ class Window < Gosu::Window
     if @active_container.is_a?(Container)
       @active_container.draw
     end
+
+    if ARGV.join.include?("--count-redraw")
+      @draw_count ||= 1
+      @draw_count+=1
+    end
   end
 
   def needs_redraw?
@@ -87,7 +93,9 @@ class Window < Gosu::Window
   end
 
   def update
-    @needs_redraw = false if Gosu.milliseconds-@last_redraw > 100
+    @needs_redraw = false if @has_updated && Gosu.milliseconds-@last_redraw > 100
+    @has_updated = true
+    self.caption = "Redraws: #{@draw_count}" if ARGV.join.include?("--count-redraw")
 
     @mouse.x, @mouse.y = self.mouse_x, self.mouse_y
 
