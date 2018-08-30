@@ -25,9 +25,9 @@ class Window < Gosu::Window
   def initialize
     Window.instance = self
     if (Gosu.screen_width/4)*3 < 1300
-      super(1280, 720, fullscreen: false)
+      super(1280, 720, fullscreen: false, resizable: true)
     else
-      super((Gosu.screen_width/4)*3, (Gosu.screen_height/4)*3, fullscreen: false)
+      super((Gosu.screen_width/4)*3, (Gosu.screen_height/4)*3, fullscreen: false, resizable: true)
     end
     $window = self
     self.caption = NAME

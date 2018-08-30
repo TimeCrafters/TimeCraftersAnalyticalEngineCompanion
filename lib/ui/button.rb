@@ -37,9 +37,9 @@ class Button
 
   def auto_adjust_tooltip_position
     if @tooltip.x <= 1
-      @tooltip.x = 2
+      @tooltip.x = BUTTON_PADDING+1
     elsif @tooltip.x+@tooltip.textobject.text_width(@tooltip.text) > $window.width-(BUTTON_PADDING+1)
-      @tooltip.x = $window.width-@tooltip.textobject.text_width(@tooltip.text)
+      @tooltip.x = $window.width-(@tooltip.textobject.text_width(@tooltip.text)+BUTTON_PADDING+1)
     end
   end
 
@@ -97,8 +97,8 @@ class Button
     if @tooltip.text != ""
       x = @tooltip.x-BUTTON_PADDING
 
-      $window.fill_rect(x, @y-height, width(@tooltip), height(@tooltip), BUTTON_ACTIVE_COLOR, 9_999)
-      $window.fill_rect(x-1, @y-height-1, width(@tooltip)+2, height(@tooltip)+2, Gosu::Color::WHITE, 9_998)
+      $window.fill_rect(x, @y-height-1, width(@tooltip), height(@tooltip), BUTTON_ACTIVE_COLOR, 9_999)
+      $window.fill_rect(x-1, @y-height-2, width(@tooltip)+2, height(@tooltip)+2, Gosu::Color::WHITE, 9_998)
       @tooltip.draw
     end
   end
