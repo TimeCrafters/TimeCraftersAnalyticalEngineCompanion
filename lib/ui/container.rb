@@ -37,10 +37,12 @@ class Container
       if $window.mouse.y.between?(@y, @y+@height)
         case id
         when Gosu::MsWheelUp
+          $window.redraw
           @scroll_y+=@scroll_speed
           @scroll_y = 0 if @scroll_y > 0
           @elements.each {|e| e.set_offset(@scroll_x, @scroll_y) if e.is_a?(Button) }
         when Gosu::MsWheelDown
+          $window.redraw
           @scroll_y-=@scroll_speed
           if $window.height-@internal_height-y > 0
             @scroll_y = 0

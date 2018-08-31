@@ -23,8 +23,7 @@ require_relative "lib/ui/container"
 
 require_relative "lib/containers/home_container"
 require_relative "lib/containers/scouting_container"
-require_relative "lib/containers/autonomous_container"
-require_relative "lib/containers/teleop_container"
+require_relative "lib/containers/matches_container"
 require_relative "lib/containers/scout_team_container"
 require_relative "lib/containers/about_container"
 
