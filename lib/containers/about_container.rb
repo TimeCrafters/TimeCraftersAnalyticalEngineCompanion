@@ -38,10 +38,10 @@ class AboutContainer < Container
       data = l.split(",")
       text data.first, main_x, layout_y(true)
       i = button data[2], data_x, layout_y(true), data[3] do
-        Launchy.open(data[3])
+        Launchy.open(data[3].strip)
       end
       button "Website", data_x-(BUTTON_PADDING*10), layout_y(true), data[1] do
-        Launchy.open(data[1])
+        Launchy.open(data[1].strip)
       end
       layout_y
       layout_y
