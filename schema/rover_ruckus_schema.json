@@ -1,39 +1,79 @@
 {
   "season":"rover_ruckus",
   "spec_version": 1,
-  "match_teleop": [
-    {
-      "type":"boolean",
-      "name":"dead_robot"
-    }
-  ],
 
-  "match_autonomous": [
+  "match_autonomous": {
+    "scored": [
+    ],
+    "missed": [
+      {
+        "robot": {
+          "": {
+            "friendly_name": "Dead Robot",
+            "points": 0,
+            "description": "Dead Robot",
+            "type": "boolean"
+          }
+        }
+      }
+    ]
+  },
+
+  "match_teleop": {
+    "scored": [],
+    "missed": [
+      {
+        "robot": {
+          "": {
+            "friendly_name": "Dead Robot",
+            "points": 0,
+            "description": "Dead Robot",
+            "type": "boolean"
+          }
+        }
+      }
+    ]
+  },
+
+  "scouting_autonomous": [
     {
       "type": "boolean",
-      "name": "dead_robot"
+      "name": "can_drop_from_lander"
+    },
+    {
+      "type": "boolean",
+      "name": "can_sample_mineral"
+    },
+    {
+      "type": "boolean",
+      "name": "can_capture_deport"
+    },
+    {
+      "type": "boolean",
+      "name": "can_park_in_crater"
+    },
+    {
+      "type": "string",
+      "name": "autonomous_notes"
     }
   ],
 
   "scouting_teleop": [
     {
       "type": "boolean",
-      "name": "dead_robot"
+      "name": "can_score_minerals_in_lander"
     },
-    {
-      "type": "string",
-      "name": "notes"
-    }
-  ],
-
-  "scouting_autonomous": [
     {
       "type": "boolean",
-      "name": "dead_robot"
+      "name": "can_score_minerals_in_depot"
+    },
+    {
+      "type": "boolean",
+      "name": "can_attach_to_lander"
     },
     {
       "type": "string",
-      "name": "notes"
+      "name": "teleop_notes"
     }
   ]
 }

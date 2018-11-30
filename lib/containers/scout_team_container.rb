@@ -20,7 +20,7 @@ class ScoutTeamContainer < Container
 
         last_element =  teleop_fields.values[teleop_fields.size-1]["text"]
 
-        button("Save", $window.width/2-0, relative_y(last_element.y+last_element.height+(BUTTON_PADDING*2))) do
+        button("Save", $window.width/2-0, relative_y(last_element.y+last_element.height+(BUTTON_PADDING*6))) do
           # Do science
           autonomous_hash = {}
           teleop_hash      = {}

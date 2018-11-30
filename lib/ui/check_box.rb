@@ -8,7 +8,7 @@ class CheckBox
     @x, @y = x, y
     @checked = checked
     @size = size
-    @text = Text.new("✔", false, x: x, y: y, size: size, color: BUTTON_TEXT_COLOR, shadow: true)
+    @text = Text.new("✓", false, x: x, y: y, size: size, color: BUTTON_TEXT_COLOR, shadow: true)
     return self
   end
 

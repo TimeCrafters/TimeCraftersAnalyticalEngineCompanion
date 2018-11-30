@@ -12,7 +12,7 @@ class AppSync
     @team_name ||= ""
   end
   def self.schema
-    @schema ||= Schema.new("./schema/relic_recovery_schema.json")
+    @schema ||= Schema.new("./schema/rover_ruckus_schema.json")
   end
 
   def self.team_has_scouting_data?(number = @team_number)

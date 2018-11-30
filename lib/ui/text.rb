@@ -2,7 +2,7 @@ class Text
   SIZE_HEADER = 60
   SIZE_HEADING= 32
   SIZE = 24
-  FONT = "Consolas"#"Liberation Mono"#{}"Courier"#{}"Consolas"#Gosu.default_font_name
+  FONT = "Consolas"#Gosu.default_font_name
   COLOR= Gosu::Color::WHITE
   BORDER_COLOR = Gosu::Color.rgba(255,255,255,75)
   SHADOW = 1
@@ -62,7 +62,7 @@ class Text
     end
 
     unless available
-      font = Gosu::Font.new(@size, name: @font)
+      font = Gosu::Font.new(@size, name: @font, bold: true)
       CACHE[@size] = {}
       CACHE[@size][@font] = font
     end
@@ -81,20 +81,20 @@ class Text
   def draw
     if @shadow && !ARGV.join.include?("--no-shadow")
       _color = Gosu::Color.rgba(@color.red, @color.green, @color.blue, SHADOW_ALPHA)
-      @textobject.draw(@text, @x-SHADOW, @y, @z, @factor_x, @factor_y, _color)
-      @textobject.draw(@text, @x-SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_text(@text, @x-SHADOW, @y, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_text(@text, @x-SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, _color)
 
-      @textobject.draw(@text, @x, @y-SHADOW, @z, @factor_x, @factor_y, _color)
-      @textobject.draw(@text, @x+SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_text(@text, @x, @y-SHADOW, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_text(@text, @x+SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, _color)
 
-      @textobject.draw(@text, @x, @y+SHADOW, @z, @factor_x, @factor_y, _color)
-      @textobject.draw(@text, @x-SHADOW, @y+SHADOW, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_text(@text, @x, @y+SHADOW, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_text(@text, @x-SHADOW, @y+SHADOW, @z, @factor_x, @factor_y, _color)
 
-      @textobject.draw(@text, @x+SHADOW, @y, @z, @factor_x, @factor_y, _color)
-      @textobject.draw(@text, @x+SHADOW, @y+SHADOW, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_text(@text, @x+SHADOW, @y, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_text(@text, @x+SHADOW, @y+SHADOW, @z, @factor_x, @factor_y, _color)
     end
 
-    @textobject.draw(@text, @x, @y, @z, @factor_x, @factor_y, @color)
+    @textobject.draw_text(@text, @x, @y, @z, @factor_x, @factor_y, @color)
   end
 
   def update; end
