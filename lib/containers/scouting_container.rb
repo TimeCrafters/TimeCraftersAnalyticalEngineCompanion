@@ -53,7 +53,8 @@ class ScoutingContainer < Container
         c = scouting_data[data["name"]] ? GOOD_COLOR : BAD_COLOR
         text s, data_x, layout_y, Text::SIZE, c
       when "number"
-        c = (scouting_data[data["name"]] > 0) ? GOOD_COLOR : BAD_COLOR
+        pp scouting_data, data["name"]
+        c = (scouting_data[data["name"]].to_i > 0) ? GOOD_COLOR : BAD_COLOR
         text scouting_data[data["name"]], data_x, layout_y, Text::SIZE, c
       when "string"
         s = (scouting_data[data["name"]].strip.length == 0) ? "\"\"" : scouting_data[data["name"]]

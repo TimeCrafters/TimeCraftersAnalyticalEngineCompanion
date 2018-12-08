@@ -64,8 +64,24 @@
       "name": "can_score_minerals_in_lander"
     },
     {
+      "type": "number",
+      "name": "max_cubes_scored_minerals_in_lander"
+    },
+    {
+      "type": "number",
+      "name": "max_spheres_scored_minerals_in_lander"
+    },
+    {
       "type": "boolean",
       "name": "can_score_minerals_in_depot"
+    },
+    {
+      "type": "number",
+      "name": "max_cubes_scored_minerals_in_depot"
+    },
+    {
+      "type": "number",
+      "name": "max_spheres_scored_minerals_in_depot"
     },
     {
       "type": "boolean",
